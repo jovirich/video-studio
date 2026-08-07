@@ -31,13 +31,22 @@ are the **specification**; this table is what actually runs.
 | `validate --prompts` | **NOT BUILT** | Cheat-sheet staleness |
 | `new-studio` / `new-line` / `new-production` / `new-pack` / `new-record` | **NOT BUILT** | Scaffold templates exist; the copier does not |
 | `report *` | **NOT BUILT** | |
-| `promptlib render` / `run` | **NOT BUILT** | |
+| `promptlib render` | **IMPLEMENTED** | Generic + Midjourney; same card renders per vendor |
+| `promptlib run` | **NOT BUILT** | |
 | `pipeline conform` / `package` | **NOT BUILT** | The conform refusal is the mechanism behind traceability. It does not exist. |
-| Generation adapters | **NOT BUILT — deliberately** | Stubs with a cost ceiling. Wiring one is a separate, budgeted decision. |
+| `local` adapter | **IMPLEMENTED** | Offline, deterministic, free |
+| `interactive` adapter | **IMPLEMENTED** | Two-phase; vendor-agnostic |
+| Vendor (`api`) adapters | **NOT BUILT — deliberately** | Stubs with a cost ceiling. Wiring one is a separate, budgeted decision. |
 
 **A stub never passes silently.** Unbuilt validators exit non-zero with
 `NOT BUILT — this gate does not exist yet`. A validator that returns "OK" because it
 does nothing is worse than no validator, because it manufactures false confidence.
+
+> **This table is exempt from `validate --reality`**, because a maturity-describing
+> file has to be able to write the words "NOT BUILT" next to a command without the
+> gate objecting. The cost of that exemption is that stale rows here go undetected —
+> which has already happened once. **Update it in the same commit as the code**, and
+> treat [docs/status.md](../docs/status.md) as authoritative if the two disagree.
 
 ## Execution modes
 
