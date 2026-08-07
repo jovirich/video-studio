@@ -1,0 +1,151 @@
+# GENERATION JOB — a derived work order, not a record.
+#
+# Regenerable and disposable: delete it and rebuild it from the prompt card and the
+# continuity records. It has no ID in the reference graph and nothing cites it.
+#
+# Contains no credentials and authorises no spend. It is a specification handed to an
+# operator, not permission to buy anything.
+#
+# format: studio_ops/generation_job v2
+
+job_id: PC-NG-EXP001-0002
+production_id: EXP001
+line: ''
+scene_id: ''
+shot_id: ''
+prompt_card_id: PC-NG-EXP001-0002
+modality: image
+creative_purpose: 'Fix B''s identity unambiguously, under conditions identical to
+  A''s, so that the two-shot result in 18 measures the mechanism rather than the anchors.
+
+  '
+continuity_records:
+- CNC-NG-0002
+character_references:
+- kind: character anchor
+  ref: CNC-NG-0002
+  path: NOT YET APPROVED
+  sha256: null
+  note: B. NO APPROVED ANCHOR YET — this job cannot be fulfilled until one exists
+    and its STA id is on the record.
+style_references: []
+evidence_constraints: []
+continuity_constraints:
+- 'B — skin tone reference: target digital swatch approximately #87583D, measured
+  on the cheek under the anchor''s even neutral lighting.
+
+  '
+- 'B — facial structure: Rounder face than A. Softer jaw. Broader cheek area. Medium-width
+  nose.
+
+  '
+- 'B — hair: Tightly coiled black hair gathered into a compact high natural bun. Hairline
+  visible. FACIAL HAIR: none. (Recorded here per finding G8.)
+
+  '
+- 'B — height relative: approximately 8–10 cm shorter than A'
+- B — small circular dark birthmark high on the left cheek (must be visible in every
+  shot)
+prompt: 'A single invented adult figure, presenting female, apparent age 25-29. Rich
+  medium-deep brown skin. Tightly coiled black hair gathered into a compact high natural
+  bun, hairline visible. No facial hair. Rounder face than a long-oval, softer jaw,
+  broader cheek area, medium-width nose, dark brown eyes. A small circular dark birthmark
+  high on the LEFT cheek, clearly resolved. Medium to slender build. Neutral expression.
+  Plain neutral mid-grey background, featureless, no environment, no props. Identical
+  to the background of PC-NG-EXP001-0001. Composition: Head and upper shoulders. Near-frontal
+  view, camera at eye level. Face centred and fully visible. Hairline fully in frame
+  including the temples. Framing matched to PC-NG-EXP001-0001. Camera: Eye level,
+  near-frontal, 85mm equivalent, whole face in focus. No motion blur. Matched to PC-NG-EXP001-0001.
+  Light: Even neutral lighting, soft and frontal, from a broad source. No dramatic
+  shadows, no rim, no colour cast. Both sides of the face evenly exposed so skin tone
+  can be measured off the cheek. Matched to PC-NG-EXP001-0001. Palette: Natural. No
+  cinematic grading. Nothing that materially changes skin tone. Texture: Natural skin
+  texture retained. Not smoothed, not beautified. Mood: neutral, documentary, unstyled.
+  Avoid: any change of garment between shots, resembling A in face, age, build, height,
+  or silhouette, loss or displacement of the left-cheek birthmark, acquiring A''s
+  eyebrow scar, footwear of modern construction, eyeglasses, any manufactured object,
+  dramatic lighting, rim light, coloured gel, heavy grade, smoothed or airbrushed
+  skin, motion blur, hat, headwear, glasses, jewellery, hand or object across the
+  face, patterned or embroidered cloth, environment, props, background detail, beard,
+  moustache, facial hair, eyebrow scar.'
+negative:
+- any change of garment between shots
+- resembling A in face, age, build, height, or silhouette
+- loss or displacement of the left-cheek birthmark
+- acquiring A's eyebrow scar
+- footwear of modern construction, eyeglasses, any manufactured object
+- dramatic lighting
+- rim light
+- coloured gel
+- heavy grade
+- smoothed or airbrushed skin
+- motion blur
+- hat, headwear, glasses, jewellery
+- hand or object across the face
+- patterned or embroidered cloth
+- environment, props, background detail
+- beard, moustache, facial hair
+- eyebrow scar
+hard_stops:
+- jewellery, beadwork, worked metal adornment — adornment that signifies would make
+  B a depiction of a real culture's practice
+- scarification, body marking, or hairstyle carrying cultural meaning — routes to
+  the sensitivity gate as a hard stop, never to a negative prompt
+- patterned, embroidered, or motif-bearing cloth — pattern is the fastest way an invented
+  garment acquires a false cultural referent
+framing: ''
+lens_look: 'Eye level, near-frontal, 85mm equivalent, whole face in focus. No motion
+  blur. Matched to PC-NG-EXP001-0001.
+
+  '
+lighting: 'Even neutral lighting, soft and frontal, from a broad source. No dramatic
+  shadows, no rim, no colour cast. Both sides of the face evenly exposed so skin tone
+  can be measured off the cheek. Matched to PC-NG-EXP001-0001.
+
+  '
+performance: ''
+environment_motion: ''
+aspect_ratio: '1:1'
+resolution_target: at least 1024x1024 — the face must survive being scored at 100%
+duration_seconds: null
+seed: null
+model_settings: {}
+preferred_vendor: openai
+preferred_model: gpt-image-2-2026-04-21
+video: null
+output_filename: EXP001_ANCHOR_PC-NG-EXP001-0002_c01.png
+incoming_dir: c:\dev\Video Production\studios\african-history\lines\ng-nigeria\productions\EXP001_laboratory-scene\05_assets\stills\incoming
+manifest_path: c:\dev\Video Production\studios\african-history\lines\ng-nigeria\productions\EXP001_laboratory-scene\manifest.yaml
+provenance_class: interpretive
+acceptance_checklist:
+- 'ACCEPTANCE CHECKLIST, identical to A''s plus the separation checks: neutral expression;
+  head and upper shoulders; near-frontal; eye level; even neutral light; plain neutral
+  background; hairline visible; LEFT-cheek birthmark clearly resolved and on the correct
+  side; no facial hair; NO eyebrow scar; no motion blur; natural skin texture; no
+  grading that changes skin tone; measured cheek value approximately #87583D.'
+- 'Then check the pair together, which is the step most likely to be skipped: framing,
+  lens, background and light must match A''s anchor closely enough that the two frames
+  could sit side by side without either being obviously differently shot. And B must
+  be unmistakably a different person from A at a glance - age, face, hair, build.'
+- The absent eyebrow scar is listed as a negative deliberately. If it appears on B
+  at anchor stage, the vendor is already bleeding features between two similar prompts,
+  and that is worth knowing before any production shot is generated.
+provenance_required:
+- which surface actually produced it — the product name, not 'interactive'
+- the model, and its exact version identifier if the surface shows one
+- the seed, if the surface exposes one; say plainly if it does not
+- any setting that differed from those specified above
+- roughly what it cost, if the surface tells you
+- whether the file was edited, cropped, or re-encoded after generation
+candidates: 4
+candidate_filenames:
+- EXP001_ANCHOR_PC-NG-EXP001-0002_c01.png
+- EXP001_ANCHOR_PC-NG-EXP001-0002_c02.png
+- EXP001_ANCHOR_PC-NG-EXP001-0002_c03.png
+- EXP001_ANCHOR_PC-NG-EXP001-0002_c04.png
+is_anchor: true
+authorised: true
+authorisation_note: ''
+format: studio_ops/generation_job
+format_version: '2'
+notes: ''

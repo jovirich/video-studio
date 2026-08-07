@@ -222,8 +222,8 @@ def _constraints_from_continuity(paths: list[Path]) -> tuple[list[str], list[str
 def prepare_job(
     cfg: Config,
     *,
-    shot_path: Path,
     card_path: Path,
+    shot_path: Path | None = None,
     manifest_path: Path,
     work_dir: Path,
     continuity_paths: list[Path],
@@ -231,6 +231,8 @@ def prepare_job(
     vendor: str | None = None,
     seed: int | str | None = None,
     schema_dir: Path | None = None,
+    candidates: int = 1,
+    is_anchor: bool = False,
 ) -> Path:
     """Assemble a complete handoff packet for manual fulfilment.
 
@@ -247,22 +249,38 @@ def prepare_job(
     from ..adapters.interactive import InteractiveAdapter
     from ..adapters.job import job_from_request
 
-    shot = _record_meta(shot_path)
+    # A shot record is optional. An ANCHOR has no shot: it is a prompt card whose
+    # product becomes a reference, and the run plan authorises it by card id. Requiring
+    # a shot here would have meant fabricating shot records that are not in the shot
+    # plan, purely to satisfy a signature.
+    shot: dict[str, Any] = _record_meta(shot_path) if shot_path is not None else {}
     shot_id = str(shot.get("id") or "")
     scene_id = str(shot.get("sequence") or "")
-    provenance_class = str(shot.get("provenance_class") or "interpretive")
     modality = str(shot.get("modality") or "image")
 
     card = render_mod.load_card(card_path, schemas=schema_dir)
+    card_target_early = _as_dict(card.get("target"))
+    provenance_class = str(
+        shot.get("provenance_class") or card_target_early.get("provenance_class") or "interpretive"
+    )
     style = style_block_from_continuity(continuity_paths)
     rendered = render_mod.render(card, vendor, style_block=style)
 
-    production_id = _production_of(shot_id)
+    job_id = shot_id or rendered.card_id
+    production_id = _production_of(shot_id) if shot_id else _production_of_card(rendered.card_id)
     incoming = work_dir / "incoming"
     incoming.mkdir(parents=True, exist_ok=True)
 
     ext = "mp4" if modality == "video" else "png"
-    filename = _asset_filename(production_id, scene_id, shot_id, provenance_class, ext)
+    if shot_id:
+        filename = _asset_filename(production_id, scene_id, shot_id, provenance_class, ext)
+    else:
+        filename = f"{production_id}_ANCHOR_{rendered.card_id}_c01.{ext}"
+    candidate_names = (
+        tuple(filename.replace("_c01.", f"_c{i:02d}.") for i in range(1, max(candidates, 1) + 1))
+        if candidates > 1
+        else ()
+    )
     request = request_from_render(rendered, output_path=incoming / filename, seed=seed)
 
     constraints, forbidden, hard_stops = _constraints_from_continuity(continuity_paths)
@@ -281,11 +299,11 @@ def prepare_job(
     checklist = [
         line.strip(" -") for line in str(card.get("notes") or "").splitlines() if line.strip()
     ]
-    authorised, note = _phase_status(manifest_path.parent, shot_id or rendered.card_id)
+    authorised, note = _phase_status(manifest_path.parent, job_id)
 
     job = job_from_request(
         request,
-        job_id=shot_id or rendered.card_id,
+        job_id=job_id,
         production_id=production_id,
         line=str(shot.get("line") or cfg.default_line or ""),
         scene_id=scene_id,
@@ -303,8 +321,15 @@ def prepare_job(
         lens_look=str(camera.get("lens") or card_prompt.get("camera") or ""),
         lighting=str(style.get("light") or card_prompt.get("light") or ""),
         performance=str(shot.get("description") or ""),
-        aspect_ratio=str(shot_framing.get("aspect") or "16:9"),
-        resolution_target="3840x2160" if modality == "video" else "at least 1024x1024",
+        # An anchor is a reference portrait, not a frame in the cut. Forcing 16:9
+        # would crop a head-and-shoulders subject to a letterbox and waste most of the
+        # pixels on background the anchor does not need.
+        aspect_ratio=str(shot_framing.get("aspect") or ("1:1" if is_anchor else "16:9")),
+        resolution_target=(
+            "3840x2160"
+            if modality == "video"
+            else "at least 1024x1024 — the face must survive being scored at 100%"
+        ),
         duration_seconds=shot.get("duration_seconds"),
         preferred_vendor=str(card_tool.get("vendor") or ""),
         preferred_model=str(card_tool.get("model") or ""),
@@ -314,12 +339,21 @@ def prepare_job(
         manifest_path=str(manifest_path),
         provenance_class=provenance_class,
         acceptance_checklist=tuple(checklist),
+        candidates=max(candidates, 1),
+        candidate_filenames=candidate_names,
+        is_anchor=is_anchor,
         authorised=authorised,
         authorisation_note=note,
     )
 
     adapter = InteractiveAdapter(dry_run=True, job_dir=job_dir)
     return adapter.prepare(request, job)
+
+
+def _production_of_card(card_id: str) -> str:
+    """Production code out of a card id, for jobs that have no shot record."""
+    parts = card_id.split("-")
+    return parts[2] if len(parts) > 3 else "unknown"
 
 
 def _asset_filename(production: str, scene: str, shot: str, klass: str, ext: str) -> str:

@@ -143,6 +143,20 @@ class GenerationJob:
     acceptance_checklist: tuple[str, ...] = ()
     provenance_required: tuple[str, ...] = ()
 
+    # --- candidates ---------------------------------------------------------
+    # An anchor is selected FROM candidates, not produced on the first try. Every
+    # candidate is ingested and kept, including the rejected ones: a rejection is a
+    # record of what this surface does wrong under these instructions, and that is
+    # the most reusable thing the run produces.
+    candidates: int = 1
+    candidate_filenames: tuple[str, ...] = ()
+
+    # --- what this job IS ---------------------------------------------------
+    # True where the job CREATES a canonical reference rather than consuming one.
+    # Without this the brief tells an operator to attach the very anchor the job
+    # exists to produce, which is the kind of instruction that gets followed.
+    is_anchor: bool = False
+
     # --- authorisation ------------------------------------------------------
     authorised: bool = True
     authorisation_note: str = ""
@@ -203,10 +217,23 @@ class GenerationJob:
         add("")
 
         # 1 — references first. They must be attached before the prompt is pasted.
-        add("## 1. Attach these references")
-        add("")
-        refs = [*self.character_references, *self.style_references]
-        if refs:
+        if self.is_anchor:
+            add(f"## {_n(out)}. Attach nothing")
+            add("")
+            add("**This job CREATES a canonical reference.** There is no anchor to")
+            add("attach yet — that is what you are making. Work from the prompt alone.")
+            add("")
+            add("Everything generated later is scored against whichever candidate is")
+            add("approved here, so an ambiguity in this frame becomes an unscoreable")
+            add("frame in every shot that follows.")
+            add("")
+        else:
+            add(f"## {_n(out)}. Attach these references")
+            add("")
+        refs = [] if self.is_anchor else [*self.character_references, *self.style_references]
+        if self.is_anchor:
+            pass
+        elif refs:
             for r in refs:
                 line = f"- **{r.kind}** — `{r.path or r.ref}`"
                 if r.sha256:
@@ -223,7 +250,7 @@ class GenerationJob:
             add("")
 
         # 2 — the prompt, as one copyable block.
-        add("## 2. Copy this prompt")
+        add(f"## {_n(out)}. Copy this prompt")
         add("")
         add("```text")
         add(self.prompt.strip())
@@ -239,7 +266,7 @@ class GenerationJob:
             add("")
 
         # 3 — the craft settings.
-        add("## 3. Settings")
+        add(f"## {_n(out)}. Settings")
         add("")
         add("| | |")
         add("|---|---|")
@@ -265,7 +292,7 @@ class GenerationJob:
         # 4 — motion, where it applies.
         if self.video:
             v = self.video
-            add("## 4. Motion brief")
+            add(f"## {_n(out)}. Motion brief")
             add("")
             for label, value in (
                 ("First frame must match", v.first_frame_continuity),
@@ -291,7 +318,7 @@ class GenerationJob:
 
         # 5 — constraints.
         if self.continuity_constraints:
-            add("## 5. Continuity — these must hold")
+            add(f"## {_n(out)}. Continuity — these must hold")
             add("")
             for c in self.continuity_constraints:
                 add(f"- {c}")
@@ -317,11 +344,27 @@ class GenerationJob:
             add("")
 
         # 6 — delivery.
-        add("## 6. Save and hand back")
+        add(f"## {_n(out)}. Save and hand back")
         add("")
-        add(f"1. Save as **`{self.output_filename}`** — exactly this name.")
-        add(f"2. Put it in **`{self.incoming_dir}`**")
-        add("3. Tell me it is there, and I will ingest it.")
+        if self.candidates > 1:
+            add(f"Generate **{self.candidates} candidates** from the same prompt.")
+            add("")
+            add("Hand back **every one**, including any you dislike. All of them are")
+            add("ingested and kept; exactly one is later approved as canonical. A")
+            add("rejected candidate is a record of what this surface does wrong under")
+            add("these instructions, and that is the most reusable thing this run")
+            add("produces — do not quietly discard the bad ones.")
+            add("")
+            add("Save each as, in order:")
+            add("")
+            for name in self.candidate_filenames or ():
+                add(f"- `{name}`")
+            add("")
+            add(f"Put them all in **`{self.incoming_dir}`** and tell me they are there.")
+        else:
+            add(f"1. Save as **`{self.output_filename}`** — exactly this name.")
+            add(f"2. Put it in **`{self.incoming_dir}`**")
+            add("3. Tell me it is there, and I will ingest it.")
         add("")
         add("Do not rename, crop, or re-encode it. The file is hashed on arrival and")
         add("that hash becomes the provenance record — any edit after generation makes")
@@ -335,7 +378,7 @@ class GenerationJob:
             add("")
 
         if self.acceptance_checklist:
-            add("## 7. It is accepted only if all of these hold")
+            add(f"## {_n(out)}. It is accepted only if all of these hold")
             add("")
             for c in self.acceptance_checklist:
                 add(f"- [ ] {c}")
@@ -348,6 +391,13 @@ class GenerationJob:
             f"--file <path> --vendor <what made it> --model <model>`"
         )
         return "\n".join(out) + "\n"
+
+
+def _n(lines: list[str]) -> int:
+    """Next section number. Hard-coded numbers skipped 4 whenever a job had no motion
+    brief, and a brief that miscounts its own sections is a brief someone stops
+    trusting."""
+    return sum(1 for ln in lines if ln.startswith("## ") and ln[3:4].isdigit()) + 1
 
 
 def _cell(value: Any) -> str:

@@ -1,0 +1,154 @@
+# GENERATION JOB — a derived work order, not a record.
+#
+# Regenerable and disposable: delete it and rebuild it from the prompt card and the
+# continuity records. It has no ID in the reference graph and nothing cites it.
+#
+# Contains no credentials and authorises no spend. It is a specification handed to an
+# operator, not permission to buy anything.
+#
+# format: studio_ops/generation_job v2
+
+job_id: PC-NG-EXP001-0003
+production_id: EXP001
+line: ''
+scene_id: ''
+shot_id: ''
+prompt_card_id: PC-NG-EXP001-0003
+modality: image
+creative_purpose: 'Fix the room''s geometry, light direction, and landmarks in one
+  frame, so that nineteen later shots can be checked against it rather than against
+  each other.
+
+  '
+continuity_records:
+- CNL-NG-0001
+character_references: []
+style_references:
+- kind: style anchor
+  ref: CNL-NG-0001
+  path: NOT YET APPROVED
+  sha256: null
+  note: Workshop interior and yard. NO APPROVED ANCHOR YET — this job cannot be fulfilled
+    until one exists and its STA id is on the record.
+evidence_constraints: []
+continuity_constraints: []
+prompt: 'An invented single-room workshop interior, unoccupied. A split-timber work
+  bench runs along the long wall beneath a high unglazed window. On the bench, left
+  to right: two unglazed clay vessels and a shallow bowl; coiled plant-fibre cord
+  and one dark iron hand tool; a folded undyed cloth. A larger clay vessel stands
+  on the floor beneath the bench. An open doorway in the short wall to the right leads
+  to a walled yard, with a low threshold step. The wall left of the window carries
+  a visible repair patch of slightly different colour. The bench top is worn smooth
+  in a band where hands fall. No people. Rammed earth walls over a timber frame, hand-finished,
+  tool marks and finger runs visible in raking light. Beaten earth floor, polished
+  by use near the bench and dusty at the edges. Timber rafters above, in shadow. Beyond
+  the yard doorway: a walled yard, open sky, and the canopy of a single tree above
+  the wall line. Period detail: rammed earth wall with visible hand finishing, split,
+  unplaned timber, unglazed hand-formed clay, undyed hand-woven cloth, twisted plant-fibre
+  cord, one dark matte iron tool, bright only at its edge. Composition: Wide establishing
+  frame. Bench along the left two-thirds; doorway and yard visible at right. The spatial
+  relationship must be legible in one look: A''s working position at the bench centre,
+  B''s entry point at the doorway, and the clear floor between them. Frame BELOW the
+  roofline - the roof structure is never resolved. Camera: 35mm equivalent, eye level,
+  locked. Straight on to the long wall so the geometry reads without perspective distortion.
+  Deep focus. Light: Mid-morning. The single high window is the ONLY source. Light
+  rakes in from FRAME LEFT and above, roughly 40 degrees down, throwing a hard-edged
+  beam onto the bench and the floor short of the opposite wall. Fine dust suspended
+  in the beam. Soft fill elsewhere bounced off the earth floor. Long hard shadows
+  running away from the window. Palette: Warm earth mid-tones. Muted, unsaturated.
+  No colour grading beyond natural. Texture: The wall texture carries the light -
+  uneven at grazing angles, flat when lit head on. Grain in the split timber. Matte
+  clay. Mood: quiet, worked-in, unoccupied, ordinary. Avoid: plastic in any form,
+  machine stitching or machine-woven regular cloth, sawn, planed, or dimensioned timber,
+  glazed or wheel-perfect ceramic, corrugated metal, concrete, brick, cut stone, glass,
+  including in the window, printed or written text of any kind, people, figures, hands,
+  decorative motif, pattern, carving, painted design, text, script, lettering, signage,
+  symbols, mask, regalia, shrine, altar, ritual object, plastic, glass, corrugated
+  metal, concrete, brick, cut stone, sawn or planed dimensioned timber, machine-woven
+  regular cloth, visible roof structure, ceiling detail, buildings or settlement beyond
+  the yard wall, dramatic or coloured lighting, lens flare, heavy grade.'
+negative:
+- plastic in any form
+- machine stitching or machine-woven regular cloth
+- sawn, planed, or dimensioned timber
+- glazed or wheel-perfect ceramic
+- corrugated metal, concrete, brick, cut stone
+- glass, including in the window
+- printed or written text of any kind
+- people, figures, hands
+- decorative motif, pattern, carving, painted design
+- text, script, lettering, signage, symbols
+- mask, regalia, shrine, altar, ritual object
+- plastic, glass, corrugated metal, concrete, brick, cut stone
+- sawn or planed dimensioned timber
+- machine-woven regular cloth
+- visible roof structure, ceiling detail
+- buildings or settlement beyond the yard wall
+- dramatic or coloured lighting
+- lens flare, heavy grade
+hard_stops:
+- 'masks, regalia, ceremonial dress, insignia of office — This is an ordinary workroom.
+  Regalia would make it a depiction of a specific culture''s practice, which EXP-001
+  must not become — and would require an advisory ruling that does not exist.
+
+  '
+- shrine, altar, ritual object, or religious symbol — as above — sacred material requires
+  a ruling; none exists
+framing: ''
+lens_look: '35mm equivalent, eye level, locked. Straight on to the long wall so the
+  geometry reads without perspective distortion. Deep focus.
+
+  '
+lighting: 'the single high window in the long wall, Raking from frame left and above,
+  roughly 40 degrees down. A visible beam falls on the bench and the floor short of
+  the opposite wall. This direction does not change between shots — the sun does not
+  move during one morning.
+
+  , Hard-edged where the beam lands, soft fill elsewhere from bounce off the earth
+  floor. Dust in the beam.
+
+  , mid-morning'
+performance: ''
+environment_motion: ''
+aspect_ratio: '1:1'
+resolution_target: at least 1024x1024 — the face must survive being scored at 100%
+duration_seconds: null
+seed: null
+model_settings: {}
+preferred_vendor: openai
+preferred_model: gpt-image-2-2026-04-21
+video: null
+output_filename: EXP001_ANCHOR_PC-NG-EXP001-0003_c01.png
+incoming_dir: c:\dev\Video Production\studios\african-history\lines\ng-nigeria\productions\EXP001_laboratory-scene\05_assets\stills\incoming
+manifest_path: c:\dev\Video Production\studios\african-history\lines\ng-nigeria\productions\EXP001_laboratory-scene\manifest.yaml
+provenance_class: interpretive
+acceptance_checklist:
+- 'ACCEPTANCE CHECKLIST for the rendered anchor: room geometry legible in one look;
+  bench beneath the window; doorway right with threshold step; yard, sky and single
+  tree canopy beyond and nothing else; repair patch present on the wall left of the
+  window; worn band on the bench; all five prop zones present and in the stated order;
+  light unambiguously from FRAME LEFT with shadows running away from the window; dust
+  visible in the beam; frame below the roofline with the roof unresolved; no people;
+  none of the nine forbidden objects on CNL-NG-0001.'
+- 'Two checks that are easy to skip and expensive to miss:'
+- 1. LIGHT DIRECTION. Every one of the nineteen later shots is checked against this
+- frame for it. If the anchor's light comes from the right, the whole set inherits
+- the error and no shot can be scored against the record.
+- 2. NO CULTURAL REFERENT. Any carving, motif, pattern, script, or ritual object makes
+- this a depiction of somewhere real. It is not, and must not become one. If a
+- render adds one, delete it - do not paint it out and keep the frame.
+provenance_required:
+- which surface actually produced it — the product name, not 'interactive'
+- the model, and its exact version identifier if the surface shows one
+- the seed, if the surface exposes one; say plainly if it does not
+- any setting that differed from those specified above
+- roughly what it cost, if the surface tells you
+- whether the file was edited, cropped, or re-encoded after generation
+candidates: 1
+candidate_filenames: []
+is_anchor: true
+authorised: true
+authorisation_note: ''
+format: studio_ops/generation_job
+format_version: '2'
+notes: ''
