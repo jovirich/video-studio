@@ -49,6 +49,18 @@ CONTINUITY_STYLE_KEYS: tuple[str, ...] = (
 )
 
 
+# Terms that stop a multi-candidate request being answered with one composite image.
+COMPOSITE_NEGATIVES: tuple[str, ...] = (
+    "grid",
+    "contact sheet",
+    "collage",
+    "montage",
+    "diptych, triptych, quadriptych",
+    "split image, multiple panels, side-by-side comparison",
+    "more than one face in frame",
+)
+
+
 class RoundTripError(RuntimeError):
     """The chain did not close. The message says which link broke."""
 
@@ -285,6 +297,11 @@ def prepare_job(
 
     constraints, forbidden, hard_stops = _constraints_from_continuity(continuity_paths)
     forbidden = list(dict.fromkeys([*forbidden, *rendered.negative]))
+    if candidates > 1:
+        # The surface will happily satisfy "four candidates" with one four-panel
+        # image. That reads as compliance and is unusable: one file, one hash, no way
+        # to approve or reject a candidate individually.
+        forbidden = list(dict.fromkeys([*forbidden, *COMPOSITE_NEGATIVES]))
     characters, styles, records = _references(continuity_paths)
 
     camera: dict[str, Any] = _as_dict(shot.get("camera"))
