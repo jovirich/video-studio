@@ -80,7 +80,32 @@ Every shot is scored independently against the continuity record and against sho
 | `forbidden_present` | none / list | **Any forbidden object or variation appearing is an automatic fail for that shot** |
 | `location_consistent` | pass / marginal / fail / n-a | Geometry, materials, light direction |
 | `attempts` | integer | Renders before an acceptable one |
+| `<dimension>_severity` | 1–5 | One per applicable dimension above. See the scale below. |
 | `notes` | free text | Where it broke, under what condition |
+
+### Drift severity, 1–5, per applicable dimension
+
+Recorded alongside the pass/fail columns, in `<dimension>_severity`.
+
+| | Meaning |
+|---|---|
+| **1** | No perceptible drift |
+| **2** | Minor drift, identity clearly intact |
+| **3** | Material drift requiring attention |
+| **4** | Severe drift, identity unstable |
+| **5** | Effectively a different character or environment |
+
+**Binary pass/fail remains authoritative.** Severity exists for diagnosis and for
+comparing mechanisms — it is what will make a later trained-adapter run comparable to
+this reference-image baseline, rather than merely differently opinionated.
+
+Two things it buys that pass/fail cannot: it distinguishes *nearly held* from
+*collapsed*, which is the difference between tightening a prompt and changing the
+mechanism; and it lets a failure be located — a set that scores 2s under backlight and
+4s in profile says something specific about what may be shot.
+
+Score severity even where the binary is a pass. A run of 2s that never fails is a
+mechanism about to fail on shot 21.
 
 **`marginal` is a fail for headline purposes.** It is recorded separately only so the
 failure mode can be described precisely.

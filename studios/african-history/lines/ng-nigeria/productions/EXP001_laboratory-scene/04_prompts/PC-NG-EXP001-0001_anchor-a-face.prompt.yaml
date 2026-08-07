@@ -1,0 +1,126 @@
+# yaml-language-server: $schema=../../../../../../../standards/schemas/prompt_card.schema.json
+# CANONICAL IDENTITY ANCHOR — Character A.
+#
+# This is not a production shot. It is the reference every one of A's 17 shots is
+# scored against, so it is shot like a passport photograph and not like a frame from
+# a film: no drama, no grading, nothing that hides or flatters a feature.
+#
+# It becomes A's anchor ONLY after director approval. Until then A has no anchor and
+# no production shot may be generated.
+#
+# B's anchor (PC-NG-EXP001-0002) MUST be produced under photographically identical
+# conditions. If the two differ in framing, lens, or light, every comparison between
+# them is confounded and shot 18 cannot be scored.
+#
+# LABORATORY DESIGN. A is invented and is not representative of any real person,
+# people, or culture, at any period.
+
+id: PC-NG-EXP001-0001
+type: prompt_card
+line: ng-nigeria
+title: Canonical identity anchor — Character A
+status: draft
+version: "0.1.0"
+updated: "2026-08-07"
+owners: [visual-director]
+
+modality: image
+
+# Vendor DELIBERATELY UNSET. The directive is to select ONE vendor/model/version for
+# both A and B and hold it fixed across the four diagnostic shots. That selection has
+# not been made, and no spend has been incurred.
+#
+# `local` remains the mechanics test only — its deterministic colour field proves the
+# round trip, and cannot serve as a face anchor.
+tool:
+  vendor: TBD
+  model: TBD
+  version: TBD
+  # terms_checked OMITTED, not TBD: it is isoDate-patterned. It is filled the
+  # day the chosen vendor's terms are verified in the model terms register, and a
+  # card must not be generated from before then.
+
+target:
+  provenance_class: interpretive
+  intent: >
+    Fix A's identity in one frame, unambiguously enough that a second person can score
+    twenty later frames against it without consulting the director.
+
+inheritance:
+  style_block: none — an anchor inherits no scene style, by design
+  style_anchors: []
+  overrides: []
+
+prompt:
+  subject: >
+    A single invented adult figure, presenting male, apparent age 38-42. Deep brown
+    skin. Short tightly coiled black hair with a low even profile and a clearly
+    visible natural hairline. Short, neatly maintained full beard and moustache.
+    Long-oval face, moderately broad nose, pronounced cheekbones, deep-set dark brown
+    eyes, strong jaw. A small vertical scar through the outer third of the RIGHT
+    eyebrow, clearly resolved. Lean, strong working build with defined shoulders.
+    Neutral expression.
+  setting: >
+    Plain neutral mid-grey background, featureless, no environment, no props.
+  period_markers: []
+  composition: >
+    Head and upper shoulders. Near-frontal view, camera at eye level. Face centred and
+    fully visible. Nothing across or obscuring the face. Hairline fully in frame,
+    including the temples.
+  camera: >
+    Eye level, near-frontal, 85mm equivalent, moderate depth of field with the whole
+    face in focus. No motion blur.
+  light: >
+    Even neutral lighting, soft and frontal, from a broad source. No dramatic shadows,
+    no rim, no colour cast. Both sides of the face evenly exposed so that skin tone can
+    be measured off the cheek.
+  palette: >
+    Natural. No cinematic grading. Nothing that materially changes skin tone.
+  texture: >
+    Natural skin texture retained — pores, fine lines, the scar's edge. Not smoothed,
+    not beautified.
+  mood: neutral, documentary, unstyled
+  negative:
+    - dramatic lighting
+    - rim light
+    - coloured gel
+    - heavy grade
+    - smoothed or airbrushed skin
+    - motion blur
+    - shallow focus on the eyes only
+    - hat, headwear, glasses, jewellery
+    - hand or object across the face
+    - patterned or embroidered cloth
+    - environment, props, background detail
+
+parameters: {}
+
+inputs: []
+
+# `interpretive`, not `reconstruction` — this depicts nothing that exists, so there is
+# nothing for it to be evidence of and no evidence basis is required or possible.
+
+constraints:
+  depicts_named_person: false
+  depicts_sacred_material: false
+  depicts_violence: false
+  depicts_human_remains: false
+
+runs: []
+
+review:
+  sensitivity: pending
+  anachronism_check: not-required
+
+notes: >
+  ACCEPTANCE CHECKLIST for the rendered anchor, before it may be approved:
+  neutral expression; head and upper shoulders; near-frontal; camera at eye level;
+  even neutral lighting with no dramatic shadow; plain neutral background; hairline
+  completely visible; beard clearly resolved; RIGHT eyebrow scar clearly resolved and
+  on the correct side; no motion blur; nothing obscuring the face; natural skin
+  texture; no grading that materially changes skin tone; measured cheek value
+  approximately #70452F.
+
+  A render that is beautiful and fails any of these is rejected. The anchor's job is
+  to be legible, not attractive - every ambiguity here becomes an unscoreable frame
+  later. The mirrored scar is the most likely single failure and the easiest to miss.

@@ -1,0 +1,135 @@
+# yaml-language-server: $schema=../../../../../../../standards/schemas/prompt_card.schema.json
+# CANONICAL SPATIAL ANCHOR — the workshop establishing wide.
+#
+# Every one of the twenty shots is checked against this frame for geometry, materials,
+# light direction, and the fixed landmarks. It is the reason two shots of the same room
+# from different angles read as one room.
+#
+# Becomes the spatial anchor ONLY after director approval.
+#
+# ENTIRELY FICTIONAL LABORATORY DESIGN. This workshop is not a reconstruction of any
+# real place or building, and nothing in it - architecture, tools, furniture, craft
+# process, or material - is offered as representative of Benin, Nigeria, West Africa,
+# or anywhere else, at any period. There is no evidence basis because there is no claim.
+
+id: PC-NG-EXP001-0003
+type: prompt_card
+line: ng-nigeria
+title: Canonical spatial anchor — workshop establishing wide
+status: draft
+version: "0.1.0"
+updated: "2026-08-07"
+owners: [visual-director]
+
+modality: image
+
+# Same vendor/model/version as the two face anchors. No spend incurred.
+tool:
+  vendor: TBD
+  model: TBD
+  version: TBD
+  # terms_checked OMITTED, not TBD: it is isoDate-patterned. It is filled the
+  # day the chosen vendor's terms are verified in the model terms register, and a
+  # card must not be generated from before then.
+
+target:
+  provenance_class: interpretive
+  intent: >
+    Fix the room's geometry, light direction, and landmarks in one frame, so that
+    nineteen later shots can be checked against it rather than against each other.
+
+inheritance:
+  style_block: CNL-NG-0001
+  style_anchors: []
+  overrides: []
+
+prompt:
+  subject: >
+    An invented single-room workshop interior, unoccupied. A split-timber work bench
+    runs along the long wall beneath a high unglazed window. On the bench, left to
+    right: two unglazed clay vessels and a shallow bowl; coiled plant-fibre cord and
+    one dark iron hand tool; a folded undyed cloth. A larger clay vessel stands on the
+    floor beneath the bench. An open doorway in the short wall to the right leads to a
+    walled yard, with a low threshold step. The wall left of the window carries a
+    visible repair patch of slightly different colour. The bench top is worn smooth in
+    a band where hands fall. No people.
+  setting: >
+    Rammed earth walls over a timber frame, hand-finished, tool marks and finger runs
+    visible in raking light. Beaten earth floor, polished by use near the bench and
+    dusty at the edges. Timber rafters above, in shadow. Beyond the yard doorway: a
+    walled yard, open sky, and the canopy of a single tree above the wall line.
+  period_markers:
+    - rammed earth wall with visible hand finishing
+    - split, unplaned timber
+    - unglazed hand-formed clay
+    - undyed hand-woven cloth
+    - twisted plant-fibre cord
+    - one dark matte iron tool, bright only at its edge
+  composition: >
+    Wide establishing frame. Bench along the left two-thirds; doorway and yard visible
+    at right. The spatial relationship must be legible in one look: A's working
+    position at the bench centre, B's entry point at the doorway, and the clear floor
+    between them. Frame BELOW the roofline - the roof structure is never resolved.
+  camera: >
+    35mm equivalent, eye level, locked. Straight on to the long wall so the geometry
+    reads without perspective distortion. Deep focus.
+  light: >
+    Mid-morning. The single high window is the ONLY source. Light rakes in from FRAME
+    LEFT and above, roughly 40 degrees down, throwing a hard-edged beam onto the bench
+    and the floor short of the opposite wall. Fine dust suspended in the beam. Soft
+    fill elsewhere bounced off the earth floor. Long hard shadows running away from the
+    window.
+  palette: >
+    Warm earth mid-tones. Muted, unsaturated. No colour grading beyond natural.
+  texture: >
+    The wall texture carries the light - uneven at grazing angles, flat when lit head
+    on. Grain in the split timber. Matte clay.
+  mood: quiet, worked-in, unoccupied, ordinary
+  negative:
+    - people, figures, hands
+    - decorative motif, pattern, carving, painted design
+    - text, script, lettering, signage, symbols
+    - mask, regalia, shrine, altar, ritual object
+    - plastic, glass, corrugated metal, concrete, brick, cut stone
+    - sawn or planed dimensioned timber
+    - glazed or wheel-perfect ceramic
+    - machine-woven regular cloth
+    - visible roof structure, ceiling detail
+    - buildings or settlement beyond the yard wall
+    - dramatic or coloured lighting
+    - lens flare, heavy grade
+
+parameters: {}
+
+inputs: []
+
+constraints:
+  depicts_named_person: false
+  depicts_sacred_material: false
+  depicts_violence: false
+  depicts_human_remains: false
+
+runs: []
+
+review:
+  sensitivity: pending
+  anachronism_check: pending
+
+notes: >
+  ACCEPTANCE CHECKLIST for the rendered anchor:
+  room geometry legible in one look; bench beneath the window; doorway right with
+  threshold step; yard, sky and single tree canopy beyond and nothing else; repair
+  patch present on the wall left of the window; worn band on the bench; all five prop
+  zones present and in the stated order; light unambiguously from FRAME LEFT with
+  shadows running away from the window; dust visible in the beam; frame below the
+  roofline with the roof unresolved; no people; none of the nine forbidden objects on
+  CNL-NG-0001.
+
+  Two checks that are easy to skip and expensive to miss:
+
+  1. LIGHT DIRECTION. Every one of the nineteen later shots is checked against this
+     frame for it. If the anchor's light comes from the right, the whole set inherits
+     the error and no shot can be scored against the record.
+  2. NO CULTURAL REFERENT. Any carving, motif, pattern, script, or ritual object makes
+     this a depiction of somewhere real. It is not, and must not become one. If a
+     render adds one, delete it - do not paint it out and keep the frame.

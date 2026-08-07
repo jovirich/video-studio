@@ -232,6 +232,8 @@ the first generated shot. Each is a candidate for the post-EXP-001 pass.
 | G8 | **No field for facial hair; `jewellery_and_adornment` is narrower than "accessories".** Facial hair goes under `appearance.hair` by convention only. A working cord at the wrist is neither jewellery nor adornment. | `continuity_character.schema.json` | Both are naming problems, not gaps. Cheap to fix, no urgency. |
 | G9 | **`historical_uncertainty` assumes a historical subject.** For an invented character it is not empty-because-unknown, it is inapplicable — there is no fact of the matter. An empty array cannot distinguish "nothing uncertain" from "nothing to be uncertain about". | `continuity_character.schema.json` | Only bites for laboratory productions. Recorded in the records' prose meanwhile. |
 
+| G10 | **`*.prompt.yaml` collides with an editor-recognised format.** VS Code applies a built-in association for that extension (chat-prompt files, which require a `messages` key), so every prompt card showed a phantom `Missing property "messages"` error despite validating cleanly against the repo's own schema. | naming convention, `.vscode/settings.json` | Worked around with a `# yaml-language-server: $schema=` modeline on each card and on the template — no schema or convention change. The alternative, renaming the extension, is a `standards/naming_conventions.md` change and not worth it under the freeze. |
+
 G1 is the one worth doing first after EXP-001. **G6 is the one that will bite everyone
 else**, because it makes a documented convention fail validation with no explanation.
 

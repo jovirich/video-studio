@@ -4,7 +4,7 @@ type: continuity_character
 line: ng-nigeria
 title: Character B — the second figure (invented)
 status: draft
-version: 0.1.0
+version: 0.2.0
 updated: "2026-08-07"
 owners: [visual-director]
 
@@ -12,80 +12,78 @@ owners: [visual-director]
 
 canonical_name: B
 
-# ---------------------------------------------------------------------------
-# DIRECTORIAL — every TBD below is yours. See DIRECTOR_DECISIONS.md.
-#
-# B exists to answer one question A cannot: does the mechanism hold two people
-# SEPARATELY, or does it collapse them toward one face? So B's appearance decisions
-# must be made against A's, not independently — see the note below the front matter.
-# ---------------------------------------------------------------------------
-
 age_range:
-  low: TBD
-  high: TBD
-  life_stage: TBD
+  low: 25
+  high: 29
+  life_stage: adult
   basis: >
-    directorial. Choose a range that is clearly distinct from A's. If A and B read as
-    the same age, a convergence failure in shot 18 is indistinguishable from ordinary
-    drift, and the test loses its most valuable result.
+    directorial. Deliberately a decade clear of A: if the two read as the same age, a
+    convergence failure in shot 18 is indistinguishable from ordinary drift.
   claims: []
 
 appearance:
-  skin_tone: TBD
-  skin_tone_reference: TBD
-  # Whatever is chosen, the two skin-tone references must be checkable independently.
-  # If A and B are close, a convergence failure will be invisible.
-  hair: TBD
-  # Include facial hair here if any — no separate schema field exists.
-  body_build: TBD
-  height_relative: >
-    TBD — stated relative to A. Shot 19 is deliberately an unequal-distance two-shot,
-    so the height relationship must be unambiguous or that shot cannot be scored.
-  facial_structure: TBD
-  eyes: TBD
+  skin_tone: rich medium-deep brown
+  # CONTINUITY REFERENCE, NOT AN ETHNICITY CLASSIFIER. Same caveat as A's record:
+  # score against this swatch AS RENDERED UNDER THE SHOT'S LIGHTING VARIANT. Hue and
+  # relative value must hold; absolute luminance moves with the light.
+  #
+  # B's swatch is deliberately separable from A's (#87583D vs #70452F). If the two
+  # rendered close, a convergence failure in the two-shots would be invisible.
+  skin_tone_reference: >
+    target digital swatch approximately #87583D, measured on the cheek under the
+    anchor's even neutral lighting.
+  hair: >
+    Tightly coiled black hair gathered into a compact high natural bun. Hairline
+    visible. FACIAL HAIR: none. (Recorded here per finding G8.)
+  body_build: medium to slender; noticeably different from A
+  height_relative: approximately 8–10 cm shorter than A
+  facial_structure: >
+    Rounder face than A. Softer jaw. Broader cheek area. Medium-width nose.
+  eyes: dark brown
   posture_and_gait: >
-    TBD — B enters through the door in shot 18. Bearing on entry is what makes B read
-    as a different person before the face is even resolved.
-  hands: TBD
+    More upright and compact than A. B enters through the door in shot 18 — bearing on
+    entry is what makes B read as a different person before the face resolves.
+  hands: >
+    Consistent with build. Not the subject of any shot, unlike A's.
 
-distinctive_features: []
-# TBD. Strongly worth giving B one that A does not have, and vice versa. It converts
-# `same_person` scoring on the two-shots from gestalt judgement into a binary check,
-# which is the difference between a result and an opinion.
+distinctive_features:
+  - feature: small circular dark birthmark high on the left cheek
+    location_on_body: left cheek, upper
+    always_visible: true
+    evidence: []
+    cultural_note: >
+      Invented. Carries no meaning and marks no status. It exists solely to make
+      identity drift checkable, and to be unambiguously different from A's scar —
+      different feature, different side, different kind.
 
 wardrobe:
   - set_id: primary
     when_worn: shots 16–20
     items:
-      - TBD — upper garment
-      - TBD — lower garment
-    materials: [undyed plant-fibre cloth, hand-woven]
-    colours: [TBD]
-    # Choose a value or weave that separates B from A at a glance, including in
-    # silhouette. Shot 20 puts A in a crowd; if B's cloth reads like A's, the crowd
-    # shot cannot distinguish a convergence failure from a framing problem.
+      - plain muted work garment, silhouette clearly different from A's
+    materials: [matte natural-looking cloth]
+    colours: [muted — distinct in value from A's earth tone]
     construction: >
-      Hand-sewn, irregular seam. No machine stitching, no regular selvedge.
-    condition: Worked-in, and distinct from A's in wear pattern rather than in quality.
+      Plain. No patterns, logos, embroidery, symbols, or motifs. Nothing that could
+      read as belonging to a real culture.
+    condition: Worked-in, and distinct from A's in cut rather than in quality.
     evidence: []
     reference_images: []
 
-# See the note in A's record: `jewellery_and_adornment` is the nearest existing field
-# for accessories, and nothing here may signify status, office, or rank.
 jewellery_and_adornment: []
 
 references:
-  # `facial_reference` and `drift_test` are OMITTED, not set to TBD — they are typed
-  # and pattern-constrained, and `TBD` is only legal in free-text fields. For these,
-  # "not yet decided" is expressed by absence, which is why the schema marks them
-  # optional. Writing TBD into them fails validation: the schema working, not a bug.
+  # facial_reference OMITTED, not TBD (finding G6). The anchor SPECIFICATION is
+  # prompt card PC-NG-EXP001-0002; the STA-* id goes here after director approval.
   #
-  # facial_reference: STA-NG-NNNN   <- the canonical face; must exist before shot 01
-  #                                    is ACCEPTED. Use the SAME mechanism as A.
-  # drift_test:                     <- the OUTPUT of shots 01/04/06/18, not an input.
-  #                                    Required before this record can lock.
+  # B's anchor is shot under PHOTOGRAPHICALLY IDENTICAL conditions to A's. If the
+  # two anchors differ in framing, lens, or light, every later comparison between
+  # them is confounded and shot 18 cannot be scored.
   anchor_set: []
+  # Same mandatory per-run record as A: vendor, model, exact version identifier,
+  # reference image id/hash, seed, prompt-card id, parameters, asset id, sha256.
   approved_seeds: []
+  # No trained adapter for EXP-001 — baseline first, by design.
   trained_adapter: {}
 
 voice: {}
@@ -94,19 +92,29 @@ forbidden_variations:
   - forbidden: any change of garment between shots
     why: adds a variable to a test whose point is isolating identity drift
     severity: style-breach
-  - forbidden: resembling A in face, hair, build, or garment
+  - forbidden: resembling A in face, age, build, height, or silhouette
     why: >
       B's entire purpose is to be distinguishable. Convergence toward A is THE result
-      this character exists to detect, so any deliberate similarity destroys the
-      measurement.
+      this character exists to detect, so any similarity destroys the measurement.
     severity: style-breach
-  - forbidden: jewellery, beadwork, or worked metal adornment
+  - forbidden: loss or displacement of the left-cheek birthmark
+    why: it is B's binary identity check, as the scar is A's
+    severity: style-breach
+  - forbidden: acquiring A's eyebrow scar
+    why: >
+      The clearest possible signature of feature bleed between two reference-conditioned
+      subjects. If it appears on B, the mechanism is mixing them.
+    severity: style-breach
+  - forbidden: jewellery, beadwork, worked metal adornment
     why: adornment that signifies would make B a depiction of a real culture's practice
     severity: culturally-prohibited
   - forbidden: scarification, body marking, or hairstyle carrying cultural meaning
-    why: as above; routes to the sensitivity gate, not to a negative prompt
+    why: routes to the sensitivity gate as a hard stop, never to a negative prompt
     severity: culturally-prohibited
-  - forbidden: footwear of modern construction, eyeglasses, or any manufactured object
+  - forbidden: patterned, embroidered, or motif-bearing cloth
+    why: pattern is the fastest way an invented garment acquires a false cultural referent
+    severity: culturally-prohibited
+  - forbidden: footwear of modern construction, eyeglasses, any manufactured object
     why: invented pre-industrial setting
     severity: anachronism
 
@@ -123,49 +131,57 @@ appears_in: [EXP001]
 > laboratory design chosen for what it does to a camera.
 >
 > **B is not a depiction of, and does not represent, any real person, people, or
-> culture.** No garment, adornment, hairstyle, or practice associated with B is
+> culture.** No garment, hairstyle, facial feature, or practice associated with B is
 > offered as historically representative of Benin, Nigeria, West Africa, or anywhere
 > else, at any period. There is no evidence basis because there is no claim.
+>
+> The skin-tone swatch is a **continuity reference, not an ethnicity classifier**.
 >
 > EXP-001 is permanently non-publishable.
 
 ## Why B exists at all
 
-B appears in only five shots, and could easily be cut. Cutting them would be a
-mistake.
+B appears in five shots and could easily be cut. Cutting them would be a mistake.
 
 **One character passing proves less than most people assume.** A mechanism can hold a
 single identity perfectly and still collapse two identities toward each other the
-moment both are in frame — because most reference mechanisms condition the whole
-image, not a region of it. Shots 18 and 19 are the only place that failure is
+moment both are in frame, because most reference conditioning acts on the whole image
+rather than on a region of it. Shots 18 and 19 are the only place that failure is
 visible, and it is the failure most likely to matter in real production, where
 two-shots are unavoidable.
 
-So B is not a spare character. B is the instrument for the second-hardest question in
-the test.
+B is not a spare character. B is the instrument for the second-hardest question in the
+test.
 
-## Design B against A, not independently
+## Separation, by design
 
-Every appearance decision for B should be made **with A's record open**. The
-requirement is not that B looks unusual — it is that B is *unambiguously not A*, in:
+Every axis is deliberately clear of A:
 
-- **face** — different structure, not just different hair
-- **age** — a visibly different range
-- **build and height** — shot 19 is an unequal-distance two-shot and needs a clear relationship
-- **silhouette** — shot 20 puts A in a crowd; B's outline must not read as A's at distance
-- **one distinctive feature each**, ideally, which turns two-shot scoring from judgement into a check
+| Axis | A | B |
+|---|---|---|
+| Age | 38–42 | 25–29 |
+| Presentation | male | female |
+| Height | taller by 8–10 cm | shorter |
+| Face | long-oval, strong jaw, pronounced cheekbones | rounder, softer jaw, broader cheek |
+| Hair | short tightly coiled, full beard | tightly coiled, compact high bun, no facial hair |
+| Build | lean, angular | medium/slender, compact |
+| Feature | scar, right eyebrow | birthmark, left cheek |
+| Swatch | `#70452F` | `#87583D` |
 
-If A and B are close on any of these, a convergence failure becomes indistinguishable
-from ordinary drift, and the most valuable result in the run is lost.
+Different feature, different side, different kind. That is not fussiness — it is what
+makes a convergence failure in shot 18 unambiguous rather than arguable.
+
+## The bleed test
+
+`forbidden_variations` includes **B acquiring A's eyebrow scar**. If that appears, the
+mechanism is not holding two subjects separately — it is mixing them — and that is a
+cleaner, earlier signal than waiting to judge whether two faces "look similar".
+
+Check for it explicitly in shots 18 and 19. It is the single most informative failure
+the run can produce.
 
 ## What holds the identity
 
-`TBD — Visual Director`, and it should be the **same mechanism as A**. Using a
-different mechanism for each character would confound the two-shot result: a failure
-in shot 18 could then be the mechanism, or the mixture, and there would be no way to
-tell which.
-
-## What we do not know
-
-Nothing — B is invented. `historical_uncertainty` is empty by design. See A's record
-for why that field exists and why it is inapplicable here.
+**The same reference-image mechanism as A**, same vendor, same model, same version,
+fixed across all four diagnostic shots. A different mechanism per character would make
+a shot-18 failure uninterpretable.

@@ -1,0 +1,121 @@
+# yaml-language-server: $schema=../../../../../../../standards/schemas/prompt_card.schema.json
+# CANONICAL IDENTITY ANCHOR — Character B.
+#
+# PHOTOGRAPHICALLY IDENTICAL to A's anchor (PC-NG-EXP001-0001): same framing, same
+# lens, same light, same background, same neutral treatment. Only the subject differs.
+#
+# That is not tidiness. Shot 18 asks whether the mechanism holds two identities
+# separately, and if the two anchors differ in framing or light, a difference between
+# the rendered characters could be the anchors rather than the mechanism. The
+# comparison would be uninterpretable.
+#
+# Becomes B's anchor ONLY after director approval.
+#
+# LABORATORY DESIGN. B is invented and is not representative of any real person,
+# people, or culture, at any period.
+
+id: PC-NG-EXP001-0002
+type: prompt_card
+line: ng-nigeria
+title: Canonical identity anchor — Character B
+status: draft
+version: "0.1.0"
+updated: "2026-08-07"
+owners: [visual-director]
+
+modality: image
+
+# Vendor unset, and MUST match A's exactly once chosen — same vendor, same model,
+# same version identifier. No spend has been incurred.
+tool:
+  vendor: TBD
+  model: TBD
+  version: TBD
+  # terms_checked OMITTED, not TBD: it is isoDate-patterned. It is filled the
+  # day the chosen vendor's terms are verified in the model terms register, and a
+  # card must not be generated from before then.
+
+target:
+  provenance_class: interpretive
+  intent: >
+    Fix B's identity unambiguously, under conditions identical to A's, so that the
+    two-shot result in 18 measures the mechanism rather than the anchors.
+
+inheritance:
+  style_block: none — an anchor inherits no scene style, by design
+  style_anchors: []
+  overrides: []
+
+prompt:
+  subject: >
+    A single invented adult figure, presenting female, apparent age 25-29. Rich
+    medium-deep brown skin. Tightly coiled black hair gathered into a compact high
+    natural bun, hairline visible. No facial hair. Rounder face than a long-oval,
+    softer jaw, broader cheek area, medium-width nose, dark brown eyes. A small
+    circular dark birthmark high on the LEFT cheek, clearly resolved. Medium to
+    slender build. Neutral expression.
+  setting: >
+    Plain neutral mid-grey background, featureless, no environment, no props.
+    Identical to the background of PC-NG-EXP001-0001.
+  period_markers: []
+  composition: >
+    Head and upper shoulders. Near-frontal view, camera at eye level. Face centred and
+    fully visible. Hairline fully in frame including the temples. Framing matched to
+    PC-NG-EXP001-0001.
+  camera: >
+    Eye level, near-frontal, 85mm equivalent, whole face in focus. No motion blur.
+    Matched to PC-NG-EXP001-0001.
+  light: >
+    Even neutral lighting, soft and frontal, from a broad source. No dramatic shadows,
+    no rim, no colour cast. Both sides of the face evenly exposed so skin tone can be
+    measured off the cheek. Matched to PC-NG-EXP001-0001.
+  palette: >
+    Natural. No cinematic grading. Nothing that materially changes skin tone.
+  texture: Natural skin texture retained. Not smoothed, not beautified.
+  mood: neutral, documentary, unstyled
+  negative:
+    - dramatic lighting
+    - rim light
+    - coloured gel
+    - heavy grade
+    - smoothed or airbrushed skin
+    - motion blur
+    - hat, headwear, glasses, jewellery
+    - hand or object across the face
+    - patterned or embroidered cloth
+    - environment, props, background detail
+    - beard, moustache, facial hair
+    - eyebrow scar
+
+parameters: {}
+
+inputs: []
+
+constraints:
+  depicts_named_person: false
+  depicts_sacred_material: false
+  depicts_violence: false
+  depicts_human_remains: false
+
+runs: []
+
+review:
+  sensitivity: pending
+  anachronism_check: not-required
+
+notes: >
+  ACCEPTANCE CHECKLIST, identical to A's plus the separation checks:
+  neutral expression; head and upper shoulders; near-frontal; eye level; even neutral
+  light; plain neutral background; hairline visible; LEFT-cheek birthmark clearly
+  resolved and on the correct side; no facial hair; NO eyebrow scar; no motion blur;
+  natural skin texture; no grading that changes skin tone; measured cheek value
+  approximately #87583D.
+
+  Then check the pair together, which is the step most likely to be skipped: framing,
+  lens, background and light must match A's anchor closely enough that the two frames
+  could sit side by side without either being obviously differently shot. And B must
+  be unmistakably a different person from A at a glance - age, face, hair, build.
+
+  The absent eyebrow scar is listed as a negative deliberately. If it appears on B at
+  anchor stage, the vendor is already bleeding features between two similar prompts,
+  and that is worth knowing before any production shot is generated.

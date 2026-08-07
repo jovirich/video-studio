@@ -1,3 +1,7 @@
+# yaml-language-server: $schema=../../../standards/schemas/prompt_card.schema.json
+# ^ Pins the schema. Without it, editors apply their own built-in association
+#   for *.prompt.yaml (chat-prompt files, which expect a `messages` key) and
+#   every card shows a phantom error. See docs/status.md finding G10.
 # =============================================================================
 # PROMPT CARD
 # =============================================================================
