@@ -259,3 +259,137 @@ def test_the_job_is_not_a_record() -> None:
     assert not (schemas / "generation_job.schema.json").exists()
     assert "job_id" in GenerationJob.__dataclass_fields__
     assert "id" not in GenerationJob.__dataclass_fields__
+
+
+# ------------------------------------------- the interactive round trip, closed
+
+
+def test_the_interactive_round_trip_closes(tmp_path: Path) -> None:
+    """prepare → (operator) → fulfil → manifest, with the hash matching the bytes.
+
+    The same acceptance criterion as the one-phase round trip, across a two-phase
+    boundary. The `local` adapter stands in for the operator: it is the only backend
+    that can produce a real file offline, which is exactly why it exists.
+
+    What this proves is not that an operator behaves — it is that an operator does not
+    have to. The pipeline hashes what it is given and records what it verified.
+    """
+    import os
+
+    import yaml as _yaml
+
+    from studio_ops.adapters.base import get_adapter
+    from studio_ops.config import Config
+    from studio_ops.paths import Layout
+    from studio_ops.pipeline import generate as gen
+    from studio_ops.pipeline import manifest, store
+
+    root = tmp_path / "repo"
+    (root / "core").mkdir(parents=True)
+    (root / "packs").mkdir()
+    os.environ["ASSET_STORE_LOCAL_PATH"] = str(tmp_path / "assets")
+    os.environ["ASSET_STORE_DRIVER"] = "local"
+    cfg = Config(root=root, layout=Layout(root=root))
+
+    schemas = Path(__file__).resolve().parents[2] / "standards" / "schemas"
+    manifest_path = root / "manifest.yaml"
+    manifest.save(
+        manifest_path,
+        manifest.create(line="ng-nigeria", episode="EXP001", updated="2026-08-07"),
+        schema_dir=schemas,
+    )
+
+    # Phase one — a job, written without any adapter running.
+    job_path = tmp_path / "jobs" / "SHT-NG-EXP001-0001.job.yaml"
+    GenerationJob(
+        job_id="SHT-NG-EXP001-0001",
+        prompt_card_id="PC-NG-EXP001-0001",
+        production="EXP001",
+        line="ng-nigeria",
+        shot_id="SHT-NG-EXP001-0001",
+        prompt="a plain test subject",
+        manifest_path=str(manifest_path),
+        provenance_class="interpretive",
+        output_path=str(tmp_path / "delivered.png"),
+    ).write(job_path)
+
+    # Out of band — the operator generates. Stood in for by the local backend.
+    delivered = tmp_path / "delivered.png"
+    local = get_adapter("local")(dry_run=False, budget_usd=1.0)
+    local.generate(
+        GenerationRequest(
+            prompt_card_id="PC-NG-EXP001-0001",
+            modality="image",
+            vendor="local",
+            model="local-deterministic",
+            rendered_prompt="a plain test subject",
+            seed=99,
+            output_path=str(delivered),
+        )
+    )
+    assert delivered.is_file()
+
+    # Phase two — ingest.
+    trip = gen.fulfil_job(
+        cfg,
+        job_path=job_path,
+        delivered=delivered,
+        vendor="stand-in-surface",
+        model="stand-in-model",
+        model_version="2026-08",
+        seed=99,
+        schema_dir=schemas,
+    )
+
+    # The guarantee: the record and the bytes agree.
+    stored = store.resolve(store.root(cfg), trip.entry["store_path"])
+    assert stored.is_file()
+    assert trip.hash_matches_disk(store.root(cfg))
+    assert trip.entry["sha256"] == store.sha256_file(stored)
+
+    # The manifest is valid afterwards, not merely written.
+    assert manifest.validate(manifest.load(manifest_path), schema_dir=schemas) == []
+
+    # Provenance names what MADE it, not how it arrived.
+    gen_block = trip.entry["generation"]
+    assert gen_block["tool"]["vendor"] == "stand-in-surface"
+    assert gen_block["prompt_card"] == "PC-NG-EXP001-0001"
+    assert trip.entry["used_in_shots"] == ["SHT-NG-EXP001-0001"]
+
+    # And the record carries its own limits, so a later reader is not misled.
+    assert "not independently verifiable" in trip.result.raw_response["verification"]
+
+    _ = _yaml
+
+
+def test_fulfilment_refuses_a_job_with_no_manifest(tmp_path: Path) -> None:
+    """An asset with nowhere to be recorded would exist with no provenance."""
+    from studio_ops.config import Config
+    from studio_ops.paths import Layout
+    from studio_ops.pipeline import generate as gen
+
+    root = tmp_path / "repo"
+    (root / "core").mkdir(parents=True)
+    (root / "packs").mkdir()
+    cfg = Config(root=root, layout=Layout(root=root))
+
+    delivered = tmp_path / "d.png"
+    delivered.write_bytes(b"x")
+    job_path = tmp_path / "j.job.yaml"
+    GenerationJob(
+        job_id="j",
+        prompt_card_id="PC-NG-EXP001-0001",
+        production="EXP001",
+        line="ng-nigeria",
+        manifest_path=str(tmp_path / "absent.yaml"),
+    ).write(job_path)
+
+    with pytest.raises(gen.RoundTripError, match="manifest_path"):
+        gen.fulfil_job(
+            cfg,
+            job_path=job_path,
+            delivered=delivered,
+            vendor="v",
+            model="m",
+            model_version="1",
+        )

@@ -153,7 +153,21 @@ Every `IMPLEMENTED` row below should be read as *"we believe this works"*, not
 | Generation adapters | **DESIGNED** | Deliberate stubs. `Adapter.generate` enforces dry-run and budget before any subclass runs, so no adapter can bypass the ceiling by forgetting to check. |
 | Asset store | **NOT BUILT** | No round trip has been proved. |
 
-### The round trip — the first TESTED capability
+### Both round trips — the only TESTED capabilities
+
+**One-phase** (`local`, and the shape any `api` backend will take):
+`continuity + shot → card → render → adapter → asset → manifest`.
+
+**Two-phase** (`interactive`): `prepare → job → (operator, out of band) → fulfil →
+manifest`. Verified against the real EXP-001 records, with the `local` backend
+standing in for the operator — it is the only backend that can produce a real file
+offline, which is why it exists.
+
+What the two-phase test proves is not that an operator behaves. It is that an
+operator does not have to: the pipeline hashes what it is handed, records what it
+verified, and marks what it merely received as unverifiable.
+
+### The one-phase round trip in detail
 
 `automation/tests/test_roundtrip.py`, 11 tests, all passing:
 

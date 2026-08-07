@@ -286,6 +286,102 @@ def _production_of(shot_id: str) -> str:
     return parts[2] if len(parts) > 3 else "unknown"
 
 
+def fulfil_job(
+    cfg: Config,
+    *,
+    job_path: Path,
+    delivered: Path,
+    vendor: str,
+    model: str,
+    model_version: str,
+    seed: int | str | None = None,
+    cost_usd: float = 0.0,
+    operator: str | None = None,
+    notes: str = "",
+    schema_dir: Path | None = None,
+) -> RoundTrip:
+    """Close the second half of an interactive round trip.
+
+    The job says where the asset was meant to go, what class it is, and which manifest
+    owns it — so a fulfilment does not have to be told again, and cannot be told
+    something different. Everything the ingest needs comes from the job, except what
+    only the operator knows: which surface actually made the file, and what it cost.
+
+    The hash is recomputed from the delivered bytes here, and again inside
+    `ingest_generation`, which refuses if the two disagree. That second check is not
+    redundant: it catches a file replaced between fulfilment and storage.
+    """
+    from ..adapters.interactive import InteractiveAdapter
+
+    data, error = read_yaml(job_path)
+    if error is not None:
+        raise RoundTripError(f"{job_path}: {error}")
+    job = data or {}
+
+    manifest_path = Path(str(job.get("manifest_path") or ""))
+    if not manifest_path.is_file():
+        raise RoundTripError(
+            f"{job_path}: manifest_path is missing or does not exist "
+            f"({manifest_path}). A fulfilment with nowhere to be recorded is not a "
+            "fulfilment — the asset would exist with no provenance."
+        )
+
+    shot_id = str(job.get("shot_id") or "")
+    provenance_class = str(job.get("provenance_class") or "interpretive")
+
+    request = GenerationRequest(
+        prompt_card_id=str(job.get("prompt_card_id") or ""),
+        modality=str(job.get("modality") or "image"),
+        # The request records the surface that ACTUALLY ran, not the mode it arrived
+        # by. "interactive" is a transport, and a manifest that said the vendor was
+        # "interactive" would have lost the only fact worth keeping.
+        vendor=vendor,
+        model=model,
+        rendered_prompt=str(job.get("prompt") or ""),
+        parameters=dict(job.get("parameters") or {}),
+        seed=seed,
+        output_path=str(delivered),
+    )
+
+    adapter = InteractiveAdapter(dry_run=False, budget_usd=max(cost_usd, 0.0) or 1.0)
+    result = adapter.fulfil(
+        request,
+        delivered,
+        vendor=vendor,
+        model=model,
+        model_version=model_version,
+        seed=seed,
+        cost_usd=cost_usd,
+        operator=operator,
+        notes=notes,
+    )
+
+    entry = manifest_mod.ingest_generation(
+        cfg,
+        manifest_path,
+        result,
+        provenance_class=provenance_class,
+        used_in_shots=[shot_id] if shot_id else [],
+        schema_dir=schema_dir,
+    )
+
+    return RoundTrip(
+        shot_id=shot_id,
+        prompt_card_id=request.prompt_card_id,
+        rendered=RenderedPrompt(
+            card_id=request.prompt_card_id,
+            modality=request.modality,
+            vendor=vendor,
+            model=model,
+            prompt=request.rendered_prompt,
+            parameters=request.parameters,
+            negative=tuple(job.get("negative") or ()),
+        ),
+        result=result,
+        entry=entry,
+    )
+
+
 def generate_shot(
     cfg: Config,
     *,

@@ -339,14 +339,44 @@ def ingest_cmd(
     operator can hand back the wrong file; they cannot hand back a file whose hash
     disagrees with its contents, because nobody asks them for it.
     """
-    _not_built(
-        "ingest",
-        "Read the job, call InteractiveAdapter.fulfil on the delivered file, and "
-        "hand the result to manifest.ingest_generation — which already exists and "
-        "already enforces the ordering.",
-        "Nothing structural — it is the thin join between two built pieces. Until it "
-        "lands, fulfil and ingest_generation can be called directly from Python; see "
-        "docs/status.md.",
+    from pathlib import Path
+
+    from .pipeline import generate as gen
+    from .pipeline import manifest as manifest_mod
+
+    if not vendor or not model:
+        console.print(
+            "[red]--vendor and --model are required.[/] They name what ACTUALLY "
+            "produced the file. 'interactive' is how it arrived, not what made it, and "
+            "a manifest entry that cannot say what made an asset is not a provenance "
+            "record."
+        )
+        raise typer.Exit(1)
+
+    cfg = Config.load()
+    try:
+        trip = gen.fulfil_job(
+            cfg,
+            job_path=Path(job),
+            delivered=Path(file),
+            vendor=vendor,
+            model=model,
+            model_version=model_version or model,
+            seed=seed or None,
+            cost_usd=cost,
+        )
+    except (gen.RoundTripError, manifest_mod.ManifestError, OSError) as exc:
+        console.print(f"[red]{exc}[/]")
+        raise typer.Exit(1) from exc
+
+    console.print(f"[green]ingested[/] {trip.asset_id}")
+    console.print(f"  sha256      {trip.sha256}")
+    console.print(f"  store path  {trip.entry['store_path']}")
+    console.print(f"  shot        {trip.shot_id or '—'}")
+    console.print(
+        "\n[dim]Hash computed from the delivered bytes, not taken on report. "
+        "Vendor, model, and seed are as you stated them and are recorded as "
+        "unverifiable.[/]"
     )
 
 
