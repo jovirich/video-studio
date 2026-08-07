@@ -1,97 +1,137 @@
 ---
-title: EXP-001 shot plan
+title: EXP-001 shot plan — continuity stress test
 status: draft
 maturity: NOT STARTED
-version: 0.1.0
+version: 0.2.0
 updated: "2026-08-07"
 owners: [visual-director]
 ---
 
 # EXP-001 — shot plan
 
-Twenty shots is not an arbitrary number. It is roughly the point at which continuity
-mechanisms stop being anecdotally fine and start visibly failing — and it is small
-enough to abandon and redo.
+**Purpose: continuity stress test only.** Not a sequence, not a scene, not a story.
+Twenty shots designed to make identity drift *if it is going to*, and to make the
+drift measurable when it does.
 
-No shot records exist. `03_storyboard/shots/` is empty.
+No shot records exist yet. `shots/` is empty.
+
+## The one metric
+
+**Primary: visual identity drift across 20 shots.**
+**Secondary: location and style drift.**
+
+Nothing else is being measured. Not composition, not beauty, not whether it looks
+like a documentary. A shot that is ugly and on-model passes. A shot that is beautiful
+and off-model fails.
 
 ## Design the plan to break things
 
-A shot list that avoids hard cases proves nothing. This one is deliberately
-constructed to stress each mechanism, and the distribution matters more than the
-content.
+A shot list that avoids hard cases proves nothing. Identity usually survives a
+straight-on medium shot and fails under a lighting change — so the plan is weighted
+toward the conditions that actually break continuity, not the ones that flatter it.
 
-| Group | Count | What it stresses |
+| # | Shot | Distance | Angle | Light | Stress being applied |
+|---|---|---|---|---|---|
+| 01 | A, reference frame | MS | front | key from window, ¾ front | **The baseline.** Every later shot is scored against this and against the record. |
+| 02 | A | CU | front | as 01 | Distance change alone. The easiest case; if this drifts, stop. |
+| 03 | A | MS | ¾ left | as 01 | First angle departure |
+| 04 | A | MS | profile left | as 01 | **Profile.** Reference-based methods degrade sharply here. |
+| 05 | A | MS | ¾ right | as 01 | Does it hold symmetrically, or only on the trained side? |
+| 06 | A | MCU | front | **backlit** | **Lighting change with angle held.** Isolates light as the variable. |
+| 07 | A | MS | ¾ left | backlit | Angle *and* light together — the compound case |
+| 08 | A | WS | front | overhead, hard | Small in frame; does identity survive low pixel coverage? |
+| 09 | A | MCU | front | low key, single source | Deep shadow across half the face |
+| 10 | A | MS | ¾ | key from window | **Walking.** Motion blur and pose change. |
+| 11 | A | CU | front | as 01 | **Partial occlusion** — hand or object across the face |
+| 12 | A | MCU | ¾ | as 01 | **Expression change** from neutral |
+| 13 | A | MS | rear→turn | as 01 | Back of head turning to ¾. The hardest single-subject case. |
+| 14 | A | MS | front | **exterior daylight** | **Indoor→outdoor transition.** Different light entirely. |
+| 15 | A | MCU | ¾ | exterior daylight | Sustained in the new environment |
+| 16 | B | MS | front | as 01 | **Second character baseline.** |
+| 17 | B | MCU | ¾ | backlit | B under the same stress as A |
+| 18 | **A + B** | MS two-shot | front | as 01 | **Two references in one frame.** Where most mechanisms break. |
+| 19 | **A + B** | MS | ¾, unequal distance | as 01 | Do they converge toward one face? |
+| 20 | **A in a crowd** | WS | front | as 01 | **Crowded frame.** Does A remain findable and on-model? |
+
+A appears in 17 of 20. That is deliberate: drift is a function of repetition, and a
+character seen three times tells you nothing.
+
+**Wardrobe visibility** varies across the set — full-length in 08, 10, 14, 18, 20;
+above-waist elsewhere. A wardrobe set that only ever appears from the chest up has
+not been tested.
+
+## Scoring — per shot, against the record, not by feel
+
+Judging a sequence by feel is how a production convinces itself continuity held.
+Every shot is scored independently against the continuity record and against shot 01.
+
+`08_review/drift_score.csv`, one row per shot:
+
+| Column | Values | Note |
 |---|---|---|
-| **Location, varied angle** | 6 | Spatial continuity — the same place from wide, reverse, high, low, close, and through an opening. Sightlines must agree. |
-| **Character A, varied angle** | 4 | Identity across front, three-quarter, profile, back-of-head-turning |
-| **Character A, varied light** | 2 | The harder half. Identity usually survives angle and fails under a lighting change. |
-| **Character B** | 3 | Whether the mechanism holds two people *separately* or converges them |
-| **Both characters in frame** | 2 | The real test. Two references in one image is where most mechanisms break. |
-| **Detail / material** | 2 | Period markers at close range, where anachronism is most visible |
-| **Motion** | 1 | One shot taken to video, to test the still-to-motion chain and the conform step |
+| `shot` | SHT-…-0001 … 0020 | |
+| `same_person` | pass / marginal / fail | Would a viewer accept this as the same individual? |
+| `age_consistent` | pass / marginal / fail | Against `age_range` on the record |
+| `facial_structure` | pass / marginal / fail | Against `appearance.facial_structure` |
+| `hair` | pass / marginal / fail | Against `appearance.hair` |
+| `skin_tone` | pass / marginal / fail | Against `appearance.skin_tone_reference` — measured, not eyeballed |
+| `core_wardrobe` | pass / marginal / fail / n-a | `n-a` only where the garment is genuinely out of frame |
+| `distinctive_features` | pass / marginal / fail / n-a | Each feature the record says is `always_visible` |
+| `forbidden_present` | none / list | **Any forbidden object or variation appearing is an automatic fail for that shot** |
+| `location_consistent` | pass / marginal / fail / n-a | Geometry, materials, light direction |
+| `attempts` | integer | Renders before an acceptable one |
+| `notes` | free text | Where it broke, under what condition |
 
-Twenty. At least four should be **deliberately awkward**: an angle the reference set
-does not cover, a light the anchor was not built for, a two-shot at unequal distance.
-The finding is in where it fails, not in where it holds.
+**`marginal` is a fail for headline purposes.** It is recorded separately only so the
+failure mode can be described precisely.
 
-## Rules for this plan
+## Acceptance criteria
 
-- **Locked frames on at least a third.** Unmotivated drift on every shot is the
-  signature tell of generated video, and a plan that moves the camera constantly hides
-  continuity failures behind motion.
-- **One time of day.** Weather and ground state fixed in the location's continuity
-  record. Any variation is a breakage, not a creative choice.
-- **Lens set from the line's visual identity** — which does not exist yet, and is
-  therefore a blocker. Improvising a lens set here would make the coherence finding
-  meaningless.
-- **Every shot carries a claim reference** where it asserts anything — including the
-  detail shots, which assert material facts.
-- **Compose around what is unattested.** If the roof form is unknown, frame below it.
-  Where the plan does this, record it in the location's `unattested_elements`, because
-  that decision is the useful output.
+Deliberately brutal, and stated before the run so they cannot be softened after it:
 
-## Records to create
+| Criterion | Threshold |
+|---|---|
+| `same_person` | **20/20 pass.** Any fail means the mechanism does not hold. |
+| `age_consistent`, `facial_structure`, `hair` | ≥18/20 pass, no fails in shots 01–09 |
+| `skin_tone` | **20/20 pass.** A drifting skin tone is not a continuity nuisance; it is a representational failure. |
+| `core_wardrobe` | ≥15/17 of the shots where it is in frame |
+| `forbidden_present` | **0 occurrences across all 20.** One is a fail for the whole run. |
+| `location_consistent` | ≥16/18 of the shots where the location is visible |
+| Two-character shots (18, 19) | Both characters pass `same_person`, and **do not converge** |
 
-| Record | Count | Where |
-|---|---|---|
-| `SHT-NG-EXP001-0001` … `-0020` | 20 | [`shots/`](shots/) |
-| `SEQ-NG-EXP001-001` (…`-002`) | 1–2 | in the shot records |
-| `PC-NG-EXP001-0001` … | ~20 | [`../04_prompts/`](../04_prompts/) |
-| `CNC-NG-….md` | 1–2 | [`../../../continuity/characters/`](../../../continuity/characters/) |
-| `CNL-NG-….md` | 1 | [`../../../continuity/locations/`](../../../continuity/locations/) |
-| `STA-NG-….md` | several | anchors, in `library/style_refs/` |
-
-**Continuity records are written before the first generation, not after.** Building
-them retroactively from whatever came out is how a production ends up with a
-canonical version that is simply the first acceptable render — which is the failure
-the narrative pack's `continuity_lock` gate exists to prevent.
+Falling short is a *result*, not a failure of the experiment. The finding is which
+condition broke it — backlight, profile, occlusion, or the second face — because that
+tells the production what it may and may not shoot.
 
 ## Order of work
 
-1. Location continuity record, with `forbidden_objects` populated from the research
-2. Character continuity records
-3. Anchors generated and checksummed, one at a time, each assessed before the next
-4. **Drift test** — a handful of throwaway renders across angle and light, recorded on
-   the continuity record. If it fails here, change the mechanism now. This step costs
-   an hour and saves the production.
-5. Shot records
-6. Prompt cards
-7. Generate, assess against the evaluation rubric **in order**, record every run
-   including rejections
-8. Conform, edit, findings
+1. Continuity records for A, B, and the location, with `forbidden_*` populated
+2. Anchors generated and checksummed
+3. **Drift test on shots 01, 04, 06, 18** — the four hardest cases, first
+4. If step 3 fails, change the mechanism and repeat. Do not generate the other sixteen.
+5. Shot records and prompt cards for all twenty
+6. Generate, scoring each shot as it lands
+7. Findings
 
-Step 4 is the one that will be skipped under time pressure. It is also the one that
-determines whether the other nineteen shots are worth generating.
+**Step 3 is the whole discipline.** Four shots will tell you what twenty would, and
+generating nineteen shots before discovering the mechanism does not hold is exactly
+the waste this experiment exists to prevent.
 
-## Measurements to capture per shot
+## Explicitly out of scope
 
-Not optional — these are the experiment's data, and reconstructing them afterwards is
-not possible.
+Named so they are decisions rather than omissions, per the standing instruction:
 
-- Attempts before an acceptable render, and why each was rejected
-- Wall-clock time from card to accepted asset
-- Generation cost
-- Whether the continuity anchor held, judged against the anchor and not from memory
-- Whether the shot needed a card field that does not exist
-- Whether any card field went unused
+- Narration, music, sound of any kind
+- Story, sequence logic, or edit
+- Any second adapter
+- Any new schema, record type, or architecture
+
+## Subject
+
+`TBD` — see [`../README.md`](../README.md) § Subject and the open question in
+[`../00_brief/brief.md`](../00_brief/brief.md).
+
+The plan above is **subject-independent by construction**. Every stress axis —
+distance, angle, light, occlusion, expression, motion, environment transition, second
+character, crowd — applies unchanged to any subject. Whatever is chosen, this table
+does not move.

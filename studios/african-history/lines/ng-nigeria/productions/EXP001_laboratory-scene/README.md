@@ -90,12 +90,45 @@ Question 7 matters as much as the rest. This repository is over-built by design 
 the experiment is the instrument for cutting it back. **Any field nobody used is a
 candidate for deletion**, and that finding is as valuable as a bug.
 
-## Subject
+## Subject — decided
 
-An **invented** interior or exterior with one or two **invented** figures. Not a
-depiction of any real time, place, or people.
+**One invented workshop household. Two invented figures. One morning.**
 
-Constraints on the choice:
+A timber-and-clay workroom with a high window and an adjoining yard. Character **A**
+works a length of twisted cord at a bench; character **B** enters partway through.
+Undyed cloth, unplaned timber, fired clay, one iron tool. Nothing more specific than
+that, and nothing that reads as a particular culture.
+
+It is deliberately mundane. The subject is not the point — the *stress* is. What it
+provides is what the [shot plan](03_storyboard/shot_plan.md) needs: hands doing
+something at close range, a directional light source, a material with texture, an
+interior with a geometry, an adjoining exterior for the transition shot, and a second
+figure for the two-shot.
+
+### Why not "A Morning in Benin City, c. 1600"
+
+That subject was proposed and is the better test — of a *different* hypothesis. It is
+now **EXP-002**.
+
+Encoding period-specific architecture and dress means asserting what they were, which
+requires an evidence basis this production has none of. Two paths were rejected:
+
+- **Doing it anyway under the laboratory exemption** — that is precisely the loophole
+  the exemption was written to exclude. The exemption is conditional on making no
+  historical claims; putting historically specific architecture into a prompt *is* a
+  claim, whether or not narration says it aloud.
+- **Making it "generic pre-modern West African"** — the pack's own canon names this
+  as a failure mode: *"'African' is not a culture. Nor is 'Nigerian.'"*
+  ([07 §6](../../../../../../packs/documentary-history/07_cultural_sensitivity.md)).
+  Models default hard to pan-African pastiche, and using this studio's tooling to
+  manufacture it — even into files nobody publishes — would be a poor precedent and
+  a worse artefact.
+
+Drift is scored against the continuity record, not against history. An invented face
+drifts exactly as readily as a documented one, so the metric is unaffected, and the
+shot plan transfers to EXP-002 unchanged.
+
+Constraints the subject satisfies:
 
 - **Explicitly fictional.** No period, no culture, no place is claimed. The location
   and character records carry no `entity` link, because there is no historical entity

@@ -40,7 +40,8 @@ A bare ✅ is prohibited — it reads as *working* when it usually means *specif
 | **TESTED** | Exercised against a real workload, with a recorded, reviewable result. | A test run, a report, a dated artefact |
 | **NOT BUILT** | Specified, no code. An honest and useful state. | — |
 
-**Nothing in this repository is currently TESTED.** That single verdict is stated
+**One capability is TESTED: the round trip.** Everything else is DESIGNED or
+IMPLEMENTED. That verdict is stated
 here because it governs the sequence of every phase below. Per-capability detail is
 [the ledger's](docs/status.md) job, not this file's.
 
@@ -132,20 +133,26 @@ change — that is the point, and a change driven by a finding is not a freeze b
 Do this *before* episode one, not during it. Every item here is something that is
 cheap now and expensive under deadline.
 
-| Item | Status |
-|---|---|
-| Implement the validators that are currently stubs (`validate/*.py`) | ⬜ |
-| Implement `scaffold/new_episode.py` end to end | ⬜ |
-| Stand up the asset store and prove round-trip ingest → manifest → conform | ⬜ |
-| Wire **one** image adapter and **one** video adapter behind the cost ceiling | ⬜ |
-| Build the style-anchor set and prove continuity across 20 test shots | ⬜ |
-| Prove the M&E stem workflow on a 60-second test piece | ⬜ |
-| Prove the vertical-crop workflow — a 16:9 shot cropping cleanly to 9:16 | ⬜ |
-| Run a full dry-run episode: 3 minutes, all gates, no real subject | ⬜ |
+Maturity of each item is [the ledger's](docs/status.md) to state; this table tracks
+only whether the step is done.
 
-**Exit criterion:** the dry-run piece passes all nine gates and delivers a complete
-package per `standards/delivery_specs.md`. Find the pipeline's failures on a piece
-nobody will see.
+| Item | Done |
+|---|---|
+| ID allocator (`new-record`) — records collide silently without it | ▣ |
+| Prompt renderer — card to vendor string | ▣ |
+| Asset store and provenance manifest | ▣ |
+| **One** image adapter behind the cost ceiling | ▣ `local` |
+| **The round trip**: continuity + shot → card → render → adapter → asset → manifest | ▣ |
+| Build the style-anchor set and prove continuity across 20 shots | ⬜ → Phase 3.5 |
+| Remaining validators: `--sources`, `--canon`, `--prompts`, `--packs` | ⬜ |
+| `pipeline conform` — the refusal that makes traceability real | ⬜ |
+| A second adapter | ⬜ **held** — not until the first closes a round trip in a real production |
+| Prove the M&E stem workflow | ⬜ |
+| Prove the vertical-crop workflow — 16:9 cropping cleanly to 9:16 | ⬜ |
+
+**Exit criterion:** the round trip closes end to end, asserted by a test rather than
+demonstrated once. **Met.** The rest of this phase follows EXP-001's findings, which
+will say which of the remaining items actually matter.
 
 ---
 
@@ -153,22 +160,28 @@ nobody will see.
 
 [`studios/african-history/lines/ng-nigeria/productions/EXP001_laboratory-scene/`](studios/african-history/lines/ng-nigeria/productions/EXP001_laboratory-scene/)
 
-Not an episode. Never published. ~20 shots, one location, one or two characters,
-8–12 researched claims, run **at production pace**. The deliverable is the findings
-report.
+Not an episode. Never published. **A continuity stress test and nothing else.**
+
+20 shots, one invented workshop household, two invented figures, one morning. No
+narration, no music, no story, no historical claims. Run **at production pace**. The
+deliverable is the findings report.
+
+**Primary metric: visual identity drift across 20 shots. Secondary: location drift.**
+Every shot scored against the continuity record, not judged by feel.
 
 | Item | Status |
 |---|---|
-| Subject chosen, satisfying the constraints in the production README | ⬜ |
-| 8–12 claims researched against real sources, by a human | ⬜ |
+| Subject decided — invented workshop household | ▣ |
+| 20-shot plan with stress axes and acceptance thresholds | ▣ |
 | One location continuity record, with `forbidden_objects` populated | ⬜ |
 | One or two character continuity records | ⬜ |
 | Anchors generated and checksummed | ⬜ |
-| **Drift test run and recorded** — before the other nineteen shots | ⬜ |
+| **Drift test on the four hardest shots (01, 04, 06, 18) first** — before the other sixteen | ⬜ |
 | ~20 shot records and prompt cards | ⬜ |
 | Generation, with every run recorded including rejections | ⬜ |
 | Conform, edit, M&E stem | ⬜ |
-| All nine gates attempted, shortfalls recorded as breakages | ⬜ |
+| Drift scored per shot into `08_review/drift_score.csv` | ⬜ |
+| Gates attempted, shortfalls recorded as breakages | ⬜ |
 | Findings report complete, seven questions answered | ⬜ |
 
 **Exit criterion:** the findings report answers all seven questions with evidence,
@@ -179,6 +192,37 @@ informative.
 Prerequisites, all currently unmet: the line is `candidate`, there is no Research
 Lead, no advisory contact, no archive survey, no visual identity, `new-record` is NOT
 BUILT, and no adapter exists.
+
+---
+
+## Phase 3.6 — EXP-002, the research experiment
+
+`studios/african-history/lines/ng-nigeria/productions/` — registered, not scaffolded.
+
+**Subject: *A Morning in Benin City, c. 1600*.** One neighbourhood, one household,
+one morning. Not a ruler, not a battle.
+
+This is the experiment EXP-001 cannot be. EXP-001 makes no historical claims, so **H1
+goes untested** — and H1, *can facts be researched into claim records before the
+script, at production pace*, is the load-bearing assumption of the whole architecture.
+
+| Item | Status |
+|---|---|
+| Research Lead named | ⬜ blocks everything below |
+| Advisory contact agreed | ⬜ |
+| Archive landscape surveyed | ⬜ |
+| Line status `open` | ⬜ — the laboratory exemption does not extend here |
+| 8–12 claims researched against real sources, by a human | ⬜ |
+| Period architecture and dress encoded **with an evidence basis** | ⬜ |
+| Same 20-shot plan, re-run against a researched subject | ⬜ |
+
+**Exit criterion:** the findings answer H1 with evidence from the git history — do
+claim records predate the script drafts that reference them, or were they created
+afterwards to satisfy the validator? Check the log; do not ask anyone.
+
+**Do not start this before EXP-001 reports.** If continuity does not hold across
+twenty shots, EXP-002 would be testing the research pipeline on a picture pipeline
+that does not work.
 
 ---
 

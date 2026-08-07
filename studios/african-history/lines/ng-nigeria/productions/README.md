@@ -133,3 +133,36 @@ register, a defined visual identity, eleven studio decisions, and a ratified bib
 
 That list is long on purpose. Every item on it is cheap now and expensive after the
 first frame is generated.
+
+## Productions
+
+| Code | Kind | Subject | Tests | Status |
+|---|---|---|---|---|
+| [EXP001](EXP001_laboratory-scene/) | laboratory | Invented workshop household | **Continuity drift across 20 shots** | scaffolded, not started |
+| EXP002 | laboratory | *A Morning in Benin City, c. 1600* | **H1 — whether the claim chain survives a production schedule** | **not scaffolded** — blocked |
+
+### EXP-002 — why it is registered here and not built
+
+EXP-001 makes no historical claims, so it cannot test H1: *can facts be researched
+into claim records, before the script, at production pace?* That is the load-bearing
+assumption of the entire architecture, and a green EXP-001 says nothing about it.
+
+EXP-002 is the experiment that does. Same shot plan, same continuity mechanism —
+but with 8–12 real claims researched against real sources, and period-specific
+architecture and dress carrying an evidence basis.
+
+It is blocked on the things a claims-bearing production is properly blocked on, and
+those blocks are not a nuisance — they are the point:
+
+| Blocked on | Why it genuinely blocks |
+|---|---|
+| A named Research Lead | Someone must own the claims |
+| An agreed advisory contact | The subject is a real place and a real people |
+| An archive landscape survey | The claims have nowhere to come from |
+| Line status `open` | The laboratory exemption does not extend to a production that makes claims |
+
+**The laboratory exemption does not cover EXP-002 and must not be stretched to.**
+The moment a production encodes historically specific detail, every ordinary
+condition applies — which is exactly what the exemption's `Watch for` clause in
+[the amendment log](../../../bible/amendment_log.md) says to look out for.
+
