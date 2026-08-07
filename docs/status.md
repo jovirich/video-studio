@@ -227,7 +227,13 @@ the first generated shot. Each is a candidate for the post-EXP-001 pass.
 | G4 | **`inheritance.style_block` is a string with no schema behind it.** "Path or ID of the inherited style block", but no `style_block.schema.json` exists, so `resolve` cannot follow the reference — it takes the resolved mapping as an argument. | `prompt_card.schema.json` | Whoever wires the CLI decides how a `style_block` string becomes a mapping. EXP-001 supplies one directly. |
 | G5 | ~~`asset_manifest.episode` rejected `EXP` codes~~ | `asset_manifest.schema.json` | **Fixed.** Every ID in the file already admitted `EXP\d{3}`; the production code did not, so a manifest whose every entry was valid would still be refused. |
 
-G1 is the one worth doing first after EXP-001.
+| G6 | **`TBD` is illegal in typed and pattern-constrained fields, and nothing says so.** `metadata_spec.md` presents `TBD` as the repo-wide convention for an unresolved value, but `facial_reference` wants an `STA-*` id, `drift_test.shots_tested` an integer, `held` a boolean. Writing `TBD` there fails validation. | `metadata_spec.md`, all record schemas | **Correct resolution needs no schema change:** for an optional typed field, "not yet decided" is *absence*. The convention doc should say that. Found by writing the first real records. |
+| G7 | **A location has one lighting state and no way to record variants.** The EXP-001 shot plan deliberately varies light — backlit, overhead, low key, exterior — to stress identity. `lighting_language` holds a single setup, so the variants live in the record body as prose a validator cannot check. | `continuity_location.schema.json` | Prose works for one production. If varying light per shot turns out to be routine, this needs a field. |
+| G8 | **No field for facial hair; `jewellery_and_adornment` is narrower than "accessories".** Facial hair goes under `appearance.hair` by convention only. A working cord at the wrist is neither jewellery nor adornment. | `continuity_character.schema.json` | Both are naming problems, not gaps. Cheap to fix, no urgency. |
+| G9 | **`historical_uncertainty` assumes a historical subject.** For an invented character it is not empty-because-unknown, it is inapplicable — there is no fact of the matter. An empty array cannot distinguish "nothing uncertain" from "nothing to be uncertain about". | `continuity_character.schema.json` | Only bites for laboratory productions. Recorded in the records' prose meanwhile. |
+
+G1 is the one worth doing first after EXP-001. **G6 is the one that will bite everyone
+else**, because it makes a documented convention fail validation with no explanation.
 
 ## Studio status — African History Studio
 
