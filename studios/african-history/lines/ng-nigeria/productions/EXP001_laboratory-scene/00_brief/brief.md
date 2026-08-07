@@ -62,16 +62,25 @@ Each is falsifiable and each maps to a question in the findings report.
 
 | # | Hypothesis | Falsified if |
 |---|---|---|
-| H1 | Facts can be researched into claim records *before* the script, at production pace | Claim records post-date the script drafts in git |
 | H2 | A continuity record holds a character across ~20 shots | Drift is visible in a cut |
 | H3 | The prompt card's overhead is repaid by consistency and reviewability | `raw_override` dominates |
-| H4 | Nine gates can be staffed by the people actually available | Someone signs work they produced |
+| H4 | The gate set can be staffed by the people actually available | Someone signs work they produced |
 | H5 | Nothing reaches the edit without provenance | Any asset lacks a manifest entry |
 | H6 | Cost per finished second is predictable within 2× | The estimate misses by more |
+| H7 | A card renders to more than one vendor from one record | Only the vendor it was written for works |
 
-H1 is the load-bearing one. If the claim chain does not survive a two-minute piece
-made at pace, it will not survive a forty-minute one, and [ADR 0002](../../../../../../../docs/decisions/0002-claims-as-records.md)
-needs revisiting before episode one rather than after.
+**H1 is deliberately absent, and its absence is the most important thing on this page.**
+
+H1 was: *facts can be researched into claim records before the script, at production
+pace.* EXP-001 makes no historical claims, so it cannot test that — and H1 is the
+load-bearing assumption of the entire architecture.
+[ADR 0002](../../../../../../../docs/decisions/0002-claims-as-records.md) remains
+**untested** after EXP-001 passes.
+
+A green EXP-001 proves the *mechanics* work. It says nothing about whether the
+evidence discipline survives a schedule. That needs its own experiment, with real
+research, before episode one — and it is now the largest untested assumption in the
+repository.
 
 ## Explicitly out of scope
 

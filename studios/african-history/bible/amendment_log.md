@@ -145,4 +145,67 @@ contact agreed, no archive landscape surveyed. The
 [production_line schema](../../../standards/schemas/production_line.schema.json)
 refuses `line_status: open` while any is false.
 
+## 2026-08-07 — Laboratory productions may run before a line opens
+
+**Documents:** this log; scope is laboratory productions only
+**Signatures:** `TBD — Showrunner.` Directed but not yet countersigned. The relaxation
+is in force for EXP-001 pending signature; it does not extend further until signed.
+**Supersedes:** n/a — new exemption
+
+**Change**
+
+A production with `kind: laboratory` that makes **no historical claims** may exercise
+production mechanics before its line reaches `line_status: open`.
+
+Concretely, for such a production these cease to be blockers: line status, a named
+Research Lead, an agreed advisory contact, an archive landscape survey, and a line
+visual identity.
+
+These remain in force, unchanged:
+
+- **The sensitivity gate is not relaxed.** Generated imagery of people is still
+  imagery of people. It is the one gate whose failure harms someone outside the
+  studio.
+- **The production is never published**, in any form, including as a clip.
+- **No historical claim, name, date, or real place may appear.** The moment one does,
+  the exemption lapses and every ordinary condition applies.
+- Provenance, rights, and technical QC are unchanged. The platform's guarantees do not
+  bend for an experiment.
+
+**Rationale**
+
+The line-opening conditions exist to protect *people and evidence*: they make sure a
+line does not depict a community without someone competent to advise, or assert
+history without someone competent to source it. A production that depicts nothing real
+and asserts nothing engages neither risk, so the conditions protect nothing while
+blocking everything.
+
+The alternative was to open the Nigeria line prematurely in order to run a test — which
+would have hollowed out the opening conditions far more seriously than exempting a
+piece that makes no claims.
+
+**Cost, stated plainly**
+
+EXP-001 no longer tests the research pipeline. It was previously designed around 8–12
+researched claims; with none, hypothesis **H1** — whether the claim chain survives a
+production schedule — goes untested, and it is the load-bearing assumption of the whole
+architecture.
+
+**A green EXP-001 is not evidence that
+[ADR 0002](../../../docs/decisions/0002-claims-as-records.md) works.** A separate
+experiment with real research must run before episode one. That is now the largest
+unproven assumption in the repository and it should be recorded as such wherever the
+roadmap is read.
+
+**Migration**
+
+None. No production predates this.
+
+**Watch for**
+
+A second laboratory production quietly acquiring historical content while keeping the
+exemption. The exemption is conditional on making no claims, and the condition is the
+whole of it — if a laboratory piece starts naming a period or a people, it is no longer
+a laboratory piece under this entry.
+
 <!-- New entries are appended below this line, newest last. -->

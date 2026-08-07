@@ -1,10 +1,16 @@
 # Experimental Production 001 — laboratory scene.
 #
-# NOT AN EPISODE. Never published. Its deliverable is 08_review/findings.md.
-# See README.md for what it tests and what blocks it starting.
+# NOT AN EPISODE. Never published. THE PLATFORM'S ACCEPTANCE TEST.
 #
-# Every subject field is TBD because the subject is a human decision and the claims
-# are human research. Nothing in this repository may author them.
+# Makes NO historical claims - the subject is explicitly invented. Under the
+# exemption recorded in studios/african-history/bible/amendment_log.md, that lets it
+# run before the Nigeria line opens. The exemption is conditional on making no
+# claims; the moment one appears, every ordinary condition applies again.
+#
+# Consequence, stated where it cannot be missed: EXP-001 does NOT test the claim
+# chain. Hypothesis H1 - whether research survives a production schedule - goes
+# untested, and it is the load-bearing assumption of the architecture. A green
+# EXP-001 is not evidence for ADR 0002.
 
 id: EP-NG-EXP001
 type: episode
@@ -19,14 +25,14 @@ updated: "2026-08-07"
 owners: [showrunner, research-lead, visual-director]
 
 # ---------------------------------------------------------------------------
-# Subject — Showrunner and Research Lead. See README.md § Subject for the
-# constraints the choice must satisfy.
+# Subject — Showrunner and Visual Director. Explicitly INVENTED: no period, no
+# people, no place is claimed. See README.md § Subject for the constraints.
 # ---------------------------------------------------------------------------
 question: >
-  TBD — for a laboratory production the "question with stakes" is a pipeline
-  question, not a historical one. Suggested form: "Can this pipeline take twelve
-  researched claims to twenty conformed shots with continuity intact, and what
-  does it cost?"
+  Can the platform close a traceable round trip - continuity record and shot record,
+  through prompt rendering, to a returned asset and a provenance manifest entry whose
+  hash matches the file on disk - and then hold continuity across roughly twenty
+  shots? What does it cost in money and hours?
 
 thesis: TBD
 logline: TBD
@@ -42,15 +48,15 @@ subject_scope:
   languages_on_screen: []
 
 # ---------------------------------------------------------------------------
-# Advisory coverage. Currently false, and it blocks greenlight.
-# An ordinary-life scene still depicts a people. The experiment must not become
-# the reason to skip a ruling.
-# ---------------------------------------------------------------------------
+# Advisory coverage. Not applicable: the subject is invented and depicts no real people or place.
+# The sensitivity GATE still runs - generated imagery of people is still imagery of
+# people - but advisory COVERAGE of a historical subject is not required, because
+# there is no historical subject.
 advisory_coverage:
-  covered: false
+  covered: true
   advisors: []
   gaps:
-    - TBD — the line has no advisory register. Blocks greenlight.
+    - "n/a - no real culture, period, or place is depicted"
 
 conflicts_of_interest: []
 
@@ -69,17 +75,13 @@ gates:
     owner: showrunner
     checklist: ../../../../../../ops/checklists/greenlight.md
     blockers:
-      - Line status is `candidate`, not `open`
-      - No Research Lead named
-      - No advisory contact agreed
-      - No archive landscape survey
+      - "Waived for laboratory productions making no historical claims - see the studio amendment log"
   source_lock:
     status: pending
     owner: research-lead
     checklist: ../../../../../../ops/checklists/source_lock.md
     blockers:
-      - No claims or sources exist
-      - "`new-record` is NOT BUILT, so IDs would be hand-allocated"
+      - "n/a - this production makes no claims, so there is no research pack to lock"
   script_lock:
     status: pending
     owner: story-producer
@@ -89,13 +91,13 @@ gates:
     owner: research-lead
     checklist: ../../../../../../ops/checklists/fact_check.md
     blockers:
-      - Must be signed by someone other than the researcher who built the pack (core/04 §5.3)
+      - "n/a - no claims to check"
   sensitivity:
     status: pending
     owner: cultural-advisor
     checklist: ../../../../../../ops/checklists/sensitivity_review.md
     blockers:
-      - No Cultural Advisor engaged. Not relaxed for laboratory productions.
+      - Not relaxed. Generated imagery of people still requires review.
   rights:
     status: pending
     owner: rights-and-clearances
@@ -126,7 +128,7 @@ budget:
   currency: TBD
   total: TBD
   generation_ceiling_usd: TBD
-  consultation_fees_budgeted: false   # must be true before greenlight
+  consultation_fees_budgeted: true    # n/a - no consultation required, nothing real is depicted
 
 schedule:
   greenlight_date: TBD

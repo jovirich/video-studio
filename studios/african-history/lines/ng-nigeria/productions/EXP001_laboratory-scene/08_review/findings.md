@@ -51,14 +51,21 @@ Mirror each entry into `production.yaml` under `findings.breakages`.
 
 Answer each explicitly at the end, with evidence, whether or not anything broke.
 
-### 1. Did the claim chain survive contact with real research?
+### 1. Did the round trip close?
 
 `TBD`
 
-The failure signal is in the git history, not in anyone's memory: **do claim records
-appear before or after the script drafts that reference them?** If after, the
-discipline inverted and the validator is being farmed rather than served. Check the
-log; do not ask.
+The acceptance criterion for the platform: **continuity record + shot record → prompt
+card → render → adapter → asset file → manifest entry**, with the manifest entry
+carrying a hash that matches the file on disk.
+
+Record where it broke, not just whether it closed. A round trip that needed three
+manual steps closed, and that is a finding.
+
+> **Not tested here: the claim chain.** EXP-001 makes no historical claims, so H1 —
+> whether research survives a production schedule — is untested and remains the
+> largest unproven assumption in the repository. Do not let a green EXP-001 be read
+> as evidence for [ADR 0002](../../../../../../../docs/decisions/0002-claims-as-records.md).
 
 ### 2. Did continuity hold across ~20 shots?
 
