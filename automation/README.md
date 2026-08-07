@@ -25,7 +25,7 @@ are the **specification**; this table is what actually runs.
 | `validate --schemas` | **IMPLEMENTED** | YAML/front matter against `standards/schemas/` |
 | `modes` — list backends by execution mode | **IMPLEMENTED** | |
 | `prepare-job` — assemble an interactive work order | **IMPLEMENTED** | Offline; no adapter runs |
-| `ingest` — fulfil a job | **NOT BUILT** | Thin join between two built pieces |
+| `ingest` — fulfil a job | **IMPLEMENTED** | Closes the interactive round trip |
 | `validate --sources` | **NOT BUILT** | Reports its own absence rather than passing silently |
 | `validate --canon` | **NOT BUILT** | As above |
 | `validate --prompts` | **NOT BUILT** | Cheat-sheet staleness |

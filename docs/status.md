@@ -127,7 +127,7 @@ Every `IMPLEMENTED` row below should be read as *"we believe this works"*, not
 | `validate --links` | **IMPLEMENTED** | Runs against the real tree; **found 130 real broken links on first run** |
 | `validate --schemas` | **IMPLEMENTED** | Runs; routes YAML and front matter to `standards/schemas/` |
 | `validate --reality` | **IMPLEMENTED** | Enforces this document's own discipline: prose naming an unimplemented command must say so. **Found 63 violations on its first run.** |
-| Test suite | **IMPLEMENTED** | 180 tests across validators, scaffold, promptlib, manifest, adapters, and the round trip. Fixture trees carry deliberate violations. |
+| Test suite | **IMPLEMENTED** | 198 tests across validators, scaffold, promptlib, manifest, adapters, execution modes, and both round trips. Fixture trees carry deliberate violations. |
 | `new-record` — ID allocator | **IMPLEMENTED** | 47 tests. Refuses on any duplicate in the namespace being allocated. Smoke-run against all 14 real templates. |
 | `check-ids` — repo-wide duplicate audit | **IMPLEMENTED** | Returns clean on the current repository |
 | `promptlib render` | **IMPLEMENTED** | 63 tests. Generic + Midjourney renderers; the same card renders differently per vendor, asserted. |
@@ -138,7 +138,7 @@ Every `IMPLEMENTED` row below should be read as *"we believe this works"*, not
 | `generation_job` format + operator brief | **IMPLEMENTED** | A derived work order, **not a record**: no ID, no schema, regenerable, nothing cites it. Assembled from prompt card + continuity + shot. Carries forbidden list, hard stops, and acceptance checklist so an operator never reconstructs constraints from four files. |
 | `InteractiveAdapter` (two-phase) | **IMPLEMENTED** | `generate()` runs every guard then raises `AwaitingFulfilmentError` — it never fabricates a result for work that has not happened. `fulfil()` hashes the delivered bytes; the hash is never taken on report. |
 | `studio_ops modes`, `prepare-job` | **IMPLEMENTED** | `prepare-job` verified against the real EXP-001 records: 5 constraints, 22 forbidden terms, 5 hard stops correctly separated. |
-| `studio_ops ingest` | **NOT BUILT** | The thin join between `fulfil` and `manifest.ingest_generation`, both of which exist. Callable from Python meanwhile. |
+| `studio_ops ingest` | **IMPLEMENTED and TESTED** | Closes the interactive round trip. Reads destination, provenance class, and manifest from the *job*, so a fulfilment cannot be told something different from what was specified. Hashes the delivered bytes twice — at fulfilment, and again inside `ingest_generation`, which refuses if they disagree. |
 | Vendor (`api`) adapter | **NOT BUILT — deliberately** | Not until a vendor is chosen, its terms verified, and a ceiling set. |
 | `local` generation adapter | **IMPLEMENTED** | 26 tests. Deterministic, offline, free, real PNG. Same seed + prompt → identical bytes. |
 | **The round trip** | **IMPLEMENTED and TESTED** | See below — the first thing in this repository to reach TESTED |
