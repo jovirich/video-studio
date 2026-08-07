@@ -20,6 +20,35 @@ owners: [role-slug, ...]
 ---
 ```
 
+### Capability documents add `maturity`
+
+Any document describing a *capability* — a tool, a validator, a pipeline step, a
+workflow — carries a maturity label. `status` describes the **document**; `maturity`
+describes the **thing the document describes**. They are independent: a `locked`
+specification of a `NOT BUILT` tool is a perfectly coherent state, and a common one.
+
+```yaml
+---
+title: Schema validator
+status: locked            # the doc is final
+maturity: NOT_BUILT       # the code does not exist
+---
+```
+
+| `maturity` | Means | Evidence required |
+|---|---|---|
+| `DESIGNED` | Structure or spec exists on paper. No code runs. | The document exists and is internally consistent |
+| `IMPLEMENTED` | Code exists and executes. Not proven at production scale. | The command runs and produces output |
+| `TESTED` | Exercised against a real workload, with a recorded, reviewable result. | A test run, report, or dated artefact |
+| `NOT_BUILT` | Specified, no code. An honest state, not a failure. | — |
+
+**A bare ✅ or "complete" is prohibited** in place of these labels. It reads as
+*working* when it usually means *specified*.
+
+Promotion requires naming the evidence, and the ledger at
+[../docs/status.md](../docs/status.md) is updated in the **same commit** that changes
+a capability's maturity.
+
 ### Record documents add their type block
 
 ```yaml

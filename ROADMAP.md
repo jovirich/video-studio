@@ -6,25 +6,43 @@ document — it says what must be true before the next thing starts, not when.
 Dates are deliberately absent. Phases advance on **exit criteria**, not calendars;
 an episode that ships before its gates close costs more than one that ships late.
 
-Status keys: ⬜ not started · 🟡 in progress · ✅ complete · ⏸️ blocked
+## Maturity labels
+
+This roadmap does not use checkmarks. A ✅ reads as *working* when it usually means
+*specified*, and that gap is how a plan gets mistaken for a product.
+
+| Label | Means | Evidence |
+|---|---|---|
+| **DESIGNED** | Structure, schema, or standard exists on paper. No code runs. | The document exists and is internally consistent |
+| **IMPLEMENTED** | Code exists and executes. Not proven at production scale. | The command runs |
+| **TESTED** | Exercised against a real workload, with a recorded, reviewable result. | A test run, a report, a dated artefact |
+| **NOT BUILT** | Specified but no code. An honest and useful state. | — |
+
+Per-capability detail: [docs/status.md](docs/status.md). **Nothing in this repository
+is currently TESTED.**
 
 ---
 
-## Phase 0 — Infrastructure ✅
+## Phase 0 — Architecture DESIGNED
 
-The repository you are reading.
+The repository you are reading. Design work, not working software.
 
-- ✅ Platform / studio / line / production four-tier architecture (`arch-2`)
-- ✅ Core canon — rules binding on every production, any genre
-- ✅ Canon pack system; `documentary-history` authored, `_TEMPLATE_pack` for the next
-- ✅ Record schemas (10) and identifier system
-- ✅ Prompt library structure across 8 modalities and ~40 vendors
-- ✅ `studio_ops` toolkit skeleton with validators, scaffolders, reporters
-- ✅ Nine review gates, declared as data in `gates.yaml`, with owners and checklists
-- ✅ CI validation workflow
-- ✅ African History Studio created; Nigeria registered as line 01 in `candidate`
+| Item | Status |
+|---|---|
+| Platform / studio / line / production four-tier architecture (`arch-2`) | DESIGNED |
+| Core canon — binding on every production, any genre | DESIGNED, **not ratified** |
+| Canon pack system; 4 packs authored | DESIGNED |
+| Record schemas (10) and identifier system | DESIGNED, never validated against a real record |
+| Prompt library — 8 modalities, ~49 vendor sheets, 5 chains | DESIGNED, vendor details unverified |
+| Nine-gate set declared as data in `gates.yaml` | DESIGNED, no gate ever signed |
+| `studio_ops` toolkit | **NOT BUILT** |
+| CI validation workflow | DESIGNED — will fail on first run; it calls commands that do not exist |
+| Issue and PR templates, VS Code workspace | IMPLEMENTED |
+| African History Studio; Nigeria registered as line 01 | DESIGNED, `candidate` status |
 
-**Exit criteria met.** The repo validates against its own rules.
+**Exit criterion: met for design.** The architecture is specified and internally
+consistent. It has not been exercised, and no claim beyond that should be read into
+this phase.
 
 ---
 

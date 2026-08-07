@@ -163,9 +163,34 @@ What the platform refuses is enumerated in
 [docs/onboarding/first_week.md](docs/onboarding/first_week.md).
 Terminology: [docs/glossary.md](docs/glossary.md).
 
-## 9. Status
+## 9. Status — read this before trusting anything above
 
-Pre-production. No production has been greenlit.
-[ROADMAP.md](ROADMAP.md) has the phase gates;
-[docs/architecture/refinements_before_episode_one.md](docs/architecture/refinements_before_episode_one.md)
-has the open architectural decisions.
+This repository is **DESIGNED**. Almost none of it is **IMPLEMENTED**, and *none* of
+it is **TESTED**.
+
+Those three words are used throughout this repository and mean different things:
+
+| Label | Means |
+|---|---|
+| **DESIGNED** | The structure, schema, or standard exists on paper. No code runs. |
+| **IMPLEMENTED** | Code exists and executes. Not proven at production scale. |
+| **TESTED** | Exercised against a real workload, with a recorded result someone can review. |
+
+A bare ✅ is banned here — it reads as *working* when it usually means *specified*.
+
+Concretely, right now:
+
+- Every `studio_ops` command shown in this README is **NOT BUILT**. The commands are
+  the specification, not a working CLI.
+- The CI workflow is **DESIGNED** and will fail on first run, because it invokes
+  those commands.
+- The schemas are **DESIGNED** and have never been validated against a real record,
+  because no real records exist.
+- The vendor cheat sheets are **DESIGNED** from general knowledge and have **not been
+  verified against current vendor documentation**.
+- No production has been greenlit. No gate has ever been signed. No historical
+  content exists anywhere in the repository.
+
+The full, honest, per-capability account is **[docs/status.md](docs/status.md)**.
+[ROADMAP.md](ROADMAP.md) has the phase gates and what would move a capability from
+DESIGNED to TESTED.

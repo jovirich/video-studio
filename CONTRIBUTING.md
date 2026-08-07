@@ -67,6 +67,34 @@ the gate in a `studio/*` PR.
 - **Prompt changes are versioned, not overwritten.** Bump the prompt card version
   and record what changed and why. See [prompts/README.md](prompts/README.md).
 
+## Never claim more maturity than exists
+
+Documentation distinguishes three states, and they are different claims — not degrees
+of the same one:
+
+| Label | Means | Evidence required |
+|---|---|---|
+| **DESIGNED** | Structure, schema, or spec exists on paper. No code runs. | The document exists and is internally consistent |
+| **IMPLEMENTED** | Code exists and executes. Not proven at production scale. | The command runs |
+| **TESTED** | Exercised against a real workload, with a recorded, reviewable result. | A test run, a report, a dated artefact |
+| **NOT BUILT** | Specified, no code. Honest and useful. | — |
+
+**A bare ✅ or "complete" is prohibited.** It reads as *working* when it usually means
+*specified*, and that gap is how a schedule built on scaffolding slips.
+
+Rules:
+
+- Every capability claim in a README, roadmap, or status table carries one of these
+  labels.
+- The ledger at [docs/status.md](docs/status.md) is updated in the **same commit**
+  that changes a capability's maturity — it is not a separate chore.
+- Promotion names the evidence. "It seems to work" promotes nothing.
+- Use the same three words in commit messages and in conversation. "Built" and
+  "finished" are ambiguous; these are not.
+
+The gap that matters most is **IMPLEMENTED → TESTED**. A validator that runs cleanly
+on an empty repository has proved almost nothing.
+
 ## Commit messages
 
 ```
