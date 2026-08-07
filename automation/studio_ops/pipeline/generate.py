@@ -125,6 +125,11 @@ def style_block_from_continuity(paths: list[Path]) -> dict[str, Any]:
     return block
 
 
+def _as_dict(value: Any) -> dict[str, Any]:
+    """A record's optional sub-block, or an empty one. Records omit what is unset."""
+    return value if isinstance(value, dict) else {}
+
+
 def _usable(value: Any) -> bool:
     return isinstance(value, str) and bool(value.strip()) and value.strip() != "TBD"
 
@@ -227,65 +232,209 @@ def prepare_job(
     seed: int | str | None = None,
     schema_dir: Path | None = None,
 ) -> Path:
-    """Assemble a complete generation job for interactive execution.
+    """Assemble a complete handoff packet for manual fulfilment.
 
-    Everything an operator needs, in one artefact. The point is that they never have
-    to reconstruct context from four files — that reconstruction is exactly where the
-    forbidden list gets dropped.
+    Everything an operator needs, in one artefact, so they never reconstruct context
+    from four files — that reconstruction is exactly where the forbidden list gets
+    dropped.
 
     Costs nothing and touches no vendor: rendering is offline and no adapter runs.
+
+    Preparation is deliberately allowed outside the authorised phase, because it is
+    free and an operator may legitimately work ahead. The packet then carries its own
+    refusal on its face, so nobody fulfils an unauthorised job without seeing it.
     """
     from ..adapters.interactive import InteractiveAdapter
-    from ..adapters.job import JobReference, job_from_request
+    from ..adapters.job import job_from_request
 
     shot = _record_meta(shot_path)
     shot_id = str(shot.get("id") or "")
+    scene_id = str(shot.get("sequence") or "")
     provenance_class = str(shot.get("provenance_class") or "interpretive")
+    modality = str(shot.get("modality") or "image")
 
     card = render_mod.load_card(card_path, schemas=schema_dir)
     style = style_block_from_continuity(continuity_paths)
     rendered = render_mod.render(card, vendor, style_block=style)
 
-    work_dir.mkdir(parents=True, exist_ok=True)
-    output_path = work_dir / f"{shot_id or rendered.card_id}.png"
-    request = request_from_render(rendered, output_path=output_path, seed=seed)
+    production_id = _production_of(shot_id)
+    incoming = work_dir / "incoming"
+    incoming.mkdir(parents=True, exist_ok=True)
+
+    ext = "mp4" if modality == "video" else "png"
+    filename = _asset_filename(production_id, scene_id, shot_id, provenance_class, ext)
+    request = request_from_render(rendered, output_path=incoming / filename, seed=seed)
 
     constraints, forbidden, hard_stops = _constraints_from_continuity(continuity_paths)
     forbidden = list(dict.fromkeys([*forbidden, *rendered.negative]))
+    characters, styles, records = _references(continuity_paths)
 
-    notes = str(card.get("notes") or "")
-    checklist = [line.strip(" -") for line in notes.splitlines() if line.strip()]
+    camera: dict[str, Any] = _as_dict(shot.get("camera"))
+    framing = ", ".join(
+        str(camera[k]) for k in ("size", "angle", "height") if _usable(camera.get(k))
+    )
+    shot_framing: dict[str, Any] = _as_dict(shot.get("framing"))
+    card_prompt: dict[str, Any] = _as_dict(card.get("prompt"))
+    card_tool: dict[str, Any] = _as_dict(card.get("tool"))
+    card_target: dict[str, Any] = _as_dict(card.get("target"))
+
+    checklist = [
+        line.strip(" -") for line in str(card.get("notes") or "").splitlines() if line.strip()
+    ]
+    authorised, note = _phase_status(manifest_path.parent, shot_id or rendered.card_id)
 
     job = job_from_request(
         request,
         job_id=shot_id or rendered.card_id,
-        production=str(shot.get("episode") or "") or _production_of(shot_id),
+        production_id=production_id,
         line=str(shot.get("line") or cfg.default_line or ""),
-        shot_id=shot_id or None,
+        scene_id=scene_id,
+        shot_id=shot_id,
+        modality=modality,
+        creative_purpose=str(card_target.get("intent") or shot.get("description") or ""),
+        continuity_records=tuple(records),
+        character_references=tuple(characters),
+        style_references=tuple(styles),
+        evidence_constraints=tuple(str(c) for c in (shot.get("claims") or [])),
+        continuity_constraints=tuple(constraints),
+        negative=tuple(forbidden),
+        hard_stops=tuple(hard_stops),
+        framing=framing,
+        lens_look=str(camera.get("lens") or card_prompt.get("camera") or ""),
+        lighting=str(style.get("light") or card_prompt.get("light") or ""),
+        performance=str(shot.get("description") or ""),
+        aspect_ratio=str(shot_framing.get("aspect") or "16:9"),
+        resolution_target="3840x2160" if modality == "video" else "at least 1024x1024",
+        duration_seconds=shot.get("duration_seconds"),
+        preferred_vendor=str(card_tool.get("vendor") or ""),
+        preferred_model=str(card_tool.get("model") or ""),
+        video=_video_brief(shot, continuity_paths) if modality == "video" else None,
+        output_filename=filename,
+        incoming_dir=str(incoming),
         manifest_path=str(manifest_path),
         provenance_class=provenance_class,
-        negative=tuple(forbidden),
-        references=tuple(
-            JobReference(
-                kind="continuity_record", ref=_record_meta(p).get("id", p.stem), path=str(p)
-            )
-            for p in continuity_paths
-        ),
-        continuity_constraints=tuple(constraints),
-        forbidden=tuple(forbidden),
-        hard_stops=tuple(hard_stops),
         acceptance_checklist=tuple(checklist),
+        authorised=authorised,
+        authorisation_note=note,
     )
 
     adapter = InteractiveAdapter(dry_run=True, job_dir=job_dir)
     return adapter.prepare(request, job)
 
 
-def _check_phase(production_dir: Path, job_id: str, adapter_name: str) -> None:
-    """Enforce the run plan, if the production has one.
+def _asset_filename(production: str, scene: str, shot: str, klass: str, ext: str) -> str:
+    """Per standards/naming_conventions.md. The operator must not invent a name.
 
-    A production without a plan is unconstrained by this check — which is correct for
-    a laboratory piece with no spend, and is exactly why EXP-001 has one.
+    A file named by whoever generated it is a file the ingest cannot place, and the
+    naming convention exists so a filename still says what a thing is later.
+    """
+    short = {
+        "reconstruction": "recon",
+        "interpretive": "interp",
+        "archival": "arch",
+        "contemporary": "contemp",
+        "graphic": "graphic",
+        "text_on_screen": "text",
+    }.get(klass, "interp")
+    seq = scene.split("-")[-1] if scene else "000"
+    num = shot.split("-")[-1] if shot else "0000"
+    return f"{production}_SEQ{seq}_SHT{num}_{short}_v01.{ext}"
+
+
+def _references(paths: list[Path]) -> tuple[list[Any], list[Any], list[str]]:
+    """Split continuity records into character refs, style refs, and record ids.
+
+    A record with no approved anchor yet says so in the reference itself, because an
+    operator handed a job with a missing attachment will otherwise proceed without it.
+    """
+    from ..adapters.job import JobReference
+
+    characters: list[Any] = []
+    styles: list[Any] = []
+    records: list[str] = []
+
+    for path in paths:
+        meta = _record_meta(path)
+        rid = str(meta.get("id") or path.stem)
+        records.append(rid)
+        kind = str(meta.get("type") or "")
+        is_character = kind == "continuity_character"
+        refs = meta.get("references") if is_character else meta.get("reference_imagery")
+        anchor = ""
+        if isinstance(refs, dict):
+            anchor = str(refs.get("facial_reference") or refs.get("establishing_anchor") or "")
+        name = meta.get("canonical_name", rid)
+        (characters if is_character else styles).append(
+            JobReference(
+                kind="character anchor" if is_character else "style anchor",
+                ref=anchor or rid,
+                path=anchor or "NOT YET APPROVED",
+                note=(
+                    f"{name}. Attach the approved anchor image."
+                    if anchor
+                    else f"{name}. NO APPROVED ANCHOR YET — this job cannot be "
+                    "fulfilled until one exists and its STA id is on the record."
+                ),
+            )
+        )
+    return characters, styles, records
+
+
+def _video_brief(shot: dict[str, Any], continuity_paths: list[Path]) -> Any:
+    """The motion half of an image-to-video job.
+
+    Every field exists because a clip fails in a way a frame does not: it can start
+    on-model and end as somebody else, and nothing in a still brief catches that.
+    """
+    from ..adapters.job import VideoBrief
+
+    gen: dict[str, Any] = _as_dict(shot.get("generation"))
+    camera: dict[str, Any] = _as_dict(shot.get("camera"))
+
+    identity: list[str] = []
+    for path in continuity_paths:
+        meta = _record_meta(path)
+        if meta.get("type") != "continuity_character":
+            continue
+        name = meta.get("canonical_name", meta.get("id", ""))
+        identity.append(f"{name} is the same person in the last frame as in the first")
+        for item in meta.get("distinctive_features") or []:
+            if isinstance(item, dict) and _usable(item.get("feature")):
+                identity.append(f"{name} — {item['feature']}: present and unchanged throughout")
+
+    movement = str(camera.get("movement") or "static")
+    motivation = (
+        str(camera["movement_motivation"])
+        if _usable(camera.get("movement_motivation"))
+        else "no motivation recorded — unmotivated drift is the signature tell of generated video"
+    )
+
+    return VideoBrief(
+        source_still=str(gen.get("selected_asset") or ""),
+        first_frame_continuity=(
+            "The first frame must BE the source still, not a close approximation. If "
+            "the surface re-interprets it, the clip is not continuous with the frame "
+            "it came from and the shot cannot be cut against its neighbours."
+        ),
+        end_state_intent=str(shot.get("description") or ""),
+        camera_movement=f"{movement} — {motivation}",
+        subject_movement=str(shot.get("description") or ""),
+        prohibited_motion=(
+            "morphing or melting of any face or hand",
+            "identity drift — the subject becoming a different person mid-clip",
+            "unmotivated camera drift where the shot is specified static",
+            "background geometry sliding, breathing, or reflowing",
+            "objects appearing or vanishing between frames",
+            "cloth or hair moving against the established light and air",
+        ),
+        identity_preservation=tuple(identity),
+    )
+
+
+def _check_phase(production_dir: Path, job_id: str, adapter_name: str) -> None:
+    """Enforce the run plan at GENERATION time. Preparation is free and is not blocked.
+
+    The refusal never consults the budget: remaining money is not permission.
     """
     from . import phases
 
@@ -300,6 +449,24 @@ def _check_phase(production_dir: Path, job_id: str, adapter_name: str) -> None:
     except Exception:
         mode = ""
     plan.check(job_id, execution_mode=mode or None)
+
+
+def _phase_status(production_dir: Path, job_id: str) -> tuple[bool, str]:
+    """Whether the run plan authorises this job right now.
+
+    Preparation is free and is not blocked. The packet carries the answer on its face
+    so nobody fulfils an unauthorised job without seeing that they are.
+    """
+    from . import phases
+
+    plan = phases.find(production_dir)
+    if plan is None:
+        return True, ""
+    try:
+        plan.check(job_id)
+    except phases.PhaseError as exc:
+        return False, " ".join(str(exc).split())
+    return True, ""
 
 
 def _production_of(shot_id: str) -> str:

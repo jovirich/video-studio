@@ -323,8 +323,9 @@ def prepare_job_cmd(
     console.print("[dim]  studio_ops ingest --job <job> --file <delivered>[/]")
 
 
+@app.command("fulfil-job")
 @app.command("ingest")
-def ingest_cmd(
+def fulfil_job_cmd(
     job: Annotated[str, typer.Option("--job", help="The job file that was fulfilled")],
     file: Annotated[str, typer.Option("--file", help="The delivered asset")],
     vendor: Annotated[str, typer.Option("--vendor", help="What ACTUALLY produced it")] = "",
@@ -334,6 +335,10 @@ def ingest_cmd(
     cost: Annotated[float, typer.Option("--cost-usd")] = 0.0,
 ) -> None:
     """Ingest an operator-generated file: hash it, record it, add it to the manifest.
+
+    Aliased as `ingest`. Every fulfilment mode converges here — API, subscription UI,
+    local model, or a human-created asset all take the same path to a provenance
+    record, and the production record never learns which one it was.
 
     The hash is computed from the delivered bytes and is never taken on report. An
     operator can hand back the wrong file; they cannot hand back a file whose hash

@@ -145,7 +145,7 @@ class InteractiveAdapter(Adapter):
         job = job_from_request(
             request,
             job_id=request.prompt_card_id or "job",
-            production="unknown",
+            production_id="unknown",
             line="unknown",
             notes=(
                 "ASSEMBLED FROM A BARE REQUEST. Continuity constraints, forbidden "
