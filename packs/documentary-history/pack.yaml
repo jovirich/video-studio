@@ -1,0 +1,92 @@
+type: canon_pack
+code: documentary-history
+title: Documentary — history
+version: "0.1.0"
+core_version: "0.2.0"
+status: active
+owners: [pack-owner, showrunner, research-lead, cultural-advisor]
+updated: 2026-08-07
+
+summary: >
+  Historical documentary made with heavy generative assistance. Factual claims are
+  answerable to a source-record chain; imagery is largely reconstructed and always
+  labelled; subject matter frequently belongs to living communities, so cultural
+  advisory carries hold authority.
+
+suited_to:
+  - Historical documentary series and features
+  - Archaeology and material-culture programming
+  - Biographical history where the subject is not living
+
+not_suited_to:
+  - Narrative fiction, where reconstruction is the primary mode rather than a
+    subordinate one
+  - Contemporary journalism, which needs right-of-reply and live-subject rules this
+    pack does not contain
+  - Commissioned brand work, which needs a client approval gate this pack lacks
+
+documents:
+  - { file: 01_editorial_standards.md,   title: Editorial standards,   owner: research-lead }
+  - { file: 02_evidence_and_sourcing.md, title: Evidence and sourcing, owner: research-lead }
+  - { file: 03_narrative_doctrine.md,    title: Narrative doctrine,    owner: story-producer }
+  - { file: 04_visual_language.md,       title: Visual language,       owner: visual-director }
+  - { file: 05_sound_and_score.md,       title: Sound and score,       owner: audio-lead }
+  - { file: 07_cultural_sensitivity.md,  title: Cultural sensitivity,  owner: cultural-advisor }
+  - { file: 09_localization.md,          title: Localization,          owner: cultural-advisor }
+
+methodology:
+  - methodology/research_protocol.md
+  - methodology/bias_register.md
+  - methodology/oral_history_protocol.md
+  - methodology/using_ai_in_research.md
+
+gates_file: gates.yaml
+
+# Record types this pack requires beyond the platform set.
+required_record_types:
+  - source
+  - claim
+  - character
+  - location
+  - timeline_event
+  - open_question
+  - fact_check
+
+# Fields this pack adds to platform record types.
+record_extensions:
+  shot:
+    require_claims_for: [graphic, text_on_screen]
+  prompt_card:
+    require_evidence_basis_for: [reconstruction]
+  production:
+    require: [question, advisory_coverage, conflicts_of_interest]
+
+# Conditions a line must satisfy before it may open under this pack.
+# See 07_cultural_sensitivity.md §5 and the production_line schema.
+line_opening_conditions:
+  - research_lead_named
+  - advisory_contact_agreed
+  - archive_landscape_surveyed
+
+# Decisions a studio adopting this pack must make before its first greenlight.
+# studio_ops refuses to greenlight while any of these is unresolved.
+studio_must_decide:
+  - key: ai_music_policy
+    doc: 05_sound_and_score.md
+    section: "4"
+    note: >
+      Whether AI-generated music may imitate a regional idiom. Default pending a
+      decision is: permitted for abstract texture, prohibited for pastiche of a
+      living tradition.
+  - key: production_language
+    doc: 09_localization.md
+    section: "1"
+  - key: orthography_standards
+    doc: 09_localization.md
+    section: "2"
+  - key: visual_identity
+    doc: 04_visual_language.md
+    section: "1"
+  - key: narration_voice_policy
+    doc: 05_sound_and_score.md
+    section: "1"

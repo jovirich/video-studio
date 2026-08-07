@@ -23,7 +23,7 @@ Three failure modes are treated as equally serious:
 | **Misleading true statement** | A true fact placed so as to imply something false; a real image captioned to suggest a different time or place. | Deceives more efficiently than a lie, and is harder to retract. |
 
 The third is the one that kills documentaries. Most of the review effort in
-[08_review/](../templates/episode/08_review/) is aimed at it.
+[08_review/](../templates/episode/08_review) is aimed at it.
 
 ## 2. Registers of certainty
 

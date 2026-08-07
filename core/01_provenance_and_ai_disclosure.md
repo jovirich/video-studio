@@ -57,7 +57,7 @@ Disclosure operates at four levels and all four are required:
    ([04_visual_language.md](04_visual_language.md) §7).
 2. **An explainer card** at the first such shot in each episode.
 3. **Credits statement** naming every generative tool used, by category. The
-   template is in [../templates/episode/10_publish/credits_ai_statement.md](../templates/episode/10_publish/credits_ai_statement.md).
+   template is in [../templates/episode/10_publish/credits_ai_statement.md](../templates/production/10_publish/credits_ai_statement.md).
 4. **A public methodology page** per series, and a per-episode provenance summary
    published alongside the episode, generated from the manifest by
    `studio_ops report provenance`.
@@ -92,7 +92,7 @@ refuses it. See [../automation/studio_ops/pipeline/manifest.py](../automation/st
 ## 5. Model terms and rights
 
 Vendor terms govern ownership, commercial use, indemnity, and training on your
-inputs, and they change. [../sources/permissions/model_terms_register.md](../sources/permissions/model_terms_register.md)
+inputs, and they change. [../sources/permissions/model_terms_register.md](../rights/permissions/model_terms_register.md)
 records the current position per tool, the date checked, and the plan tier the
 studio holds. It is re-checked before every delivery. A tool whose terms do not
 permit commercial documentary use does not enter the pipeline, however good it is.

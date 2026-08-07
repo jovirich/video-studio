@@ -1,0 +1,44 @@
+# Gate set template. Framework: core/04_review_gate_framework.md.
+#
+# A gate needs four things or it is not a gate:
+#   1. a named role owner (not a committee)
+#   2. a written checklist fixed in advance
+#   3. a recorded signature
+#   4. something it blocks
+#
+# Delete the example and write your own. Do not inherit another pack's gates
+# because they look thorough.
+
+pack: TBD
+pack_version: "0.1.0"
+core_version: "0.2.0"
+
+gates:
+  # --- Example. Replace. ---
+  - key: example_gate
+    title: Example gate
+    owner: TBD                      # role slug from ops/roles.md
+    stage: 00_brief                 # pipeline stage, or a list of stages
+    blocks: [01_research]           # what cannot proceed until signed
+    checklist: checklists/example_gate.md
+    required: true
+    hold_authority: false           # true if this owner can freeze work platform-wide
+    certifies: >
+      TBD — the specific claim this signature makes. Write it so that signing it
+      falsely would be an identifiable act, not a vague endorsement.
+
+  # --- Required in every pack. Core mandates it. ---
+  - key: technical_qc
+    title: Technical QC
+    owner: pipeline-engineer
+    stage: 09_delivery
+    blocks: [10_publish]
+    checklist: checklists/technical_qc.md
+    required: true
+    universal: true
+    certifies: >
+      Delivery specs met, captions validate, provenance manifest complete and frozen,
+      rights cleared, package assembled.
+
+separation_of_duties: strict      # core/04 §5 — no person signs two gates on one production
+minimum_distinct_signatories: 2

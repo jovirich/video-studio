@@ -27,12 +27,12 @@ map is a strong assertion that the evidence almost never supports.
 | **State the projection** | On the map or in the credit. Different projections make different political arguments about relative size. |
 | **Historical polities are zones, not outlines** | Draw influence as gradient or hatched zone. A hard border is drawn only where a documented boundary (a treaty line, a wall, a surveyed limit) is being depicted, and it carries that source. |
 | **Modern borders are never drawn over pre-colonial periods** | Unless labelled on screen as a modern overlay for orientation. |
-| **Period-appropriate place names primary** | Modern name once, parenthetically, for orientation. Per [../bible/09_localization.md](../bible/09_localization.md) §3. |
+| **Period-appropriate place names primary** | Modern name once, parenthetically, for orientation. Per [../bible/09_localization.md](../packs/documentary-history/09_localization.md) §3. |
 | **Coastlines and rivers change** | Use period-appropriate hydrography where evidence exists; note where a modern base map is being used as an approximation. |
 | **Scale bar and north indicator** | Always. |
 | **Animated expansion** | Animating a polity's growth asserts dates for each stage. Each stage needs a claim ID, or the animation is replaced with a static "at its greatest documented extent" frame. |
 
-Base maps and their licences live in [../library/map_bases/](../library/map_bases/).
+Base maps and their licences live in [../library/map_bases/](../library/map_bases).
 
 ## Timelines
 
@@ -73,7 +73,7 @@ Base maps and their licences live in [../library/map_bases/](../library/map_base
 ## Style
 
 Palette, type, stroke weights, and animation timing come from the line's style
-folder and [../brand/](../brand/) — a graphic should look like it belongs to the same
+folder and [../brand/](../studios/african-history/brand) — a graphic should look like it belongs to the same
 show as the shot before it. Chart construction follows the studio's data
 visualisation conventions, not a tool's defaults.
 

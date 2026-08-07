@@ -103,7 +103,7 @@ Applied to delivered media by the packaging step:
 ## Asset records
 
 Every asset in `manifest.yaml` carries the block defined in
-[../bible/06_ai_disclosure_and_ethics.md](../bible/06_ai_disclosure_and_ethics.md) §4
+[../bible/06_ai_disclosure_and_ethics.md](../core/01_provenance_and_ai_disclosure.md) §4
 and validated by `asset_manifest.schema.json`. Required for **all** assets, not just
 generated ones — an archival scan needs provenance at least as much as a render does.
 

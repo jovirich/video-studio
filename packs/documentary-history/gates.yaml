@@ -1,0 +1,133 @@
+# Gate set for the documentary-history canon pack.
+# Read by studio_ops when scaffolding a production. Framework: core/04.
+#
+# `blocks` lists the stages that cannot proceed until this gate is signed.
+# Re-opening a gate cascades: every downstream signed gate returns to pending.
+
+pack: documentary-history
+pack_version: "0.1.0"
+core_version: "0.2.0"
+
+gates:
+  - key: greenlight
+    title: Greenlight
+    owner: showrunner
+    stage: 00_brief
+    blocks: [01_research]
+    checklist: checklists/greenlight.md
+    required: true
+    certifies: >
+      The production has a question with stakes, falls inside the line's advisory
+      coverage, has a research lead assigned, has consultation fees budgeted, and
+      has declared conflicts of interest.
+
+  - key: source_lock
+    title: Source lock
+    owner: research-lead
+    stage: 01_research
+    blocks: [02_script]
+    checklist: checklists/source_lock.md
+    required: true
+    certifies: >
+      Every claim the outline requires exists at its required tier, independence has
+      been checked on every 'established' claim, contested claims carry named
+      positions, T4 sources have consent records, and open questions are registered.
+
+  - key: script_lock
+    title: Script lock
+    owner: story-producer
+    stage: 02_script
+    blocks: [03_storyboard, 04_prompts, 05_assets]
+    checklist: checklists/script_lock.md
+    required: true
+    certifies: >
+      The narration and shooting script are final, every factual statement carries a
+      claim ID, the certainty register matches the evidence, and no prohibited
+      language pattern remains.
+    note: >
+      Generation does not begin before this gate. Generating for an unlocked script
+      is how a production ends up writing toward the footage it happens to have.
+
+  - key: fact_check
+    title: Fact-check
+    owner: research-lead
+    stage: 08_review
+    blocks: [picture_lock, 09_delivery]
+    checklist: checklists/fact_check.md
+    required: true
+    certifies: >
+      Every claim referenced in the locked script resolves to a claim record at the
+      required tier; on-screen text, graphics, maps, and the episode description have
+      been checked to the same standard as narration.
+
+  - key: sensitivity
+    title: Sensitivity
+    owner: cultural-advisor
+    stage: [00_brief, 04_prompts, 08_review]
+    blocks: [05_assets, 09_delivery]
+    checklist: checklists/sensitivity_review.md
+    required: true
+    hold_authority: true
+    certifies: >
+      The premise, the prompt set, and the locked cut clear cultural review. No
+      restricted, sacred, or funerary material is depicted without a ruling. No
+      unconsented likeness or voice appears.
+    note: >
+      Runs three times, not once — at greenlight, before generation, and at picture
+      lock. This gate holds the only authority the Showrunner cannot unilaterally
+      override. See 07_cultural_sensitivity.md §4.
+
+  - key: rights
+    title: Rights
+    owner: rights-and-clearances
+    stage: [08_review, 09_delivery]
+    blocks: [09_delivery]
+    checklist: checklists/rights_gate.md
+    required: true
+    certifies: >
+      Every asset in the manifest has a rights status other than 'pending'; model
+      terms were re-checked at delivery; the cue sheet is complete; chain of title
+      assembles.
+
+  - key: picture_lock
+    title: Picture lock
+    owner: visual-director
+    stage: 06_edit
+    blocks: [07_audio_post, 09_delivery]
+    checklist: checklists/picture_lock.md
+    required: true
+    certifies: >
+      The cut is final. Every generated shot passed anatomy, anachronism, light
+      consistency, skin-tone, and temporal stability checks. Every reconstruction and
+      interpretive shot carries its label. Vertical and square safe zones hold.
+
+  - key: audio_lock
+    title: Audio lock
+    owner: audio-lead
+    stage: 07_audio_post
+    blocks: [09_delivery]
+    checklist: checklists/audio_lock.md
+    required: true
+    certifies: >
+      Loudness and true-peak targets met, all stems rendered including M&E, every
+      proper noun pronounced per the VO record sheet and verified by a speaker of the
+      language, no synthesised voice of a real or historical person.
+
+  - key: technical_qc
+    title: Technical QC
+    owner: pipeline-engineer
+    stage: 09_delivery
+    blocks: [10_publish]
+    checklist: checklists/technical_qc.md
+    required: true
+    universal: true
+    certifies: >
+      Delivery specs met, captions validate, provenance manifest complete and frozen,
+      Content Credentials applied where supported, package assembled, evidence layer
+      (sources page, provenance summary, corrections log) generated.
+
+# Separation of duties is enforced by core/04 §5 and checked by
+# `studio_ops validate --canon`: no person may appear in two signatures
+# on the same production.
+separation_of_duties: strict
+minimum_distinct_signatories: 4

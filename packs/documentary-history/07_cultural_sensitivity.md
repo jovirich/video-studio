@@ -105,7 +105,7 @@ the register has no one competent on a tradition an episode needs, the episode w
 
 ## 8. Consent
 
-Templates in [../templates/legal/](../templates/legal/). Every consent record states:
+Templates in [../templates/legal/](../templates/legal). Every consent record states:
 scope of use, media, territories, duration, whether AI processing is permitted on
 the material, right of review, and right of withdrawal (and what withdrawal can and
 cannot undo after release). Consent obtained without stating the AI processing scope

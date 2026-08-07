@@ -1,0 +1,123 @@
+type: studio
+id: STU-AFH
+code: african-history
+title: African History Studio
+version: "0.1.0"
+status: draft
+updated: 2026-08-07
+
+# --- Canon ---------------------------------------------------------------
+# The pack determines what this studio's productions are held to.
+# Upgrading a pack major version mid-season is refused by the scaffolder.
+pack: documentary-history
+pack_version: "0.1.0"
+core_version: "0.2.0"
+
+studio_status: opening        # candidate | opening | open | paused | closed
+
+# --- Governance ----------------------------------------------------------
+governance:
+  showrunner: TBD
+  research_lead: TBD
+  story_producer: TBD
+  visual_director: TBD
+  audio_lead: TBD
+  rights_and_clearances: TBD
+  cultural_advisor: TBD
+  pipeline_engineer: TBD
+
+  # core/04 §5 — no person signs two gates on the same production.
+  # With fewer than four distinct people this studio cannot ship.
+  distinct_signatories_available: 0
+
+editorial_independence:
+  final_authority: showrunner
+  # The one exception. See packs/documentary-history/07_cultural_sensitivity.md §4.
+  advisory_hold_override: not-permitted-unilaterally
+  funder_editorial_input: none-accepted
+  disclosed_access_conditions: []
+
+# --- Scope ---------------------------------------------------------------
+scope:
+  subject: >
+    Histories of the African continent and its diasporas.
+  organised_by: region
+  comprehensiveness_claim: none
+  # A series cannot cover a continent, and claiming otherwise invites the
+  # criticism the work is least able to answer.
+
+# --- Lines ---------------------------------------------------------------
+lines:
+  - code: ng-nigeria
+    order: 1
+    status: candidate
+    id_scope: NG
+
+# --- Decisions blocking first greenlight ---------------------------------
+# Sourced from the pack's `studio_must_decide` plus this studio's own.
+# studio_ops blocks greenlight while any status is `unresolved`.
+decisions:
+  - key: mission
+    ref: bible/00_charter.md#1-mission
+    owner: showrunner
+    status: unresolved
+
+  - key: audience
+    ref: bible/00_charter.md#3-audience
+    owner: showrunner
+    status: unresolved
+
+  - key: success_conditions
+    ref: bible/00_charter.md#8-success-conditions
+    owner: showrunner
+    status: unresolved
+
+  - key: ai_music_policy
+    ref: ../../packs/documentary-history/05_sound_and_score.md#4-music-policy
+    owner: [showrunner, cultural-advisor]
+    status: unresolved
+    note: >
+      The decision most likely to be regretted if made casually. Default pending:
+      abstract texture permitted, pastiche of a living tradition prohibited.
+
+  - key: production_language
+    ref: ../../packs/documentary-history/09_localization.md#1-production-language
+    owner: [showrunner, cultural-advisor]
+    status: unresolved
+
+  - key: orthography_standards
+    ref: ../../packs/documentary-history/09_localization.md#2-orthography
+    owner: cultural-advisor
+    status: unresolved
+    blocks: [typeface_selection, brand_design]
+
+  - key: narration_voice_policy
+    ref: ../../packs/documentary-history/05_sound_and_score.md#1-narration-voice
+    owner: audio-lead
+    status: unresolved
+
+  - key: visual_identity
+    ref: lines/ng-nigeria/style/visual_identity.md
+    owner: visual-director
+    status: unresolved
+
+  - key: runtime_and_platforms
+    ref: ../../core/03_distribution_and_formats.md#1-product-tiers
+    owner: showrunner
+    status: unresolved
+
+  - key: audio_description_scope
+    ref: ../../packs/documentary-history/05_sound_and_score.md#8-accessibility
+    owner: audio-lead
+    status: unresolved
+
+  - key: licensing_posture
+    ref: ../../docs/decisions/0009-licensing-posture.md
+    owner: showrunner
+    status: unresolved
+
+# --- Public artefacts ----------------------------------------------------
+corrections_log: bible/corrections.md
+methodology_page: TBD
+correction_intake: TBD          # public address for error reports
+takedown_contact: TBD

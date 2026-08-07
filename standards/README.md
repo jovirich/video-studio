@@ -11,7 +11,7 @@ and the schema is a bug. File it as a `[pipeline]` issue.
 
 | File | Governs | Enforced by |
 |---|---|---|
-| [schemas/](schemas/) | The shape of every record type | `studio_ops validate --schemas` |
+| [schemas/](schemas) | The shape of every record type | `studio_ops validate --schemas` |
 | [id_system.md](id_system.md) | Identifier grammar for every entity | `validate --naming` |
 | [naming_conventions.md](naming_conventions.md) | File, folder, and asset names | `validate --naming` |
 | [metadata_spec.md](metadata_spec.md) | Front matter and embedded media metadata | `validate --schemas` |

@@ -41,15 +41,15 @@ episode work exposes a problem in the Bible or the schemas, open a separate
 Every PR runs [.github/workflows/validate.yml](.github/workflows/validate.yml):
 
 1. `studio_ops validate schemas` — front matter and YAML/JSON records match
-   [standards/schemas/](standards/schemas/).
+   [standards/schemas/](standards/schemas).
 2. `studio_ops validate naming` — file and asset names match
    [standards/naming_conventions.md](standards/naming_conventions.md).
 3. `studio_ops validate links` — no dead internal links, no orphan records.
 4. `studio_ops validate sources` — every claim ID referenced in a script exists in
-   [sources/registry/](sources/registry/) and is at the required tier.
+   [sources/registry/](templates/records) and is at the required tier.
 5. `studio_ops validate canon` — no prohibited pattern (unsourced assertion,
    unlabelled synthetic archival, missing provenance on a generated asset).
-6. `ruff` + `mypy` + `pytest` for anything under [automation/](automation/).
+6. `ruff` + `mypy` + `pytest` for anything under [automation/](automation).
 
 A red gate is a blocked merge. There is no override flag; if a gate is wrong, fix
 the gate in a `studio/*` PR.
@@ -57,7 +57,7 @@ the gate in a `studio/*` PR.
 ## Writing rules for contributors
 
 - **Never invent a fact to fill a template.** Leave `TBD — needs research` and open
-  an entry in [research/open_questions/](research/open_questions/). A plausible
+  an entry in [research/open_questions/](templates/records). A plausible
   placeholder that survives to air is the single most likely way this project
   embarrasses itself.
 - **Never paste a date, name, or figure into a script without a claim ID.** The
@@ -81,8 +81,29 @@ Example: `episode(s01e01): add beat sheet skeleton and open-question links`
 
 ## File placement
 
-Documentation goes in a semantic subfolder under [docs/](docs/) — never at repo
-root. The root whitelist is: `README.md`, `LICENSE`, `CONTRIBUTING.md`,
-`CHANGELOG.md`, `pyproject.toml`, `requirements.txt`, `Makefile`, `.gitignore`,
-`.gitattributes`, `.editorconfig`, `.env.example`, and the `.code-workspace` file.
-Anything else at root will be rejected in review.
+Documentation goes in a semantic subfolder under [docs/](docs) — never at repo
+root. The root whitelist is: `README.md`, `ROADMAP.md`, `LICENSE`,
+`CONTRIBUTING.md`, `CHANGELOG.md`, `pyproject.toml`, `requirements.txt`, `Makefile`,
+`.gitignore`, `.gitattributes`, `.editorconfig`, `.env.example`, and the
+`.code-workspace` file. Anything else at root will be rejected in review, and
+`studio_ops validate --root-hygiene` fails the build.
+
+## Which layer does your change belong to?
+
+The most common review correction. Use this test:
+
+| Ask | If yes |
+|---|---|
+| Would this rule still be right for a production with **no historical claims at all**? | [core/](core) |
+| Is it right for a whole **genre** of work? | [packs/](packs) |
+| Is it right for **one studio's** brand and mission? | `studios/<code>/bible/` |
+| Is it about **one region or strand**? | `studios/<code>/lines/<line>/` |
+| Is it about **one piece**? | that production's folder |
+
+Precedence is `core > pack > studio > line > production`. A lower layer may add
+constraints and tighten upper ones. It may never loosen one. If you need an
+exemption, amend the layer that owns the rule — with that layer's signatures.
+
+Platform-level files must never name a studio or its subject matter. If you find
+yourself writing "for instance, in Nigeria…" in `core/`, `standards/`, or `prompts/`,
+the change belongs a layer down.

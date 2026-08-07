@@ -14,14 +14,15 @@ Status keys: ⬜ not started · 🟡 in progress · ✅ complete · ⏸️ block
 
 The repository you are reading.
 
-- ✅ Studio / production line / episode three-tier architecture
-- ✅ Production Bible, 13 documents
+- ✅ Platform / studio / line / production four-tier architecture (`arch-2`)
+- ✅ Core canon — rules binding on every production, any genre
+- ✅ Canon pack system; `documentary-history` authored, `_TEMPLATE_pack` for the next
 - ✅ Record schemas (10) and identifier system
-- ✅ Prompt library structure across 8 modalities and 40 vendors
+- ✅ Prompt library structure across 8 modalities and ~40 vendors
 - ✅ `studio_ops` toolkit skeleton with validators, scaffolders, reporters
-- ✅ Six review gates with owners and checklists
+- ✅ Nine review gates, declared as data in `gates.yaml`, with owners and checklists
 - ✅ CI validation workflow
-- ✅ Nigeria opened as line 01 in `candidate` status
+- ✅ African History Studio created; Nigeria registered as line 01 in `candidate`
 
 **Exit criteria met.** The repo validates against its own rules.
 
@@ -121,19 +122,47 @@ an open corrections log.
 
 ---
 
-## Phase 6 — Second production line ⬜
+## Phase 6 — Expansion ⬜
 
-The test of whether the architecture was worth it.
+The test of whether the architecture was worth it. Three expansions, in increasing
+order of what they prove.
 
-- ⬜ Select the next line from `productions/README.md` § Candidate lines
+### 6a — Second line, same studio
+
+- ⬜ Select the next line from `studios/african-history/lines/README.md` § Candidate lines
 - ⬜ Run `studio_ops new-line`; measure how much studio-level work it forces
-- ⬜ Any studio-level change required is an architecture finding — record it in
-      `docs/architecture/evolution.md`
 - ⬜ Localisation: first dub or subtitled release using the M&E stems
 
-**Exit criterion:** a second line reaches greenlight without modifying `bible/`,
-`standards/`, or `automation/`. If it cannot, the abstraction was in the wrong place
-and the finding goes in the evolution log.
+**Proves:** the studio → line split. **Exit criterion:** the line reaches greenlight
+without modifying anything above `studios/african-history/`.
+
+### 6b — Second studio, same pack
+
+- ⬜ `studio_ops new-studio --pack documentary-history`
+- ⬜ Confirm no platform-level file needed a change
+
+**Proves:** the platform → studio split, and that the pack is genuinely reusable
+rather than tacitly African-history-shaped.
+
+### 6c — Second **pack** — a different kind of video entirely
+
+The real test.
+
+- ⬜ Author a pack for a genre with different obligations — narrative, brand, or
+      explainer
+- ⬜ Write its gate set from scratch, from *what would we regret not checking?*
+- ⬜ Produce one short piece under it, end to end
+
+**Proves:** that `core/` is genuinely universal rather than documentary rules wearing
+a general name.
+
+**Exit criterion for the phase:** all three complete without modifying `core/`,
+`standards/`, `prompts/`, `templates/`, or `automation/`.
+
+If any of them cannot, the abstraction sits in the wrong place. Record the finding in
+[docs/architecture/evolution.md](docs/architecture/evolution.md) and move the
+boundary — that is what the log is for. Watch specifically for a second pack that is
+largely a copy of the first: it means the shared material belonged in core.
 
 ---
 

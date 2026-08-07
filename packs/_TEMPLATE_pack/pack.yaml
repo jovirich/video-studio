@@ -1,0 +1,39 @@
+type: canon_pack
+code: TBD                      # kebab-case, e.g. brand-film, narrative-fiction
+title: TBD
+version: "0.1.0"
+core_version: "0.2.0"
+status: draft                  # draft | active | deprecated
+owners: [pack-owner]
+updated: TBD
+
+summary: >
+  TBD — one paragraph. What kind of work this governs and what makes it distinct.
+
+suited_to:
+  - TBD
+
+not_suited_to:
+  - TBD                        # Be specific. This field prevents misuse more
+                               # effectively than suited_to does.
+
+documents:
+  - { file: TBD, title: TBD, owner: TBD }
+
+methodology: []
+
+gates_file: gates.yaml
+
+# Record types beyond the platform set. Omit or leave empty if none.
+required_record_types: []
+
+# Additional constraints this pack places on platform record types.
+record_extensions: {}
+
+# Conditions a line must satisfy before opening under this pack.
+line_opening_conditions: []
+
+# Decisions a studio must make before its first greenlight under this pack.
+# studio_ops blocks greenlight while any remains unresolved. Use this for the
+# choices that are cheap now and expensive to change after episode one.
+studio_must_decide: []

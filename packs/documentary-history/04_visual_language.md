@@ -125,7 +125,7 @@ material they are told is real.
 
 ## 9. Typography
 
-`TBD per line`, specified in [../brand/](../brand/). Constraints: one display face,
+`TBD per line`, specified in [../brand/](../brand). Constraints: one display face,
 one text face, both licensed for broadcast and for the delivery territories; full
 diacritic coverage for every language the line uses (see
 [09_localization.md](09_localization.md) §2 — this eliminates most fonts, so choose

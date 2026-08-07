@@ -30,8 +30,8 @@ Three specific failures this log exists to prevent:
 | Record | Answers |
 |---|---|
 | [CHANGELOG.md](../../CHANGELOG.md) | What changed in this release? |
-| [bible/12_amendment_log.md](../../bible/12_amendment_log.md) | What changed in editorial canon, and who signed? |
-| [docs/decisions/](../decisions/) | What was decided, given what options? (ADRs — one per decision, immutable once accepted) |
+| [bible/12_amendment_log.md](../../core/05_amendment_log.md) | What changed in editorial canon, and who signed? |
+| [docs/decisions/](../decisions) | What was decided, given what options? (ADRs — one per decision, immutable once accepted) |
 | **This file** | How has the structure evolved, and what did each move teach us? |
 
 An ADR is a *decision at a point in time*. This log is the *narrative across them* —
@@ -61,7 +61,8 @@ The repository's structural contract is versioned independently of its content.
 
 | Version | Shape | Status |
 |---|---|---|
-| `arch-1` | Studio → production line → episode; records-first evidence layer; prompt cards as records; nine gates | current |
+| `arch-1` | Studio → production line → episode; records-first evidence layer; prompt cards as records; nine gates | superseded by `arch-2` |
+| `arch-2` | **Platform → studio → line → production**; core canon + genre canon packs; gate *set* declared by pack | current |
 
 A new `arch-N` is declared when a change invalidates existing records or breaks the
 folder contract. Everything smaller is an entry below without a version bump.
@@ -200,6 +201,78 @@ place where being wrong harms people outside the studio.
 **Watch for:** The same name in two gate signatures. `studio_ops validate --canon`
 should flag it; if it starts being flagged regularly, the studio has outgrown its
 staffing, not its process.
+
+---
+
+## AE-006 — Platform and canon packs; `arch-1` → `arch-2`
+
+**Date:** 2026-08-07 · **Kind:** revision · **Supersedes:** AE-001 in part
+**Scope:** whole tree — `bible/` split, `productions/` relocated, two tiers added
+**ADR:** [0005-platform-and-canon-packs.md](../decisions/0005-platform-and-canon-packs.md)
+
+**Trigger:** A direct question during the initial build: *"What if we want to create
+other things outside this studio? I thought we'd set up a platform that could make
+different types of videos. Do we need to recreate the whole repo?"*
+
+Under `arch-1` the honest answer was **yes, largely**. The repository root *was* a
+historical-documentary studio. `bible/` mixed universal rules (AI disclosure, rights,
+delivery) with genre rules (source tiers, narrative doctrine, cultural sensitivity),
+so a narrative short or a brand film would have inherited an evidence chain it could
+not satisfy and a gate set that made no sense for it. The only routes were to fork
+the repo or to bolt exemptions onto canon — and canon that routinely grants
+exemptions stops being canon.
+
+AE-001's diagnosis was right; its abstraction was one tier too shallow. It separated
+*region* from *studio* but left *genre* fused to the platform.
+
+**Change:**
+
+1. **Two tiers inserted.** Platform → studio → line → production.
+2. **`bible/` split three ways by what each rule is actually true of:**
+   - universal → [`core/`](../../core/) (provenance and AI disclosure, rights,
+     distribution, gate framework, amendment log)
+   - genre → [`packs/documentary-history/`](../../packs/documentary-history/)
+     (editorial standards, evidence, narrative, visual, sound, sensitivity,
+     localisation, methodology)
+   - studio → [`studios/african-history/bible/`](../../studios/african-history/bible/)
+     (charter, corrections, amendments)
+3. **Canon packs introduced.** A studio declares one pack; the pack supplies the
+   editorial rules *and the gate set*. Core defines what a gate is; the pack says
+   which gates exist. `_TEMPLATE_pack/` scaffolds new genres.
+4. **Precedence made explicit:** `core > pack > studio > line > production`. A lower
+   layer may tighten, never loosen.
+5. **Relocations:** `productions/ng-nigeria/` → `studios/african-history/lines/ng-nigeria/`;
+   `sources/permissions/` → `rights/`; `research/methodology/` → the pack;
+   `brand/` → the studio; `templates/episode/` → `templates/production/`.
+6. **Platform de-branded.** Nothing in `core/`, `standards/`, `prompts/`,
+   `templates/`, or `automation/` names African history.
+
+**Cost:** Roughly 30 files moved and all cross-links rewritten, done in one pass
+before any production existed. One extra path segment on line-scoped files. Four
+tiers is more to learn than three, and with one studio it reads as over-engineering.
+Nigeria's paths got longer for no immediate benefit.
+
+Doing this after episode one would have cost an order of magnitude more, because
+every claim ID, asset path, and locked record would have moved with it.
+
+**What it protects:** The platform can host genres with incompatible obligations
+without either compromising. A brand film gets no fake fact-check gate; a history
+documentary cannot skip a real one. Adding a genre is `new-pack`, not a fork.
+
+**Watch for:** Three signals, in order of seriousness.
+
+1. **Studio names appearing in platform-level files.** If `core/`, `standards/`, or
+   `prompts/` starts referencing African history, the tiers are leaking and the
+   second studio will inherit assumptions that do not hold. Grep for it.
+2. **A second pack that is 80% copy of the first.** That means the shared material
+   belonged in core, and the split was made in the wrong place.
+3. **Packs requesting core exemptions.** One is a signal core is over-reaching; a
+   pattern means core was written from documentary assumptions rather than universal
+   ones.
+
+**Reflection:** This is the change AE-001 should have been. It was caught because
+someone asked what the architecture could not do, rather than admiring what it could
+— which is the only question that finds this class of error before it is expensive.
 
 ---
 

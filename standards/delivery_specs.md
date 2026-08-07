@@ -84,12 +84,12 @@ possible, room tone recorded for every location, timecode or clap sync.
 | Minimum size | 1/20 of frame height for body text |
 | Contrast | ≥ 4.5:1 against the shot behind it, measured, not eyeballed |
 | Duration | Readable at 2× the reading time of the text |
-| Fonts | Line-specified; must cover every diacritic used ([../bible/09_localization.md](../bible/09_localization.md) §2) |
+| Fonts | Line-specified; must cover every diacritic used ([../bible/09_localization.md](../packs/documentary-history/09_localization.md) §2) |
 | Layers | Kept separate in the NLE project so a textless master is a render, not a rebuild |
 
 ## Reconstruction mark
 
-Spec in [../brand/labelling_system.md](../brand/labelling_system.md). Constraints:
+Spec in [../brand/labelling_system.md](../studios/african-history/brand/labelling_system.md). Constraints:
 persistent for the full duration of the labelled shot, inside title safe, contrast
 ≥ 3:1, legible at 360p, never obscured by a caption.
 

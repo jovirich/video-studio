@@ -75,7 +75,7 @@ them is both more accurate and better writing.
 
 | Pattern | Why |
 |---|---|
-| "archival footage" / "rare photograph" / "recovered" applied to a shot whose `provenance_class` is `reconstruction` or `interpretive` | Direct violation of [../bible/06_ai_disclosure_and_ethics.md](../bible/06_ai_disclosure_and_ethics.md) §2 |
+| "archival footage" / "rare photograph" / "recovered" applied to a shot whose `provenance_class` is `reconstruction` or `interpretive` | Direct violation of [../bible/06_ai_disclosure_and_ethics.md](../core/01_provenance_and_ai_disclosure.md) §2 |
 | "restored" applied to a generated image | As above |
 | "as it would have looked" without the reconstruction label present | Same claim, unlabelled |
 

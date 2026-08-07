@@ -14,7 +14,7 @@ owners: [rights-and-clearances]
 quotation of any length, not a music cue, not a font in a title card, not a LUT, not
 a generated asset from a tool whose terms have not been checked.
 
-The clearance log is [../sources/permissions/clearance_log.md](../sources/permissions/clearance_log.md).
+The clearance log is [../sources/permissions/clearance_log.md](../rights/permissions/clearance_log.md).
 An item absent from it is uncleared by definition.
 
 ## 2. Categories
@@ -58,7 +58,7 @@ reporting, with different scope in each. The studio's position:
 
 ## 5. Generated asset rights
 
-Recorded in [../sources/permissions/model_terms_register.md](../sources/permissions/model_terms_register.md),
+Recorded in [../sources/permissions/model_terms_register.md](../rights/permissions/model_terms_register.md),
 per tool, with the date checked and the plan tier held. The register tracks:
 
 - Does the licence permit **commercial** use of outputs?

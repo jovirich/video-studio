@@ -45,7 +45,7 @@ a small team can honestly answer "where did that come from?" eighteen months lat
 
 **T5 includes any output of a language model.** A model may help locate, summarise,
 or structure; its assertions are leads, not sources. This rule is absolute and is
-the reason [../prompts/text/](../prompts/text/) contains research *assistance*
+the reason [../prompts/text/](../prompts/text) contains research *assistance*
 templates and no research *authority* templates.
 
 ### 2.1 On T4 and the hierarchy
@@ -138,7 +138,7 @@ follows [../docs/runbook/restricted_records.md](../docs/runbook/restricted_recor
 ## 9. What a researcher does when the evidence runs out
 
 In order:
-1. Record an open question in [../research/open_questions/](../research/open_questions/).
+1. Record an open question in [../research/open_questions/](../research/open_questions).
 2. Change the register down, not the claim up.
 3. If the sequence cannot survive the honest register, cut the sequence.
 4. Never fill the gap with a plausible reconstruction stated as fact. Never ask a

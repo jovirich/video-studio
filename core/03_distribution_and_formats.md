@@ -57,7 +57,7 @@ Masters live in the asset store, not in git. Path convention in
 - Titles state the subject honestly. Curiosity gaps are permitted; misdirection is
   not. A title implying a claim the episode does not make is an accuracy failure
   under [01_editorial_standards.md](01_editorial_standards.md) §1.
-- Thumbnails follow the system in [../brand/thumbnail_system.md](../brand/thumbnail_system.md).
+- Thumbnails follow the system in [../brand/thumbnail_system.md](../studios/african-history/brand/thumbnail_system.md).
   **A thumbnail using generated imagery carries the same honesty standard as the
   episode** — it may not depict something the episode shows to be false, and it may
   not be presented as a photograph.
