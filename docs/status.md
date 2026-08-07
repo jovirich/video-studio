@@ -73,21 +73,33 @@ Every `IMPLEMENTED` row below should be read as *"we believe this works"*, not
 
 ### Automation (`studio_ops`)
 
-| Capability | Status | Notes |
+| Capability | Status | Evidence |
 |---|---|---|
-| CLI skeleton | **NOT BUILT** | Every command in the docs is currently aspirational. |
-| `validate --schemas` | **NOT BUILT** | |
-| `validate --naming` | **NOT BUILT** | |
-| `validate --links` | **NOT BUILT** | |
-| `validate --sources` | **NOT BUILT** | |
-| `validate --canon` | **NOT BUILT** | |
-| `validate --root-hygiene` | **NOT BUILT** | |
-| `new-studio` / `new-line` / `new-production` / `new-pack` | **NOT BUILT** | |
+| CLI skeleton | **IMPLEMENTED** | `python -m studio_ops --help` runs |
+| `validate --root-hygiene` | **IMPLEMENTED** | Runs against the real tree; PASS, 28 entries |
+| `validate --naming` | **IMPLEMENTED** | Runs against the real tree; PASS, 177 files |
+| `validate --links` | **IMPLEMENTED** | Runs against the real tree; **found 130 real broken links on first run** |
+| `validate --schemas` | **IMPLEMENTED** | Runs; routes YAML and front matter to `standards/schemas/` |
+| Test suite for the above | **IMPLEMENTED** | 20 tests, fixture trees with deliberate violations, all passing |
+| `validate --sources` | **NOT BUILT** | Reports its own absence and exits 2 |
+| `validate --canon` | **NOT BUILT** | Blocked on `prohibited_patterns.json` |
+| `validate --prompts` / `--packs` / `--delivery` | **NOT BUILT** | |
+| `new-studio` / `new-line` / `new-production` / `new-pack` / `new-record` | **NOT BUILT** | Exit 2 with the blocking reason |
 | `report` family | **NOT BUILT** | |
+| `promptlib render` / `run` | **NOT BUILT** | |
 | Manifest / provenance ledger | **DESIGNED** | Schema exists. No code writes to it. |
-| Conform step (refuses untracked files) | **DESIGNED** | This is the mechanism behind the traceability guarantee. It does not exist yet. |
-| Generation adapters | **DESIGNED** | Deliberately stubs. Wiring one is a separate, budgeted decision. |
+| Conform step (refuses untracked files) | **NOT BUILT** | This is the mechanism behind the traceability guarantee. It does not exist yet. |
+| Generation adapters | **DESIGNED** | Deliberate stubs. `Adapter.generate` enforces dry-run and budget before any subclass runs, so no adapter can bypass the ceiling by forgetting to check. |
 | Asset store | **NOT BUILT** | No round trip has been proved. |
+
+**Why none of these is TESTED.** The validators run and their unit tests pass against
+fixture trees. That is IMPLEMENTED. TESTED would mean running them against a real
+production's worth of records — several hundred, with known violations planted — and
+recording the result. No such corpus exists, because no production exists.
+
+The `--links` gate is the closest to earning it: on its first run against the real
+repository it found 130 broken links, all genuine. That is evidence it works on real
+input, but it is one gate against one repository state.
 
 ### CI and process
 
