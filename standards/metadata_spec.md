@@ -15,7 +15,7 @@ YAML, delimited by `---`, first thing in the file.
 title: Human-readable title
 status: draft | review | locked | superseded | retracted
 version: 0.1.0
-updated: 2026-08-07
+updated: "2026-08-07"    # quoted — see § Dates below
 owners: [role-slug, ...]
 ---
 ```
@@ -59,7 +59,7 @@ line: ng-nigeria
 title: ...
 status: draft
 version: 0.1.0
-updated: 2026-08-07
+updated: "2026-08-07"    # quoted — see § Dates below
 owners: [research-lead]
 claims: [CLM-NG-0117, CLM-NG-0118]
 sources: [SRC-NG-0042]
@@ -96,6 +96,17 @@ gate_blocking: script-lock | none
 | `advisory_ref` | string | Required when `sensitivity: held` |
 | `superseded_by` | string | Required when `status: superseded` |
 | `retraction_reason` | string | Required when `status: retracted` |
+
+## Dates are quoted
+
+Always write `updated: "2026-08-07"`, with quotes.
+
+Unquoted, YAML resolves it to a **date object**, not a string. Every schema types
+date fields as strings via `_common#/$defs/isoDate`, so an unquoted date fails
+validation — and worse, where a schema is lenient it passes while the ISO pattern is
+never actually enforced, which is the silent version of the same bug.
+
+This bites everyone once. It is called out here rather than left to be rediscovered.
 
 ## The `TBD` convention
 

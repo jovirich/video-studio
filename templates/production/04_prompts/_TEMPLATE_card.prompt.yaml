@@ -1,0 +1,264 @@
+# =============================================================================
+# PROMPT CARD
+# =============================================================================
+# Schema: ../../../standards/schemas/prompt_card.schema.json
+# Framework: ../../../prompts/_framework/prompt_anatomy.md
+#
+# Copy to PC-XX-S00E00-0000_<slug>.prompt.yaml with a toolkit-allocated ID.
+# Do not fill this template in place.
+#
+# WHAT A PROMPT CARD IS
+#   A versioned, reviewable specification for ONE generated asset. It is a
+#   record, not a text string, and that distinction carries the whole design:
+#
+#     - It can be reviewed BEFORE the asset exists, which is the only moment the
+#       question "should this image exist" is cheap to ask.
+#     - It can be re-run. Card + seed + parameters reproduces the asset, which
+#       turns "that shot looks wrong" from an argument into an examination.
+#     - It can target more than one vendor, because `studio_ops promptlib render`
+#       assembles the vendor string from the structured blocks below. A
+#       hand-written string is locked to the tool it was written for — which
+#       becomes a problem the first time a vendor changes its terms.
+#     - It carries the evidence a reconstruction is built from, so a claim made
+#       in pictures is attached to the record that grounds it.
+#
+# EVERY BLOCK BELOW CARRIES A COMMENT SAYING WHAT IT IS FOR AND WHAT GOES WRONG
+# WITHOUT IT. If you add a field, add that comment. A comment that restates the
+# field name is not a comment.
+# =============================================================================
+
+# --- Identity ----------------------------------------------------------------
+# Permanent, never reused, allocated by the toolkit. Episode-scoped cards use
+# PC-<SCOPE>-<EPISODE>-<SERIAL>; cards reusable across productions live in
+# ../../../prompts/ and use PC-STUDIO-<SERIAL>.
+id: PC-XX-S00E00-0000
+type: prompt_card
+line: xx-line-code
+title: TBD — what this card produces, in a few words
+
+# --- Record state ------------------------------------------------------------
+# A card is versioned, never overwritten. Changing a prompt bumps the version and
+# records what changed and why in `notes`; the previous version stays in git.
+# Overwriting is how "why does shot 42 look different now" becomes unanswerable.
+status: draft
+version: "0.1.0"
+updated: "2026-08-07"           # quoted: unquoted, YAML resolves this to a date
+                                # object and the schema types it as a string
+owners: [visual-director]
+
+# `none` is a Cultural Advisor's finding, not a default. If this becomes `held`,
+# advisory_ref is required and generation freezes until the ruling is written.
+sensitivity: review-required
+# advisory_ref: ADV-XX-0000
+
+# --- Modality ----------------------------------------------------------------
+# image | video | audio_voice | audio_music | audio_sfx | text | scene3d |
+# restoration | performance | post
+#
+# Selects which renderer and which vendor cheat sheet apply. It is also what the
+# cost adapter uses to pick a rate, so an inaccurate modality produces an
+# inaccurate ceiling check.
+modality: image
+
+# --- Tool --------------------------------------------------------------------
+# `vendor` is the folder name under ../../../prompts/<modality>/, so the cheat
+# sheet and the terms register are one lookup away from the card.
+#
+# `terms_checked` is the date the vendor's terms were last verified in the model
+# terms register. Terms govern ownership, commercial use, indemnity, and whether
+# your inputs train the model — and they change without notice. A card whose
+# terms date is missing or stale is flagged by `studio_ops validate --prompts`,
+# because the alternative is discovering at delivery that a tool's licence never
+# permitted the use.
+tool:
+  vendor: TBD — vendor slug, matching a folder under ../../../prompts/
+  model: TBD — model name as the vendor writes it
+  version: TBD — model version or build; "latest" is not a version
+  # terms_checked: "YYYY-MM-DD"   # add when the register entry is verified
+
+# --- Target ------------------------------------------------------------------
+# What this card is FOR. Without it a card is a nice image with no job, and the
+# library fills up with cards nobody can place.
+target:
+  episode: S00E00
+  sequence: SEQ-XX-S00E00-001
+  shot: SHT-XX-S00E00-0000
+
+  # archival | contemporary | artefact | reconstruction | interpretive |
+  # graphic | text_on_screen
+  #
+  # A GENERATED asset may NEVER be `archival`. The schema forbids the
+  # combination outright: the result would be a fabricated historical document,
+  # and no review, deadline, or disclosure makes that acceptable.
+  # `reconstruction` and `interpretive` both require an in-frame label.
+  provenance_class: reconstruction
+
+  # One sentence. What this shot must accomplish IN THE CUT — not what it
+  # depicts. "Establishes the scale of the enclosure before the reversal" is an
+  # intent; "wide shot of the walls" is a description. Written as an intent, the
+  # card can be evaluated against something; written as a description, it can
+  # only be evaluated against taste.
+  intent: TBD — what this shot must accomplish in the cut, in one sentence
+
+# --- Inheritance -------------------------------------------------------------
+# Where the look comes from. A production's visual identity survives because
+# cards inherit it, not because everyone remembers it. Style anchors are fixed
+# reference images that hold an entity or a look consistent across shots and
+# across productions — the mechanism against a character's face drifting between
+# episode two and episode five.
+inheritance:
+  style_block: TBD — path or ID of the line's inherited style block
+  style_anchors: []             # TBD — STA-XX-0000
+
+  # Any deviation from the inherited style, each with a reason. An override
+  # without a reason fails review. This is not bureaucracy: unexplained
+  # overrides accumulate, each one defensible on its own, and the production's
+  # look drifts without any single decision having caused it.
+  overrides:
+    - field: TBD — the inherited field being overridden
+      value: TBD — the value used instead
+      reason: TBD — why this shot needs it; "looked better" is not a reason
+
+# --- Prompt ------------------------------------------------------------------
+# The structured prompt. Never hand-assembled into a vendor string here — that
+# is `studio_ops promptlib render`'s job, and keeping it structured is what lets
+# one card target several tools.
+prompt:
+  # Specifically what is depicted. Named people, place, and period — never a
+  # generic region and never a generic era. A vague subject produces the
+  # pan-historical composite that every one of these tools defaults to, and the
+  # result is an image of nowhere that reads as an image of somewhere.
+  subject: TBD — who or what, named, with the period stated
+
+  action: TBD — what is happening, or `static` if nothing is
+
+  setting: TBD — where, specifically, and in what condition at this date
+
+  # The main defence against generic output. Concrete material details that fix
+  # the period: materials, textiles, tools, construction methods, architecture,
+  # vessels, flora. Each one should be traceable to the evidence basis below —
+  # a period marker you cannot source is an invention with a research accent.
+  period_markers:
+    - TBD — a material detail that fixes the period, grounded in the evidence basis
+    - TBD — another
+
+  composition: TBD — how the frame is organised; what leads the eye and what it lands on
+
+  # From the line's DEFINED lens set, not from the tool's defaults. A production
+  # whose lens language is whatever each tool prefers has no lens language.
+  camera: TBD — lens, height, angle, movement
+
+  light: TBD — source, direction, quality, time of day
+
+  palette: TBD — from the line's palette document, with any deviation in `overrides`
+
+  texture: TBD — surface, grain, and the medium being emulated, if any
+
+  mood: TBD — the emotional register, stated so it can be argued with
+
+  # Things to exclude. The shared starting set is in
+  # ../../../prompts/_framework/negative_library.md — start there and add only
+  # what this shot needs, because an over-stuffed negative list suppresses the
+  # subject along with the artefact.
+  negative: []
+
+  # raw_override: |
+  #   Verbatim prompt string. Used ONLY when a tool's syntax genuinely cannot be
+  #   expressed structurally, and it requires a reason in `notes`. Every raw
+  #   override is a card that has stopped being portable between vendors.
+
+# --- Parameters --------------------------------------------------------------
+# Vendor-specific and deliberately unconstrained by the schema. Valid keys are
+# documented in the cheat sheet at ../../../prompts/<modality>/<vendor>/.
+#
+# Seeds belong in `runs` below, not here: a seed is a property of a run, and
+# pinning one here silently makes every run identical, which looks like
+# determinism and is actually a stuck card.
+# See ../../../prompts/_framework/seed_discipline.md.
+parameters: {}
+
+# --- Inputs ------------------------------------------------------------------
+# Reference images, source frames, structure references, audio references fed to
+# the tool.
+#
+# `rights_note` is REQUIRED for third-party material. Feeding uncleared material
+# to a model is a rights event, not a technical step — the material leaves the
+# studio's control, and with most vendors it may be retained. Restricted
+# archival scans and interview recordings never go to a third-party endpoint at
+# all unless the contract carries a no-training term AND the source's permission
+# covers it. See ../../../core/01_provenance_and_ai_disclosure.md §6.
+inputs:
+  - kind: style_reference       # style_reference | structure_reference |
+                                # character_reference | source_frame |
+                                # audio_reference | depth_map | mask | other
+    ref: TBD — asset ID, style anchor ID, or asset store path
+    weight: 1
+    rights_note: TBD — the clearance covering this input, or `studio-owned`
+
+# --- Evidence basis ----------------------------------------------------------
+# REQUIRED when target.provenance_class is `reconstruction`. The schema enforces
+# it.
+#
+# This is the block that makes the difference between a reconstruction and an
+# illustration. A reconstruction asserts "this is what that looked like", which
+# is a historical claim made in pictures, and it is answerable to evidence on
+# exactly the same terms as a sentence of narration.
+#
+# An empty list here means the image asserts a past that nothing in the record
+# supports. Where the evidence runs out, COMPOSE AROUND THE GAP — frame past it,
+# hold it in shadow, keep it out of focus — rather than letting the model decide.
+# The model's decision will be confident, plausible, and unattributable.
+evidence_basis:
+  - TBD — CLM-XX-0000, the claim this depiction asserts
+  - TBD — SRC-XX-0000, the material evidence the depiction is built from
+  - TBD — what is NOT evidenced here, and how the composition avoids asserting it
+
+# --- Constraints -------------------------------------------------------------
+# Flags that trigger clearance and advisory requirements. They are declared on
+# the card rather than discovered at review, because the point is to catch the
+# problem before the image exists.
+constraints:
+  # If true, the schema REQUIRES person_ref and clearance_ref. For a historical
+  # figure no consent is possible, so the honest value is false and the depiction
+  # does not happen. See core/01 §2.
+  depicts_named_person: false
+  # person_ref: CHR-XX-0000
+  # clearance_ref: CLR-XX-0000
+
+  # Any true value below places the card in the Cultural Advisor's queue and
+  # blocks generation until a ruling is written. A hold here costs a
+  # conversation; the same hold after the sequence is cut costs the sequence.
+  depicts_sacred_material: false
+  depicts_violence: false
+  depicts_human_remains: false
+
+# --- Runs --------------------------------------------------------------------
+# Append-only generation history. Never edited, never pruned.
+#
+# The `notes` field is the one that makes the prompt library improve over time:
+# a rejected run whose reason for rejection is recorded stops the next person
+# repeating it. A rejected run with no note is a cost with no return.
+runs:
+  - run_id: TBD — identifier from the adapter
+    seed: TBD — the actual seed used; without it the run is not reproducible
+    generated_at: TBD — ISO 8601 timestamp
+    generated_by: TBD — the person who ran it
+    asset: AST-XX-S00E00-0000
+    outcome: rejected           # selected | rejected | reference-only | superseded
+    cost_usd: 0
+    notes: TBD — why it worked or did not, specifically enough to act on
+
+# --- Review ------------------------------------------------------------------
+# Both checks happen on the CARD, before generation, and again on the resulting
+# asset. Checking only the output means the studio pays for every image it then
+# decides it should not have made.
+review:
+  sensitivity: pending          # not-required | pending | in-review | signed | blocked
+  # Materials, textiles, tools, architecture, flora, script forms, and anything
+  # else the model will happily supply from the wrong century.
+  anachronism_check: pending
+  # `signature` is added by the person signing, with their own name and the real
+  # date. Omitted deliberately: a template that ships with a filled signature
+  # block teaches that signatures are formatting.
+
+notes: TBD — what changed in this version and why; required if `raw_override` is used

@@ -1,0 +1,179 @@
+# =============================================================================
+# ASSET MANIFEST — THE PRODUCTION'S PROVENANCE LEDGER
+# =============================================================================
+# Schema: ../../standards/schemas/asset_manifest.schema.json
+#
+# WHAT THIS FILE IS FOR
+#   Every asset that reaches the edit appears here — generated or not, licensed
+#   or captured, a 4K render or a scanned folio. An asset absent from the
+#   manifest cannot be conformed into the timeline: `studio_ops pipeline conform`
+#   refuses it. That refusal, not a policy document, is the mechanism behind the
+#   platform's traceability guarantee (../../README.md §7).
+#
+#   The media itself never enters git (05_assets/README.md). This file does. The
+#   division is the whole design: git holds the claims about the media, the asset
+#   store holds the bytes, and `sha256` is what ties one to the other.
+#
+# WHY IT COVERS NON-GENERATED ASSETS TOO
+#   An archival scan needs provenance at least as much as a render does. The
+#   render's risk is "was this disclosed"; the scan's risk is "may we use this,
+#   and who must be credited, in exactly which words". Both are answered here or
+#   nowhere.
+#
+# WHO WRITES IT
+#   `studio_ops pipeline ingest` appends an entry per file and computes the hash.
+#   The provenance fields are human decisions and are prompted for on ingest.
+#   Hand-editing is expected during a production and is checked at technical QC.
+#
+# FREEZING
+#   `frozen: true` is set at delivery. The frozen file is hashed and the hash is
+#   embedded in the delivered media metadata, so a file in the world can be tied
+#   to the exact record set that produced it.
+# =============================================================================
+
+type: asset_manifest
+line: xx-line-code
+episode: S00E00
+version: "0.1.0"
+# Quoted: unquoted, YAML resolves an ISO date to a date object and the schema
+# types this as a string.
+updated: "2026-08-07"
+
+# Set true only by the packaging step, at delivery. A manifest frozen early is a
+# manifest that stopped being true without anyone noticing.
+frozen: false
+
+assets:
+  # ===========================================================================
+  # WORKED EXAMPLE — DELETE THIS ENTRY BEFORE THE FIRST REAL INGEST.
+  # ---------------------------------------------------------------------------
+  # It shows the hardest case: a GENERATED asset in the RECONSTRUCTION class,
+  # which triggers every conditional requirement the schema has. All IDs are
+  # obvious placeholders (XX / S00E00 / 0000) and resolve to nothing.
+  # ===========================================================================
+  - # Permanent, never reused, allocated by the toolkit. A hand-typed asset ID
+    # collides eventually, and a collided ID silently attaches one asset's
+    # provenance to a different asset's frames.
+    asset_id: AST-XX-S00E00-0000
+
+    # Per ../../standards/naming_conventions.md § Assets:
+    #   <EPISODE>_<SEQ>_<SHOT>_<class>_<slug>_v<NN>.<ext>
+    # The slug describes CONTENT, never tool or settings. Tool and settings
+    # belong in `generation` below, where they are queryable.
+    filename: S00E00_SEQ000_SHT0000_recon_tbd-content-slug_v01.png
+
+    # Path in the asset store, not in git. See ../../docs/status.md for what the
+    # store is and is not yet.
+    store_path: TBD — asset store path, written by `studio_ops pipeline ingest`
+
+    # sha256 and bytes are computed on ingest and are deliberately absent from
+    # this template. A hand-typed hash is worse than no hash: it looks like
+    # verification and verifies nothing.
+    #   sha256: <64 lowercase hex characters>
+    #   bytes:  <integer>
+
+    media_type: image                 # image | video | audio | document | project
+
+    # The single most consequential field in the file. It decides whether a
+    # label is required, whether an evidence basis is required, and how the shot
+    # may be described on screen and in the description.
+    #   archival        a genuine historical item, reproduced
+    #   contemporary    footage or stills shot in the present day
+    #   artefact        an object photographed in a collection
+    #   reconstruction  a depiction of something that existed, built from evidence
+    #   interpretive    a visual figure for something not directly depictable
+    #   graphic         maps, charts, timelines — these ASSERT, so they carry claims
+    #   text_on_screen  quotations and titles
+    #
+    # A GENERATED asset may never carry `archival`. The schema forbids the
+    # combination outright — there is no flag, no reviewer, and no deadline that
+    # permits it, because the result is a fabricated historical document.
+    provenance_class: reconstruction
+
+    # Which shots this asset appears in. Populated as the edit conforms; it is
+    # what makes "what breaks if this clearance is refused" answerable in one
+    # query instead of one screening.
+    used_in_shots: [SHT-XX-S00E00-0000]
+
+    # generated | licensed | captured | public_domain | commissioned | studio_library
+    # Determines which sub-block below is required. `generated` requires
+    # `generation`; the other four require `acquisition`.
+    origin: generated
+
+    generation:
+      tool:
+        # `vendor` is the folder name under prompts/<modality>/, so the cheat
+        # sheet and the terms register are one lookup away.
+        vendor: TBD — vendor slug, matching a folder under ../../prompts/
+        model: TBD — model name as the vendor writes it
+        version: TBD — model version or build; "latest" is not a version
+      # The versioned card that produced this asset. This is the reproducibility
+      # link: card plus seed plus parameters is enough to regenerate, and
+      # regeneration is how a disputed image is examined rather than argued about.
+      prompt_card: PC-XX-S00E00-0000
+      seed: TBD — the actual seed used; without it the run is not reproducible
+      # Free-form, vendor-specific. Valid keys are documented in the vendor cheat
+      # sheet under ../../prompts/<modality>/<vendor>/.
+      parameters: {}
+      # Reference images, structure references, source frames fed to the tool.
+      # Third-party material here is a rights event, not a technical detail.
+      inputs: []
+      generated_at: TBD — ISO 8601 timestamp of the run
+      generated_by: TBD — the person who ran it, not the tool that ran
+      cost_usd: 0
+
+    # Required instead of `generation` when origin is licensed, captured,
+    # public_domain, or commissioned. Shown commented so the shape is visible:
+    #
+    #   acquisition:
+    #     source_record: SRC-XX-0000     # the source record this came from
+    #     clearance_ref: CLR-XX-0000     # the clearance that permits this use
+    #     credit_line: TBD — the EXACT wording the rights holder requires
+    #     acquired_at: "YYYY-MM-DD"
+    #     restrictions: TBD — territory, term, media, and any no-alteration term
+
+    # Required whenever provenance_class is `reconstruction`. The claims and
+    # sources this depiction is built from. An empty list here means the image
+    # is asserting a past that nothing in the record supports — which is the
+    # exact failure the reconstruction class exists to make visible.
+    evidence_basis:
+      - TBD — CLM-XX-0000, the claim this reconstruction depicts
+      - TBD — SRC-XX-0000, the material evidence the depiction is built from
+
+    # Ordered. Every step that altered the asset after generation or acquisition.
+    # It matters because "restoration" that invents content is prohibited, and
+    # the only way to review that is to know what was run and in what order.
+    post_process:
+      - step: upscale               # upscale | restore | denoise | retime |
+                                    # interpolate | grade | crop | composite |
+                                    # rotoscope | stabilise | other
+        tool: TBD — the tool and version that performed this step
+        note: TBD — what it changed, and whether it changed any content
+      # Retime steps additionally record `conform_method`: native | retime |
+      # frame-blend | optical-flow. Generation tools output at their own native
+      # rates; optical-flow retiming leaves artefacts that survive grading and
+      # is checked for at picture lock. See ../../standards/delivery_specs.md.
+
+    # Disclosure state. `required` is derived from provenance_class —
+    # reconstruction and interpretive always require an in-frame mark — and is
+    # stored so the edit can be checked without recomputing it per shot.
+    # `applied: false` with `required: true` is a picture-lock blocker.
+    label:
+      required: true
+      applied: false
+      mark: TBD — which mark, per the studio's labelling system
+
+    # cleared | pending | not-required | refused
+    # A production cannot be DELIVERED with any asset in `pending`. Not "should
+    # not" — the rights gate blocks 09_delivery.
+    rights_status: pending
+
+    review:
+      sensitivity: pending          # not-required | pending | in-review | signed | blocked
+      anachronism_check: pending
+      technical_qc: pending
+      # `signature` is added only by the person signing, with their own name and
+      # the real date. It is omitted here on purpose: a template that ships with
+      # a signature block filled in teaches that signatures are formatting.
+
+    notes: TBD — anything a reviewer would need that the fields above cannot carry

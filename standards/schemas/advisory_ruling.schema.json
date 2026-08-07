@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://video-studio.local/schemas/advisory_ruling.schema.json",
+  "title": "Advisory Ruling",
+  "description": "A written ruling by the Cultural Advisor. The ONLY thing that releases an advisory hold - a hold is not released by the Showrunner, by consensus, or by time passing. See packs/documentary-history/07_cultural_sensitivity.md section 4.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^ADV-[A-Z]{2}-\\d{4}$"
+    },
+    "type": {
+      "const": "advisory_ruling"
+    },
+    "line": {
+      "$ref": "_common.schema.json#/$defs/lineCode"
+    },
+    "title": {
+      "type": "string"
+    },
+    "status": {
+      "$ref": "_common.schema.json#/$defs/recordStatus"
+    },
+    "version": {
+      "$ref": "_common.schema.json#/$defs/semver"
+    },
+    "updated": {
+      "$ref": "_common.schema.json#/$defs/isoDate"
+    },
+    "owners": {
+      "type": "array",
+      "items": {
+        "$ref": "_common.schema.json#/$defs/anyRole"
+      },
+      "minItems": 1
+    },
+    "sensitivity": {
+      "$ref": "_common.schema.json#/$defs/sensitivity"
+    },
+    "advisory_ref": {
+      "$ref": "_common.schema.json#/$defs/advisoryId"
+    },
+    "superseded_by": {
+      "type": "string"
+    },
+    "retraction_reason": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "raised_by": {
+      "type": "string",
+      "description": "Any contributor may raise a hold, without standing or seniority, and is never penalised for it."
+    },
+    "raised_on": {
+      "$ref": "_common.schema.json#/$defs/isoDate"
+    },
+    "target": {
+      "type": "string",
+      "description": "The asset, shot, sequence, prompt card, or record under hold."
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "sacred-or-restricted",
+        "human-remains-or-burial",
+        "violence-or-atrocity",
+        "living-community-claim",
+        "likeness-or-voice",
+        "language-or-naming",
+        "stereotype-or-framing",
+        "regalia-or-masquerade",
+        "other"
+      ]
+    },
+    "concern": {
+      "type": "string"
+    },
+    "consulted": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "advisor": {
+            "type": "string"
+          },
+          "standing": {
+            "type": "string",
+            "description": "The basis on which they are competent to rule on THIS question. 'An elder from the village' is not standing."
+          },
+          "paid": {
+            "type": "boolean",
+            "description": "Consultation is labour. An unpaid advisor is a favour being taken advantage of, and will eventually and rightly stop answering."
+          }
+        },
+        "required": [
+          "advisor",
+          "standing"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "ruling": {
+      "type": "string",
+      "enum": [
+        "permitted",
+        "permitted-with-conditions",
+        "refused",
+        "deferred"
+      ]
+    },
+    "conditions": {
+      "type": "string"
+    },
+    "reasoning": {
+      "type": "string",
+      "description": "Written so a future production facing the same question can apply it without re-litigating."
+    },
+    "hold_released": {
+      "type": "boolean"
+    },
+    "signature": {
+      "$ref": "_common.schema.json#/$defs/signature"
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "line",
+    "title",
+    "status",
+    "version",
+    "updated",
+    "owners",
+    "raised_by",
+    "target",
+    "category",
+    "concern",
+    "ruling"
+  ],
+  "additionalProperties": false
+}

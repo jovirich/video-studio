@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://video-studio.local/schemas/correction.schema.json",
+  "title": "Correction",
+  "description": "A published correction. Append-only and public. A visible correction log is the strongest available evidence that the rest of the work is honest - corrections are not embarrassments to be minimised.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^COR-[A-Z]{2}-\\d{4}$"
+    },
+    "type": {
+      "const": "correction"
+    },
+    "line": {
+      "$ref": "_common.schema.json#/$defs/lineCode"
+    },
+    "title": {
+      "type": "string"
+    },
+    "status": {
+      "$ref": "_common.schema.json#/$defs/recordStatus"
+    },
+    "version": {
+      "$ref": "_common.schema.json#/$defs/semver"
+    },
+    "updated": {
+      "$ref": "_common.schema.json#/$defs/isoDate"
+    },
+    "owners": {
+      "type": "array",
+      "items": {
+        "$ref": "_common.schema.json#/$defs/anyRole"
+      },
+      "minItems": 1
+    },
+    "sensitivity": {
+      "$ref": "_common.schema.json#/$defs/sensitivity"
+    },
+    "advisory_ref": {
+      "$ref": "_common.schema.json#/$defs/advisoryId"
+    },
+    "superseded_by": {
+      "type": "string"
+    },
+    "retraction_reason": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "episode": {
+      "$ref": "_common.schema.json#/$defs/episodeCode"
+    },
+    "published_version": {
+      "type": "string",
+      "pattern": "^v\\d+$"
+    },
+    "reported_by": {
+      "type": "string",
+      "description": "May be 'viewer' or anonymised. Anyone may report an error."
+    },
+    "reported_on": {
+      "$ref": "_common.schema.json#/$defs/isoDate"
+    },
+    "triaged_on": {
+      "$ref": "_common.schema.json#/$defs/isoDate",
+      "description": "Within 5 working days of the report."
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "material",
+        "minor"
+      ],
+      "description": "Material changes a viewer's understanding and forces a re-cut or an on-screen correction card. Minor is description and log only."
+    },
+    "what_was_wrong": {
+      "type": "string"
+    },
+    "what_is_correct": {
+      "type": "string"
+    },
+    "affected_claims": {
+      "type": "array",
+      "items": {
+        "$ref": "_common.schema.json#/$defs/claimId"
+      }
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "re-cut",
+        "correction-card",
+        "description-note",
+        "claim-retracted",
+        "no-action"
+      ]
+    },
+    "no_action_reason": {
+      "type": "string"
+    },
+    "corrected_on": {
+      "$ref": "_common.schema.json#/$defs/isoDate"
+    },
+    "signature": {
+      "$ref": "_common.schema.json#/$defs/signature"
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "line",
+    "title",
+    "status",
+    "version",
+    "updated",
+    "owners",
+    "reported_by",
+    "severity",
+    "what_was_wrong",
+    "action"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,116 @@
+# =============================================================================
+# PRODUCTION LINE CONTROL RECORD
+# =============================================================================
+# Schema: ../../standards/schemas/production_line.schema.json
+#
+# Copied by `studio_ops new-line` into studios/<studio>/lines/<code>/line.yaml.
+#
+# A line is a coherent body of work — a region, a series, a season strand. It is
+# the level at which research is shared and entities are consistent, which is the
+# whole reason the tier exists: a person or a place appearing in three
+# productions must be ONE record referenced three times, not three records that
+# quietly diverge.
+#
+# This template ships as `candidate` with all three opening conditions false.
+# That is the honest starting state. Turning one true should require pointing at
+# something that exists.
+# =============================================================================
+
+id: LINE-XX                      # permanent; XX matches id_scope below
+type: production_line
+line: xx-line-code               # <iso2>-<name>, e.g. the folder name
+title: TBD — the line's name as it is spoken about internally
+
+status: draft
+version: "0.1.0"
+# Quoted: unquoted, YAML resolves an ISO date to a date object and the schema
+# types this as a string.
+updated: "2026-08-07"
+owners: [research-lead]
+
+# `none` is a Cultural Advisor's finding, not a scaffolder's assumption.
+sensitivity: review-required
+
+# --- Identity ----------------------------------------------------------------
+code: xx-line-code
+
+# The two-letter scope in every record ID this line allocates: SRC-XX-0000,
+# CLM-XX-0000, CHR-XX-0000. PERMANENT. Changing it after records exist orphans
+# every reference to every one of them, and the reference graph gives no warning
+# — the IDs simply stop resolving.
+id_scope: XX
+
+# `order` is an integer and has no honest placeholder, so it is omitted rather
+# than faked. Add it when the line's position in the slate is decided.
+#   order: <integer>
+
+# candidate | opening | open | paused | closed
+# Only `open` permits greenlighting a production. The schema refuses `open`
+# while any opening condition below is false.
+line_status: candidate
+
+# --- Opening conditions ------------------------------------------------------
+# The three conditions from the platform charter. All three must be true before
+# line_status can be `open`, and the check is mechanical because these are
+# precisely the three a schedule wants to defer.
+opening_conditions:
+  # A line with no named lead has no accountable owner for the evidence, and
+  # evidence is the thing that fails silently.
+  research_lead_named: false
+  research_lead: TBD — named person, not a role and not a plan to find one
+
+  # Discovering at picture lock that nobody qualified has looked at the subject
+  # is not a review problem. It is a re-shoot, or a sequence that does not ship.
+  advisory_contact_agreed: false
+  advisory_register: TBD — path to this line's advisory register
+
+  # Without this, scope is set by guesswork, and the first production discovers
+  # mid-research that its central question is unanswerable from the material that
+  # actually exists and is actually reachable.
+  archive_landscape_surveyed: false
+  archive_landscape_doc: TBD — path to the survey document
+
+# --- Languages ---------------------------------------------------------------
+# Every language appearing on screen, each with an entry in the line's
+# languages/ folder. Font selection depends on the UNION of their diacritic
+# coverage: a missing glyph found during the grade is a re-render of every title
+# in every production on the line.
+#
+# Shown commented because an empty list is a truthful statement and a list of
+# placeholder languages is not:
+#
+# languages:
+#   - name: TBD — language name, as its speakers write it
+#     iso639_3: TBD
+#     script: TBD
+#     orthography_standard: TBD — which standard, and who decided
+#     tonal: false          # affects the VO record sheet and the IPA required
+#     style_guide: TBD — path to the line's style guide for this language
+languages: []
+
+# --- Visual identity ---------------------------------------------------------
+# Productions inherit this. Without it each one invents a look, and a line that
+# looks like five different shows is a line nobody recognises.
+visual_identity:
+  style_doc: TBD — path to the line's visual identity document
+  show_lut: TBD — the LUT every production grades through
+  lens_set: []                   # TBD — the defined lens set; prompt cards draw from it
+  palette_doc: TBD — path to the palette document
+  style_anchor_set: []           # TBD — STA-XX-0000; the fixed references that hold
+                                 # entities and looks consistent across productions
+
+# --- Seasons -----------------------------------------------------------------
+# Commented rather than stubbed: a season with a placeholder number and a
+# placeholder status is a slate commitment nobody made.
+#
+# seasons:
+#   - number: 1
+#     title: TBD
+#     status: planned            # planned | in-production | delivered | shelved
+#     episode_count_target: TBD
+#     throughline: TBD — the question the season as a whole asks
+seasons: []
+
+corrections_log: TBD — path to this line's corrections log
+
+notes: TBD — anything a reader of this record in eighteen months would need and could not infer

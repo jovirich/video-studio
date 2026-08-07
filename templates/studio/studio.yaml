@@ -1,0 +1,196 @@
+# =============================================================================
+# STUDIO CONTROL RECORD
+# =============================================================================
+# Copied by `studio_ops new-studio --code <code> --pack <pack>` into
+# studios/<code>/studio.yaml.
+#
+# A studio is a brand with an editorial standard and a slate. Its ONE structural
+# decision is which canon pack it declares — that choice determines the evidence
+# standard, the narrative doctrine, the visual and sonic language, the
+# sensitivity procedure, and the gate set every production under it is held to.
+#
+# NOTE ON VALIDATION: `studio_ops validate --schemas` routes studio.yaml to
+# standards/schemas/studio.schema.json. If that schema does not yet exist, the
+# validator reports a WARNING and does not validate this file — which means the
+# shape below is a convention held by this template and the existing studio
+# record, not something enforced. See docs/status.md.
+# =============================================================================
+
+type: studio
+id: STU-XXX                      # permanent; allocated when the studio is created
+code: tbd-studio-code            # lowercase, hyphenated; becomes the folder name
+title: TBD — the studio's name as it appears in public
+version: "0.1.0"
+status: draft
+# Quoted: unquoted, YAML resolves an ISO date to a date object.
+updated: "2026-08-07"
+
+# --- Canon -------------------------------------------------------------------
+# The pack determines what this studio's productions are held to. It is not a
+# starting point to diverge from: a studio that needs a materially different
+# standard needs a different PACK, authored under packs/, not an exemption.
+#
+# Upgrading a pack major version mid-season is refused by the scaffolder — a
+# production part-way through a gate sequence cannot have the sequence changed
+# underneath it.
+#
+# THREE FIELDS BELOW CANNOT CARRY THE USUAL `TBD — <what is needed>` FORM.
+# `pack` is pattern-matched and accepts the bare literal `TBD` only; the two
+# version fields are strict semver with no TBD branch at all, so `0.0.0` stands
+# in as a deliberate non-version — no pack or core release will ever carry it,
+# and the scaffolder overwrites all three when the pack is declared. Do not read
+# `0.0.0` as "pinned to the first version"; read it as "not yet pinned".
+#
+# pack: the pack code, matching a directory name under ../../packs/
+pack: TBD
+# pack_version: the pack release this studio is pinned to — pinned, not
+# floating, so a pack amendment cannot silently change what a season in
+# production is held to.
+pack_version: "0.0.0"
+# core_version: the core canon version this studio was set up against. Read
+# against the pack's own core_version; where they disagree, core wins.
+core_version: "0.0.0"
+
+studio_status: candidate         # candidate | opening | open | paused | closed
+
+# --- Governance --------------------------------------------------------------
+# Role slugs map to people here, and only here. Records elsewhere own by ROLE,
+# never by name — a record owned by a person is orphaned the moment that person
+# changes role, and a record owned by `research-lead` never is.
+governance:
+  showrunner: TBD — named person
+  research_lead: TBD — named person
+  story_producer: TBD — named person
+  visual_director: TBD — named person
+  audio_lead: TBD — named person
+  rights_and_clearances: TBD — named person
+  cultural_advisor: TBD — named person
+  pipeline_engineer: TBD — named person
+
+  # No person signs two gates on the same production (core/04 §5), and the pack
+  # sets a minimum number of distinct signatories. Below that number, THIS
+  # STUDIO CANNOT SHIP. Recording the real figure here makes that a visible
+  # staffing fact rather than something discovered at the first delivery.
+  distinct_signatories_available: 0
+
+editorial_independence:
+  final_authority: showrunner
+  # The single exception to the Showrunner's authority. A sensitivity hold is
+  # released only by the Cultural Advisor, in writing.
+  advisory_hold_override: not-permitted-unilaterally
+  funder_editorial_input: TBD — what, if anything, a funder may influence; `none-accepted` is the default posture
+  # Access granted on conditions is a condition on the work. Undisclosed, it is
+  # an undisclosed editorial influence.
+  disclosed_access_conditions: []
+
+# --- Scope -------------------------------------------------------------------
+scope:
+  subject: TBD — what this studio makes work about, in one or two sentences
+  # region, period, theme, or format — whichever cut keeps a line coherent
+  organised_by: TBD — how lines are cut
+  # A series cannot cover a continent, a century, or an industry, and claiming
+  # otherwise invites exactly the criticism the work is least able to answer.
+  comprehensiveness_claim: none
+
+# --- Lines -------------------------------------------------------------------
+# Each entry has a folder under lines/. `id_scope` is the two-letter code in
+# every record ID that line allocates, and it is permanent.
+#
+# Commented rather than stubbed: a placeholder line is a slate commitment nobody
+# made.
+#
+# lines:
+#   - code: xx-line-code
+#     order: 1
+#     status: candidate          # candidate | opening | open | paused | closed
+#     id_scope: XX
+lines: []
+
+# --- Decisions blocking first greenlight -------------------------------------
+# Seeded from the pack's `studio_must_decide` list plus this studio's own.
+# `studio_ops` blocks greenlight while any status is `unresolved`.
+#
+# These are the choices that are cheap now and expensive later. Deferred, each
+# becomes a precedent set accidentally by whoever makes the first production,
+# and then a precedent that is awkward to reverse.
+#
+# Every entry ships `unresolved`, which is the honest state of a studio that has
+# not made them. `ref` points at the document where the decision is recorded —
+# the status here is the index, not the decision.
+decisions:
+  - key: mission
+    ref: bible/00_charter.md
+    owner: showrunner
+    status: unresolved
+
+  - key: audience
+    ref: bible/00_charter.md
+    owner: showrunner
+    status: unresolved
+
+  - key: success_conditions
+    ref: bible/00_charter.md
+    owner: showrunner
+    status: unresolved
+    note: >
+      What would count as having succeeded, stated so that failing it is
+      recognisable. Audience numbers are the easy answer and rarely the real one.
+
+  - key: music_policy
+    ref: TBD — the pack document governing music
+    owner: [showrunner, cultural-advisor]
+    status: unresolved
+    note: >
+      The decision most likely to be regretted if made casually, because it is
+      made once and then inherited by everything.
+
+  - key: production_language
+    ref: TBD — the pack document governing localisation
+    owner: [showrunner, cultural-advisor]
+    status: unresolved
+
+  - key: orthography_standards
+    ref: TBD — the pack document governing localisation
+    owner: cultural-advisor
+    status: unresolved
+    # Typeface selection depends on the diacritic inventory this decision fixes.
+    # Deciding it after the brand design means redoing the brand design.
+    blocks: [typeface_selection, brand_design]
+
+  - key: narration_voice_policy
+    ref: TBD — the pack document governing sound
+    owner: audio-lead
+    status: unresolved
+
+  - key: visual_identity
+    ref: TBD — path to the visual identity document
+    owner: visual-director
+    status: unresolved
+
+  - key: runtime_and_platforms
+    ref: ../../core/03_distribution_and_formats.md
+    owner: showrunner
+    status: unresolved
+
+  - key: accessibility_scope
+    ref: TBD — the pack document governing accessibility
+    owner: audio-lead
+    status: unresolved
+    note: >
+      Captions are non-negotiable platform-wide. What is decided here is audio
+      description, sign interpretation, and transcript publication.
+
+  - key: licensing_posture
+    ref: ../../docs/decisions/0009-licensing-posture.md
+    owner: showrunner
+    status: unresolved
+
+# --- Public artefacts --------------------------------------------------------
+# All four are required before anything is published. The corrections log in
+# particular is published from the start, not created after the first error: a
+# studio that only produces one once it has been corrected has told its audience
+# something about how it expected this to go.
+corrections_log: bible/corrections.md
+methodology_page: TBD — public URL
+correction_intake: TBD — public address for error reports
+takedown_contact: TBD — public address for rights and takedown requests

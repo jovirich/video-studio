@@ -2,93 +2,123 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://video-studio.local/schemas/studio.schema.json",
   "title": "Studio",
-  "description": "The control record for a studio. Applies to studios/<code>/studio.yaml. A studio is the brand tier: it declares exactly one canon pack, states where editorial authority sits, names the people behind the roles, owns its production lines, and carries the register of decisions that block its first greenlight. Precedence is core > pack > studio > line > production — a studio may tighten what core and its pack require and may never loosen either. See README.md § The four tiers and CONTRIBUTING.md § Which layer does your change belong to?",
+  "description": "The control record for a studio. Applies to studios/<code>/studio.yaml. A studio is the brand tier: it declares exactly one canon pack, states where editorial authority sits, names the people behind the roles, owns its production lines, and carries the register of decisions that block its first greenlight. Precedence is core > pack > studio > line > production \u2014 a studio may tighten what core and its pack require and may never loosen either. See README.md \u00a7 The four tiers and CONTRIBUTING.md \u00a7 Which layer does your change belong to?",
   "type": "object",
   "properties": {
     "type": {
       "const": "studio",
       "description": "Routes this file to this schema and makes the record self-describing when read out of context."
     },
-
     "id": {
       "type": "string",
       "pattern": "^STU-[A-Z]+$",
-      "description": "Permanent studio identifier. Not in standards/id_system.md's type table, which covers entities inside a line — recorded here as the de facto grammar. Never reused; a closed studio keeps its ID as a tombstone."
+      "description": "Permanent studio identifier. Not in standards/id_system.md's type table, which covers entities inside a line \u2014 recorded here as the de facto grammar. Never reused; a closed studio keeps its ID as a tombstone."
     },
-
     "code": {
       "type": "string",
       "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
       "description": "The studio's directory name under studios/, and the value studio_ops takes as --studio. Kebab-case. Permanent: paths, branches, and IDs across the repository resolve through it."
     },
-
     "title": {
       "type": "string",
       "description": "Human-readable studio name. The brand as it appears on the work."
     },
-
     "version": {
       "$ref": "_common.schema.json#/$defs/semver",
       "description": "Version of this record, not of the studio's output."
     },
-
     "status": {
       "$ref": "_common.schema.json#/$defs/recordStatus",
-      "description": "Lifecycle of this record — draft, review, locked, superseded, retracted. Distinct from studio_status, which describes the studio. A locked record of a paused studio is a coherent state."
+      "description": "Lifecycle of this record \u2014 draft, review, locked, superseded, retracted. Distinct from studio_status, which describes the studio. A locked record of a paused studio is a coherent state."
     },
-
     "updated": {
       "$ref": "#/$defs/yamlDate",
       "description": "When this record was last changed."
     },
-
     "pack": {
       "type": "string",
       "pattern": "^([a-z][a-z0-9]*(-[a-z0-9]+)*|TBD)$",
-      "description": "The canon pack this studio declares — exactly one, matching a directory name under packs/. This single field determines what every production in this studio is held to: its evidence standards, its gate set, its narrative and visual doctrine. Changing it is not a configuration change; it re-canons every production in flight."
+      "description": "The canon pack this studio declares \u2014 exactly one, matching a directory name under packs/. This single field determines what every production in this studio is held to: its evidence standards, its gate set, its narrative and visual doctrine. Changing it is not a configuration change; it re-canons every production in flight."
     },
-
     "pack_version": {
-      "$ref": "_common.schema.json#/$defs/semver",
-      "description": "The pack version this studio is pinned to. Pinned rather than floating so a pack amendment cannot silently change what a season in production is held to. A major upgrade mid-season is refused by the scaffolder — you finish the season on the version you started it on."
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        {
+          "type": "string",
+          "pattern": "^TBD( .*)?$"
+        }
+      ],
+      "description": "A skeleton studio must be able to express 'not yet pinned'. Accepts semver or the literal TBD, matching the `pack` field, so the three canon fields behave consistently. studio_ops refuses greenlight while any is TBD."
     },
-
     "core_version": {
-      "$ref": "_common.schema.json#/$defs/semver",
-      "description": "The core canon version this studio was set up against. Read against the pack's own core_version: if the two disagree, one of them has not been reconciled with a core amendment, and precedence means core wins."
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        {
+          "type": "string",
+          "pattern": "^TBD( .*)?$"
+        }
+      ],
+      "description": "A skeleton studio must be able to express 'not yet pinned'. Accepts semver or the literal TBD, matching the `pack` field, so the three canon fields behave consistently. studio_ops refuses greenlight while any is TBD."
     },
-
     "studio_status": {
       "type": "string",
-      "enum": ["candidate", "opening", "open", "paused", "closed"],
-      "description": "'candidate' means considered but not opened. 'opening' means the decisions below are being worked through. Only 'open' permits greenlighting a production. 'paused' and 'closed' preserve the record — a studio's canon must stay inspectable for as long as its delivered work exists."
+      "enum": [
+        "candidate",
+        "opening",
+        "open",
+        "paused",
+        "closed"
+      ],
+      "description": "'candidate' means considered but not opened. 'opening' means the decisions below are being worked through. Only 'open' permits greenlighting a production. 'paused' and 'closed' preserve the record \u2014 a studio's canon must stay inspectable for as long as its delivered work exists."
     },
-
     "governance": {
       "type": "object",
-      "description": "Role to person. The roles are the platform's; the people are this studio's. Names live here and nowhere else — every record in the repository owns by role slug, so a person changing role updates one line in one file rather than orphaning four hundred records. See standards/metadata_spec.md § Anti-patterns.",
+      "description": "Role to person. The roles are the platform's; the people are this studio's. Names live here and nowhere else \u2014 every record in the repository owns by role slug, so a person changing role updates one line in one file rather than orphaning four hundred records. See standards/metadata_spec.md \u00a7 Anti-patterns.",
       "properties": {
-        "showrunner":           { "$ref": "#/$defs/personOrTbd" },
-        "research_lead":        { "$ref": "#/$defs/personOrTbd" },
-        "story_producer":       { "$ref": "#/$defs/personOrTbd" },
-        "visual_director":      { "$ref": "#/$defs/personOrTbd" },
-        "audio_lead":           { "$ref": "#/$defs/personOrTbd" },
-        "rights_and_clearances":{ "$ref": "#/$defs/personOrTbd" },
-        "cultural_advisor":     { "$ref": "#/$defs/personOrTbd" },
-        "pipeline_engineer":    { "$ref": "#/$defs/personOrTbd" },
+        "showrunner": {
+          "$ref": "#/$defs/personOrTbd"
+        },
+        "research_lead": {
+          "$ref": "#/$defs/personOrTbd"
+        },
+        "story_producer": {
+          "$ref": "#/$defs/personOrTbd"
+        },
+        "visual_director": {
+          "$ref": "#/$defs/personOrTbd"
+        },
+        "audio_lead": {
+          "$ref": "#/$defs/personOrTbd"
+        },
+        "rights_and_clearances": {
+          "$ref": "#/$defs/personOrTbd"
+        },
+        "cultural_advisor": {
+          "$ref": "#/$defs/personOrTbd"
+        },
+        "pipeline_engineer": {
+          "$ref": "#/$defs/personOrTbd"
+        },
         "distinct_signatories_available": {
           "type": "integer",
           "minimum": 0,
-          "description": "How many distinct humans are available to sign gates. Core/04 §5: no person signs two gates on the same production, and that is the constraint most likely to be quietly abandoned on a small team. Stating the number as data makes the staffing reality checkable before a schedule is built on it, rather than discovered at the second gate."
+          "description": "How many distinct humans are available to sign gates. Core/04 \u00a75: no person signs two gates on the same production, and that is the constraint most likely to be quietly abandoned on a small team. Stating the number as data makes the staffing reality checkable before a schedule is built on it, rather than discovered at the second gate."
         }
       },
-      "required": ["distinct_signatories_available"],
+      "required": [
+        "distinct_signatories_available"
+      ],
       "additionalProperties": {
         "type": "string",
-        "description": "Additional role keys are permitted — a studio may staff roles the platform does not name — but their values are names, so they are strings."
+        "description": "Additional role keys are permitted \u2014 a studio may staff roles the platform does not name \u2014 but their values are names, so they are strings."
       }
     },
-
     "editorial_independence": {
       "type": "object",
       "description": "Where final editorial authority sits, and what it is not subject to. Stated before the first disagreement, because after one it is a negotiation.",
@@ -99,7 +129,7 @@
         },
         "advisory_hold_override": {
           "type": "string",
-          "description": "Whether final authority may unilaterally release an advisory hold. Core/04 §6 leaves the hold authority to the pack; this field records the studio's position within it. In documentary-history this is the one thing the Showrunner cannot unilaterally override, and recording that here is what makes it a rule rather than a habit."
+          "description": "Whether final authority may unilaterally release an advisory hold. Core/04 \u00a76 leaves the hold authority to the pack; this field records the studio's position within it. In documentary-history this is the one thing the Showrunner cannot unilaterally override, and recording that here is what makes it a rule rather than a habit."
         },
         "funder_editorial_input": {
           "type": "string",
@@ -107,17 +137,20 @@
         },
         "disclosed_access_conditions": {
           "type": "array",
-          "items": { "type": "string" },
-          "description": "Conditions attached to access — to an archive, a community, a collection — that a viewer would want to know about. Disclosed rather than merely recorded. An empty array is a claim that there are none, and it is a claim someone should re-read before each delivery."
+          "items": {
+            "type": "string"
+          },
+          "description": "Conditions attached to access \u2014 to an archive, a community, a collection \u2014 that a viewer would want to know about. Disclosed rather than merely recorded. An empty array is a claim that there are none, and it is a claim someone should re-read before each delivery."
         }
       },
-      "required": ["final_authority"],
+      "required": [
+        "final_authority"
+      ],
       "additionalProperties": false
     },
-
     "scope": {
       "type": "object",
-      "description": "What the studio is about, and — more usefully — what it does not claim to be about.",
+      "description": "What the studio is about, and \u2014 more usefully \u2014 what it does not claim to be about.",
       "properties": {
         "subject": {
           "type": "string",
@@ -132,10 +165,11 @@
           "description": "What the studio claims to cover exhaustively. Usually 'none', and usually should be: a series cannot cover its whole subject, and claiming otherwise invites the criticism the work is least able to answer."
         }
       },
-      "required": ["subject"],
+      "required": [
+        "subject"
+      ],
       "additionalProperties": false
     },
-
     "lines": {
       "type": "array",
       "description": "The studio's production lines. The line's own record (line.yaml, production_line.schema.json) is authoritative on its detail; this list is the studio's view of which lines exist and in what order.",
@@ -153,8 +187,14 @@
           },
           "status": {
             "type": "string",
-            "enum": ["candidate", "opening", "open", "paused", "closed"],
-            "description": "Mirrors the line record's line_status. Duplicated here for the studio's own index; where the two disagree, the line record is authoritative and the disagreement is a bug worth failing on. studio_ops cross-checks them — this schema cannot, since it sees one file at a time."
+            "enum": [
+              "candidate",
+              "opening",
+              "open",
+              "paused",
+              "closed"
+            ],
+            "description": "Mirrors the line record's line_status. Duplicated here for the studio's own index; where the two disagree, the line record is authoritative and the disagreement is a bug worth failing on. studio_ops cross-checks them \u2014 this schema cannot, since it sees one file at a time."
           },
           "id_scope": {
             "type": "string",
@@ -162,11 +202,15 @@
             "description": "The two-letter scope used in every ID this line allocates (SRC-NG-0042). Must be unique across the studio: two lines sharing a scope collide their serials, and ID collision corrupts the audit trail irreversibly. Uniqueness across lines is checked by studio_ops."
           }
         },
-        "required": ["code", "order", "status", "id_scope"],
+        "required": [
+          "code",
+          "order",
+          "status",
+          "id_scope"
+        ],
         "additionalProperties": false
       }
     },
-
     "decisions": {
       "type": "array",
       "description": "Decisions blocking the studio's first greenlight. Sourced from the declared pack's studio_must_decide set, plus the studio's own. studio_ops blocks greenlight while any status is 'unresolved'. This register exists because these are the choices that are cheap now and expensive after episode one; leaving them implicit means they get made by whoever is in the room at the moment they first bite.",
@@ -180,7 +224,7 @@
           },
           "ref": {
             "type": "string",
-            "description": "Where the decision is framed or recorded — a path, optionally with an anchor, relative to this file. A decision with no reference is an opinion."
+            "description": "Where the decision is framed or recorded \u2014 a path, optionally with an anchor, relative to this file. A decision with no reference is an opinion."
           },
           "owner": {
             "$ref": "#/$defs/ownerOrOwners",
@@ -188,7 +232,10 @@
           },
           "status": {
             "type": "string",
-            "enum": ["unresolved", "resolved"],
+            "enum": [
+              "unresolved",
+              "resolved"
+            ],
             "description": "Two states, deliberately. 'in progress' would let a studio approach greenlight with everything half-decided, which is the condition this register exists to make visible."
           },
           "note": {
@@ -197,114 +244,221 @@
           },
           "blocks": {
             "type": "array",
-            "items": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_]*$"
+            },
             "uniqueItems": true,
-            "description": "Work that cannot start until this decision is made. Free identifiers rather than references to other decisions — the things blocked are often workstreams (typeface selection, brand design) rather than decisions in this register. Their resolution is not tracked here, which is a known limitation."
+            "description": "Work that cannot start until this decision is made. Free identifiers rather than references to other decisions \u2014 the things blocked are often workstreams (typeface selection, brand design) rather than decisions in this register. Their resolution is not tracked here, which is a known limitation."
           }
         },
-        "required": ["key", "ref", "owner", "status"],
+        "required": [
+          "key",
+          "ref",
+          "owner",
+          "status"
+        ],
         "additionalProperties": false
       }
     },
-
     "corrections_log": {
       "type": "string",
       "description": "Path to the studio's public corrections log. Required as a field even when the value is TBD, so the absence is visible in the record rather than only in its consequences."
     },
-
     "methodology_page": {
       "type": "string",
-      "description": "The published methodology page. Core/01 §3 makes it one of the four required disclosure levels — a viewer must be able to find out how the work is made."
+      "description": "The published methodology page. Core/01 \u00a73 makes it one of the four required disclosure levels \u2014 a viewer must be able to find out how the work is made."
     },
-
     "correction_intake": {
       "type": "string",
       "description": "The public address at which the studio receives error reports. A corrections log with no intake route is a log of the errors the studio noticed itself."
     },
-
     "takedown_contact": {
       "type": "string",
-      "description": "The public route by which a rights holder or a community reaches the studio. Core/02 §9 requires a takedown procedure; this is the field that makes the studio reachable at all, and it is the one most often left until after publication."
+      "description": "The public route by which a rights holder or a community reaches the studio. Core/02 \u00a79 requires a takedown procedure; this is the field that makes the studio reachable at all, and it is the one most often left until after publication."
     }
   },
-
   "required": [
-    "type", "id", "code", "title", "version", "status", "updated",
-    "pack", "pack_version", "core_version", "studio_status",
-    "governance", "editorial_independence", "scope", "lines", "decisions",
-    "corrections_log", "methodology_page", "correction_intake", "takedown_contact"
+    "type",
+    "id",
+    "code",
+    "title",
+    "version",
+    "status",
+    "updated",
+    "pack",
+    "pack_version",
+    "core_version",
+    "studio_status",
+    "governance",
+    "editorial_independence",
+    "scope",
+    "lines",
+    "decisions",
+    "corrections_log",
+    "methodology_page",
+    "correction_intake",
+    "takedown_contact"
   ],
-
   "allOf": [
     {
       "if": {
-        "properties": { "studio_status": { "const": "open" } },
-        "required": ["studio_status"]
+        "properties": {
+          "studio_status": {
+            "const": "open"
+          }
+        },
+        "required": [
+          "studio_status"
+        ]
       },
       "then": {
         "properties": {
           "decisions": {
             "items": {
-              "properties": { "status": { "const": "resolved" } }
+              "properties": {
+                "status": {
+                  "const": "resolved"
+                }
+              }
             }
           },
           "governance": {
             "properties": {
-              "showrunner":            { "not": { "type": "string", "pattern": "^TBD" } },
-              "research_lead":         { "not": { "type": "string", "pattern": "^TBD" } },
-              "story_producer":        { "not": { "type": "string", "pattern": "^TBD" } },
-              "visual_director":       { "not": { "type": "string", "pattern": "^TBD" } },
-              "audio_lead":            { "not": { "type": "string", "pattern": "^TBD" } },
-              "rights_and_clearances": { "not": { "type": "string", "pattern": "^TBD" } },
-              "cultural_advisor":      { "not": { "type": "string", "pattern": "^TBD" } },
-              "pipeline_engineer":     { "not": { "type": "string", "pattern": "^TBD" } },
-              "distinct_signatories_available": { "minimum": 2 }
+              "showrunner": {
+                "not": {
+                  "type": "string",
+                  "pattern": "^TBD"
+                }
+              },
+              "research_lead": {
+                "not": {
+                  "type": "string",
+                  "pattern": "^TBD"
+                }
+              },
+              "story_producer": {
+                "not": {
+                  "type": "string",
+                  "pattern": "^TBD"
+                }
+              },
+              "visual_director": {
+                "not": {
+                  "type": "string",
+                  "pattern": "^TBD"
+                }
+              },
+              "audio_lead": {
+                "not": {
+                  "type": "string",
+                  "pattern": "^TBD"
+                }
+              },
+              "rights_and_clearances": {
+                "not": {
+                  "type": "string",
+                  "pattern": "^TBD"
+                }
+              },
+              "cultural_advisor": {
+                "not": {
+                  "type": "string",
+                  "pattern": "^TBD"
+                }
+              },
+              "pipeline_engineer": {
+                "not": {
+                  "type": "string",
+                  "pattern": "^TBD"
+                }
+              },
+              "distinct_signatories_available": {
+                "minimum": 2
+              }
             }
           },
-          "pack": { "not": { "const": "TBD" } },
-          "correction_intake": { "not": { "type": "string", "pattern": "^TBD" } },
-          "takedown_contact":  { "not": { "type": "string", "pattern": "^TBD" } }
+          "pack": {
+            "not": {
+              "const": "TBD"
+            }
+          },
+          "correction_intake": {
+            "not": {
+              "type": "string",
+              "pattern": "^TBD"
+            }
+          },
+          "takedown_contact": {
+            "not": {
+              "type": "string",
+              "pattern": "^TBD"
+            }
+          }
         },
-        "description": "An open studio may greenlight, so everything that blocks a greenlight must already be resolved. What this branch expresses: every decision is 'resolved'; no governance role is still TBD; at least two distinct signatories exist, which is the floor that follows from core/04 §5 alone, since one person cannot sign two gates; a real pack is declared; and the studio is publicly reachable for corrections and takedowns per core/02 §9. What it CANNOT express, and studio_ops therefore enforces: (a) that the decisions[] list is COMPLETE — that every key in the declared pack's studio_must_decide appears here — which needs the pack file and JSON Schema sees one document at a time; (b) that distinct_signatories_available is at least the number of required gates in that pack's gates.yaml, which is the real floor and is always at least 2; (c) that each decision's ref resolves to a file that exists; (d) that governance names are distinct humans rather than the same name repeated, which is the actual content of core/04 §5; (e) that each line's status here matches its own line.yaml; (f) that no two lines share an id_scope. Every one of those is a cross-file check. A studio that passes this schema at studio_status 'open' has satisfied the single-file half of the condition and no more."
+        "description": "An open studio may greenlight, so everything that blocks a greenlight must already be resolved. What this branch expresses: every decision is 'resolved'; no governance role is still TBD; at least two distinct signatories exist, which is the floor that follows from core/04 \u00a75 alone, since one person cannot sign two gates; a real pack is declared; and the studio is publicly reachable for corrections and takedowns per core/02 \u00a79. What it CANNOT express, and studio_ops therefore enforces: (a) that the decisions[] list is COMPLETE \u2014 that every key in the declared pack's studio_must_decide appears here \u2014 which needs the pack file and JSON Schema sees one document at a time; (b) that distinct_signatories_available is at least the number of required gates in that pack's gates.yaml, which is the real floor and is always at least 2; (c) that each decision's ref resolves to a file that exists; (d) that governance names are distinct humans rather than the same name repeated, which is the actual content of core/04 \u00a75; (e) that each line's status here matches its own line.yaml; (f) that no two lines share an id_scope. Every one of those is a cross-file check. A studio that passes this schema at studio_status 'open' has satisfied the single-file half of the condition and no more."
       }
     }
   ],
-
   "additionalProperties": false,
-
   "$defs": {
     "personOrTbd": {
       "type": "string",
-      "description": "A person's name, or 'TBD' / 'TBD — <what is needed>'. A name, unlike everywhere else in the repository: this record is the one place people are named, and every other record points at the role instead."
+      "description": "A person's name, or 'TBD' / 'TBD \u2014 <what is needed>'. A name, unlike everywhere else in the repository: this record is the one place people are named, and every other record points at the role instead."
     },
-
     "roleOrTbd": {
       "description": "A platform role slug, or TBD while the studio is being set up.",
       "anyOf": [
-        { "$ref": "_common.schema.json#/$defs/roleSlug" },
-        { "type": "string", "pattern": "^TBD" }
+        {
+          "$ref": "_common.schema.json#/$defs/roleSlug"
+        },
+        {
+          "type": "string",
+          "pattern": "^TBD"
+        }
       ]
     },
-
     "ownerOrOwners": {
       "description": "One role slug, or several sharing accountability. Accepts TBD so a studio skeleton validates before roles are assigned.",
       "anyOf": [
-        { "$ref": "_common.schema.json#/$defs/roleSlug" },
-        { "type": "string", "pattern": "^TBD" },
+        {
+          "$ref": "_common.schema.json#/$defs/roleSlug"
+        },
+        {
+          "type": "string",
+          "pattern": "^TBD"
+        },
         {
           "type": "array",
-          "items": { "$ref": "_common.schema.json#/$defs/roleSlug" },
+          "items": {
+            "$ref": "_common.schema.json#/$defs/roleSlug"
+          },
           "minItems": 1
         }
       ]
     },
-
     "yamlDate": {
       "description": "An ISO date, the literal TBD, or a YAML timestamp. The third branch exists because PyYAML resolves an unquoted 2026-08-07 to a Python date object rather than a string, so a plain string type here would reject studio.yaml as written. `not: {type: [...the six JSON types...]}` matches exactly that non-JSON value and nothing else. Quoting the date in YAML makes the first branch apply and the ISO pattern actually enforceable, which is strictly better and is a finding against the existing file rather than a limitation of this schema.",
       "anyOf": [
-        { "$ref": "_common.schema.json#/$defs/isoDate" },
-        { "type": "string", "pattern": "^TBD" },
-        { "not": { "type": ["null", "boolean", "object", "array", "number", "string"] } }
+        {
+          "$ref": "_common.schema.json#/$defs/isoDate"
+        },
+        {
+          "type": "string",
+          "pattern": "^TBD"
+        },
+        {
+          "not": {
+            "type": [
+              "null",
+              "boolean",
+              "object",
+              "array",
+              "number",
+              "string"
+            ]
+          }
+        }
       ]
     }
   }

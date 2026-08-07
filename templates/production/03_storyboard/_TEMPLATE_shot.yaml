@@ -1,0 +1,129 @@
+# =============================================================================
+# SHOT RECORD
+# =============================================================================
+# Schema: ../../../standards/schemas/shot.schema.json
+#
+# Copy to shots/SHT-XX-S00E00-0000.yaml with a toolkit-allocated ID. Do not fill
+# this template in place.
+#
+# One record per shot. This is the authoritative form; shotlist.csv is a
+# generated view over these files. A shot exists when this record exists — not
+# when someone has an image, and not when a line of the script implies one.
+# =============================================================================
+
+id: SHT-XX-S00E00-0000
+type: shot
+line: xx-line-code
+title: TBD — short handle, stable once the edit starts referring to it
+status: draft
+version: "0.1.0"
+updated: "2026-08-07"           # quoted: unquoted, YAML makes this a date object
+owners: [visual-director]
+
+# `none` is a Cultural Advisor's finding, not a scaffolder's assumption.
+sensitivity: review-required
+# advisory_ref: ADV-XX-0000     # required whenever sensitivity is `held`
+
+# --- Position ----------------------------------------------------------------
+episode: S00E00
+sequence: SEQ-XX-S00E00-001     # three-digit serial; shots use four, so a
+                                # mistyped ID fails the pattern instead of
+                                # resolving to the wrong record
+order: 1
+
+# --- What it is --------------------------------------------------------------
+# Written so an editor who has not read the script understands it. The test is
+# real: at conform, the person placing this clip is frequently not the person who
+# wrote the line it sits under.
+description: TBD — what the viewer sees
+
+# archival | contemporary | artefact | reconstruction | interpretive | graphic |
+# text_on_screen
+#
+# The most consequential field on the record. It decides whether a label is
+# required, whether an evidence basis is required, and what may be said about the
+# shot in the description and the provenance summary.
+provenance_class: reconstruction
+
+# Anchor in the narration this shot sits under. Breaks silently if anchors are
+# renamed after shots exist, so anchors are fixed at script lock.
+narration_ref: SEQ-XX-S00E00-001
+
+# --- What it asserts ---------------------------------------------------------
+# Claims this shot makes VISUALLY. A reconstruction asserts what something looked
+# like. A map asserts an extent. A timeline asserts a sequence and, by adjacency,
+# a cause. The schema REQUIRES this field on `graphic` and `text_on_screen`
+# classes for exactly that reason — see ../../../standards/data_graphics.md.
+# Replace the placeholder with the real claim IDs. The schema pattern-checks
+# each entry, so a `TBD` string here fails validation rather than passing
+# quietly — which is the intended behaviour: an unreferenced visual assertion
+# should not be able to reach the edit looking complete.
+claims:
+  - CLM-XX-0000
+
+entities:
+  characters: []                # TBD — CHR-XX-0000
+  locations: []                 # TBD — LOC-XX-0000
+  objects: []                   # TBD — OBJ-XX-0000
+
+# --- Camera ------------------------------------------------------------------
+camera:
+  size: ws                      # ecu | cu | mcu | ms | mws | ws | ews | insert |
+                                # aerial | macro
+  lens: TBD — from the line's defined lens set, not from the tool's defaults
+  height: eye                   # ground | low | eye | high | overhead
+  angle: TBD — angle relative to the subject
+  movement: static              # static | pan | tilt | push | pull | track |
+                                # crane | handheld | drift
+  # Required for any non-static movement. Unmotivated drift is the signature tell
+  # of generated video: each instance looks fine, and thirty of them in a row
+  # read as a screensaver. Naming the motivation is what forces the question.
+  movement_motivation: TBD — why the camera moves; delete this key if movement is static
+
+duration_seconds: 0             # TBD — replace with the intended duration
+
+# --- Framing -----------------------------------------------------------------
+# Checked here, at storyboard, not at delivery. A shot whose critical content
+# falls outside the vertical crop is a re-generation; discovering that during
+# packaging costs a delivery date as well as the render.
+framing:
+  aspect: "16:9"
+  vertical_safe_ok: false       # TBD — critical content inside the 9:16 centre crop
+  square_safe_ok: false         # TBD — critical content inside the 1:1 centre crop
+  on_screen_text: false         # TBD — true if the frame carries text, which then
+                                # has its own legibility and contrast requirements
+
+# --- Generation --------------------------------------------------------------
+generation:
+  prompt_cards: [PC-XX-S00E00-0000]   # TBD — the card(s) that produce this shot
+  chain: TBD — recipe from ../../../prompts/chains/, if a multi-tool pipeline is used
+  selected_asset: AST-XX-S00E00-0000  # TBD — filled when a run is selected
+
+# --- Audio -------------------------------------------------------------------
+audio:
+  # Ambience asserts what a place sounded like. It is reconstruction, and it is
+  # the one reconstruction that routinely ships without anyone deciding it was
+  # one, because nobody thinks of a sound bed as a claim.
+  ambience: TBD — what the bed asserts, and what it is grounded in
+  sfx: []                       # TBD
+  music_cue: TBD — cue handle, or `none`
+
+# --- Disclosure --------------------------------------------------------------
+# Derived from provenance_class and stored so the edit can be checked without
+# recomputing per shot. The schema requires `true` for reconstruction and
+# interpretive classes.
+label_required: true
+
+# --- Review ------------------------------------------------------------------
+review:
+  anachronism_check: pending    # not-required | pending | in-review | signed | blocked
+  # Materials, textiles, tools, architecture, flora, script forms — anything the
+  # model will happily supply from the wrong century.
+  anachronism_notes: TBD — what was checked and what was found
+  sensitivity: pending
+  picture_lock: pending
+  # `signature` is added by the person signing, with their own name and the real
+  # date. Omitted here deliberately: a template shipping with a filled signature
+  # block teaches that signatures are formatting.
+
+notes: TBD — anything a reviewer needs that the fields above cannot carry

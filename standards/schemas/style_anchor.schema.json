@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://video-studio.local/schemas/style_anchor.schema.json",
+  "title": "Style Anchor",
+  "description": "A fixed reference image holding visual continuity across shots and productions. The strongest continuity mechanism available, and it works only if the file never silently changes - hence the mandatory checksum.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^STA-([A-Z]{2}|STUDIO)-\\d{4}$"
+    },
+    "type": {
+      "const": "style_anchor"
+    },
+    "line": {
+      "$ref": "_common.schema.json#/$defs/lineCode"
+    },
+    "title": {
+      "type": "string"
+    },
+    "status": {
+      "$ref": "_common.schema.json#/$defs/recordStatus"
+    },
+    "version": {
+      "$ref": "_common.schema.json#/$defs/semver"
+    },
+    "updated": {
+      "$ref": "_common.schema.json#/$defs/isoDate"
+    },
+    "owners": {
+      "type": "array",
+      "items": {
+        "$ref": "_common.schema.json#/$defs/anyRole"
+      },
+      "minItems": 1
+    },
+    "sensitivity": {
+      "$ref": "_common.schema.json#/$defs/sensitivity"
+    },
+    "advisory_ref": {
+      "$ref": "_common.schema.json#/$defs/advisoryId"
+    },
+    "superseded_by": {
+      "type": "string"
+    },
+    "retraction_reason": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "anchor_kind": {
+      "type": "string",
+      "enum": [
+        "look",
+        "character",
+        "location",
+        "material",
+        "light",
+        "palette",
+        "texture",
+        "graphic"
+      ]
+    },
+    "file": {
+      "type": "string",
+      "description": "Asset store path. Lives under library/style_refs/."
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "REQUIRED. An anchor whose file can change without notice is not an anchor. Verified before every generation run."
+    },
+    "derived_from": {
+      "type": "string",
+      "description": "If this anchor is itself a generated asset, its asset ID, so the anchor's own provenance is traceable."
+    },
+    "applies_to": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Entity IDs, sequence IDs, or 'line' for a line-wide anchor."
+    },
+    "description": {
+      "type": "string",
+      "description": "What this anchor fixes, in words, so a human can tell whether a render honoured it."
+    },
+    "supersedes": {
+      "$ref": "_common.schema.json#/$defs/styleAnchorId"
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "line",
+    "title",
+    "status",
+    "version",
+    "updated",
+    "owners",
+    "anchor_kind",
+    "file",
+    "sha256",
+    "description"
+  ],
+  "additionalProperties": false
+}

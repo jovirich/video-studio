@@ -1,0 +1,218 @@
+# =============================================================================
+# PRODUCTION CONTROL RECORD
+# =============================================================================
+# Schema: ../../standards/schemas/episode.schema.json
+#
+# This is the one place the state of a production is true. Stage, gate
+# signatures, scope, and budget are read from here by `studio_ops status` and by
+# every validator. A production whose real state disagrees with this file has no
+# state — it has an opinion.
+#
+# HOW THIS FILE IS CREATED
+#   `studio_ops new-production --line <line>` copies this template, allocates the
+#   production ID, and REGENERATES the `gates:` block below from the studio's
+#   declared canon pack (`packs/<pack>/gates.yaml`). The gate set is not authored
+#   here and must not be hand-edited: adding a gate here does not create a
+#   checklist, and deleting one here is how a production ships without a review
+#   that its genre requires. If the gate set is wrong, the pack is wrong — amend
+#   the pack, with the pack's signatures.
+#
+#   The block below carries the nine-gate documentary-history set so the template
+#   is readable and complete. A studio on another pack gets a different set.
+#
+# HOW TO FILL IT
+#   Every value marked `TBD — ...` is a human decision. Replace it or leave it.
+#   `TBD` is legal at status draft and review, and illegal at status locked; the
+#   act of locking is what forces the decision. Never write a plausible value to
+#   make the file look finished. See ../../standards/metadata_spec.md.
+#
+#   Placeholder IDs use XX / S00E00 so they are obviously not real and fail
+#   pattern checks the moment anyone tries to reference them.
+# =============================================================================
+
+# --- Identity ----------------------------------------------------------------
+# `id` is permanent and never reused. Allocated by studio_ops, never by hand:
+# a hand-allocated ID collides eventually, and a collided ID corrupts the
+# reference graph silently and irreversibly. See ../../standards/id_system.md.
+id: EP-XX-S00E00
+type: episode
+line: xx-line-code               # the line this production belongs to
+code: S00E00
+title: TBD — working title; the final title is decided at script lock
+slug: tbd-episode-slug           # lowercase, digits, hyphens; becomes the folder name
+
+# --- Record state ------------------------------------------------------------
+status: draft                    # draft | review | locked | superseded | retracted
+version: "0.1.0"
+# Quoted deliberately. Unquoted, YAML resolves an ISO date to a date object, and
+# the schema types `updated` as a string — so an unquoted date fails validation
+# with a message that reads like a schema bug. Set by the toolkit on write.
+updated: "2026-08-07"
+owners: [showrunner]
+
+# Sensitivity starts at `review-required`, not `none`. `none` is a finding a
+# Cultural Advisor makes, not a default the scaffolder is entitled to assume.
+# If this becomes `held`, `advisory_ref` is required and work freezes until the
+# ruling is written. See ../../packs/documentary-history/07_cultural_sensitivity.md.
+sensitivity: review-required
+
+# --- The question ------------------------------------------------------------
+# The single field most responsible for whether the production is any good.
+# A question has stakes and an answer that could have gone the other way. A topic
+# does not. "What happened at X" is a topic; the difference shows up two months
+# later as a cut with no spine.
+question: TBD — one sentence, with stakes, that this production is built to answer
+
+# The thesis is the answer the evidence currently supports. It is expected to
+# change during research; that is what research is. What it may not do is change
+# silently — see 00_brief/_TEMPLATE_thesis.md.
+thesis: TBD — the answer the evidence supports, at the confidence the evidence supports
+logline: TBD — one sentence a stranger could repeat accurately after hearing it once
+
+# --- Stage -------------------------------------------------------------------
+# concept | greenlit | research | source-locked | scripting | script-locked |
+# storyboard | generation | edit | picture-locked | audio-post | audio-locked |
+# delivery | published | shelved
+stage: concept
+
+runtime_target_minutes: TBD — decided at greenlight; it constrains scope, not the reverse
+
+# --- Subject scope -----------------------------------------------------------
+# Deliberately free text with no enums. The schema must never encode historical
+# categories: the moment a dropdown decides which peoples or periods exist, the
+# tooling has started making editorial claims on the studio's behalf.
+subject_scope:
+  period_display: TBD — how the period is spoken on screen, in the register the evidence supports
+  regions: []                    # TBD — populate from the line's location records
+  peoples: []                    # TBD — endonyms, per the line's naming decisions
+  languages_on_screen: []        # TBD — each needs an entry in the line's languages/ folder
+
+# --- Advisory coverage -------------------------------------------------------
+# Checked at greenlight. A production is not greenlit outside its line's advisory
+# coverage, because the alternative is discovering at picture lock that nobody
+# qualified has looked at the premise.
+advisory_coverage:
+  covered: false                 # TBD — set true only when an advisor has accepted this subject
+  advisors: []                   # TBD — recorded in the line's advisory register, with fees agreed
+  gaps: []                       # TBD — name what is NOT covered; an empty list here asserts nothing is
+
+# --- Conflicts of interest ---------------------------------------------------
+# An empty array is a positive assertion that the question was asked, not an
+# absence of an answer. Leave it empty only after asking.
+conflicts_of_interest: []
+
+# =============================================================================
+# GATES — GENERATED FROM THE PACK. DO NOT HAND-EDIT.
+# =============================================================================
+# Source: packs/documentary-history/gates.yaml
+# Framework: ../../core/04_review_gate_framework.md
+#
+# A gate is a named human certifying a specific claim against a written
+# checklist, and recording a signature. All four properties are required; a
+# review missing any of them is feedback, which is valuable and is not a gate.
+#
+# `status` is one of: not-required | pending | in-review | signed | blocked
+# `signed` is the only state that permits downstream work.
+#
+# A signature is added ONLY alongside a committed checklist at the path named in
+# `checklist`. A signature without a committed checklist is treated as `pending`
+# by the validator — deliberately, because the checklist is the evidence and the
+# signature is only the claim.
+#
+# Re-opening cascades: every downstream gate signed on the basis of a re-opened
+# gate returns to `pending`. That cascade is what makes a late change feel like
+# what it is.
+#
+# No person signs two gates on the same production. Ever. core/04 §5.
+# =============================================================================
+gates:
+  greenlight:
+    status: pending
+    owner: showrunner
+    checklist: TBD — path to the completed checklist, under ops/checklists/
+    blockers: []
+
+  source_lock:
+    status: pending
+    owner: research-lead
+    checklist: TBD — path to the completed checklist, under ops/checklists/
+    blockers: []
+
+  script_lock:
+    status: pending
+    owner: story-producer
+    checklist: TBD — path to the completed checklist, under ops/checklists/
+    blockers: []
+
+  fact_check:
+    status: pending
+    owner: research-lead
+    checklist: TBD — path to the completed checklist, under ops/checklists/
+    blockers: []
+
+  # Runs three times — brief, prompt set, locked cut. Holds raised here are
+  # released only in writing, and only by the Cultural Advisor.
+  sensitivity:
+    status: pending
+    owner: cultural-advisor
+    checklist: TBD — path to the completed checklist, under ops/checklists/
+    blockers: []
+
+  rights:
+    status: pending
+    owner: rights-and-clearances
+    checklist: TBD — path to the completed checklist, under ops/checklists/
+    blockers: []
+
+  picture_lock:
+    status: pending
+    owner: visual-director
+    checklist: TBD — path to the completed checklist, under ops/checklists/
+    blockers: []
+
+  audio_lock:
+    status: pending
+    owner: audio-lead
+    checklist: TBD — path to the completed checklist, under ops/checklists/
+    blockers: []
+
+  # The universal gate. Every pack has it, whatever the genre, because it is
+  # where the platform's own guarantees are verified rather than assumed.
+  technical_qc:
+    status: pending
+    owner: pipeline-engineer
+    checklist: TBD — path to the completed checklist, under ops/checklists/
+    blockers: []
+
+# --- Budget ------------------------------------------------------------------
+budget:
+  currency: TBD — ISO 4217 code
+  total: TBD — decided at greenlight
+  # Hard cap enforced by the generation adapters, not a guideline. Generation
+  # cost is the one line item that can run away between two status meetings.
+  generation_ceiling_usd: TBD — decided at greenlight
+  # `false` here is a red flag AT greenlight, not after it. Consultation with a
+  # community is a relationship, and a relationship carries a fee, a credit, and
+  # a copy of the finished work. See ../../core/01_provenance_and_ai_disclosure.md §7.
+  consultation_fees_budgeted: false
+
+# --- Schedule ----------------------------------------------------------------
+# Date fields are omitted rather than filled with `TBD`, because the schema types
+# them as ISO dates and a string there fails validation. Add each key when the
+# date is real. An absent target is honest; an invented one is a commitment
+# somebody else will be held to.
+#
+#   greenlight_date:     YYYY-MM-DD
+#   source_lock_target:  YYYY-MM-DD
+#   script_lock_target:  YYYY-MM-DD
+#   picture_lock_target: YYYY-MM-DD
+#   delivery_target:     YYYY-MM-DD
+#   publish_target:      YYYY-MM-DD
+schedule: {}
+
+# --- Counts ------------------------------------------------------------------
+# Populated by `studio_ops status`. Never hand-maintained: a hand-kept count is
+# wrong within a week and is then worse than no count, because it is believed.
+counts: {}
+
+notes: TBD — anything a reader of this record in eighteen months would need and could not infer

@@ -45,6 +45,11 @@ TYPE_SCHEMAS: dict[str, str] = {
     "episode": "episode.schema.json",
     "production_line": "production_line.schema.json",
     "asset_manifest": "asset_manifest.schema.json",
+    "open_question": "open_question.schema.json",
+    "fact_check": "fact_check.schema.json",
+    "advisory_ruling": "advisory_ruling.schema.json",
+    "correction": "correction.schema.json",
+    "style_anchor": "style_anchor.schema.json",
 }
 
 

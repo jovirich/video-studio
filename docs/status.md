@@ -50,12 +50,24 @@ Every `IMPLEMENTED` row below should be read as *"we believe this works"*, not
 
 | Capability | Status | Notes |
 |---|---|---|
-| 10 JSON schemas | **DESIGNED** | Valid JSON Schema. **Never validated against a real record** — no real records exist. |
+| 17 JSON schemas | **DESIGNED** | Valid JSON Schema; all parse and cross-`$ref` resolves. **Never validated against a real record** — no real records exist. The five late additions (`open_question`, `fact_check`, `advisory_ruling`, `correction`, `style_anchor`) closed a hole where records of those types passed validation by being invisible to the router. |
 | Identifier system | **DESIGNED** | No IDs allocated. Collision behaviour untested. |
 | Naming conventions | **DESIGNED** | |
 | Delivery specs | **DESIGNED** | No master has been produced against them. |
 | Prohibited-language list | **DESIGNED** | `prohibited_patterns.json` **not yet generated** from the source document. |
 | Data-graphics standard | **DESIGNED** | |
+
+### Canon packs, ops, rights, templates
+
+| Capability | Status | Notes |
+|---|---|---|
+| 4 canon packs, 26 canon documents | **DESIGNED** | None has produced anything. |
+| 17 gate checklists in `ops/checklists/` | **DESIGNED** | No checklist has ever been completed or signed. |
+| Roles, RACI, workflow states, risk register, budget template | **DESIGNED** | |
+| Clearance log, takedown log, chain-of-title template | **DESIGNED** | Empty registers with template rows. |
+| Model terms register — 49 vendor rows | **DESIGNED** | Every cell reads `TBD — not yet checked`, **including the terms URL**. Asserting an unopened URL is the same error as asserting the terms. |
+| Production / line / studio skeletons, 11 record templates, 6 legal instruments | **DESIGNED** | Legal instruments are starting points requiring a qualified lawyer; they are not legal advice. |
+| Shared library structure | **DESIGNED** | All eight folders empty. |
 
 ### Prompt library
 

@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://video-studio.local/schemas/open_question.schema.json",
+  "title": "Open Question",
+  "description": "An unanswered research question. A gap in the evidence is an artefact with an ID, not a silence - this record is what stops a writer later filling the gap with something plausible. See packs/documentary-history/02_evidence_and_sourcing.md section 9.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^QST-[A-Z]{2}-\\d{4}$"
+    },
+    "type": {
+      "const": "open_question"
+    },
+    "line": {
+      "$ref": "_common.schema.json#/$defs/lineCode"
+    },
+    "title": {
+      "type": "string"
+    },
+    "status": {
+      "$ref": "_common.schema.json#/$defs/recordStatus"
+    },
+    "version": {
+      "$ref": "_common.schema.json#/$defs/semver"
+    },
+    "updated": {
+      "$ref": "_common.schema.json#/$defs/isoDate"
+    },
+    "owners": {
+      "type": "array",
+      "items": {
+        "$ref": "_common.schema.json#/$defs/anyRole"
+      },
+      "minItems": 1
+    },
+    "sensitivity": {
+      "$ref": "_common.schema.json#/$defs/sensitivity"
+    },
+    "advisory_ref": {
+      "$ref": "_common.schema.json#/$defs/advisoryId"
+    },
+    "superseded_by": {
+      "type": "string"
+    },
+    "retraction_reason": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "question": {
+      "type": "string",
+      "description": "Phrased as a question, never as an assertion."
+    },
+    "why_it_matters": {
+      "type": "string",
+      "description": "What downstream claim, sequence, or decision depends on the answer."
+    },
+    "required_tier": {
+      "$ref": "_common.schema.json#/$defs/sourceTier",
+      "description": "Minimum evidence tier an answer would need."
+    },
+    "searched": {
+      "type": "array",
+      "description": "Where the answer was looked for and NOT found. This field is the record's main value, not an afterthought: it stops the next researcher repeating a search that already failed.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "where": {
+            "type": "string"
+          },
+          "date": {
+            "$ref": "_common.schema.json#/$defs/isoDate"
+          },
+          "by": {
+            "type": "string"
+          },
+          "result": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "where",
+          "result"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "blocks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Claims, productions, or gates that cannot close until this resolves."
+    },
+    "resolution": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": [
+            "open",
+            "answered",
+            "unanswerable",
+            "out-of-scope"
+          ]
+        },
+        "answer_claim": {
+          "$ref": "_common.schema.json#/$defs/claimId"
+        },
+        "note": {
+          "type": "string",
+          "description": "For 'unanswerable', say why. That is itself a finding and often belongs on screen."
+        }
+      },
+      "required": [
+        "state"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "line",
+    "title",
+    "status",
+    "version",
+    "updated",
+    "owners",
+    "question",
+    "required_tier",
+    "resolution"
+  ],
+  "additionalProperties": false
+}

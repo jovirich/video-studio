@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://video-studio.local/schemas/fact_check.schema.json",
+  "title": "Fact Check",
+  "description": "A fact-check report for one production. The artefact the fact-check gate signs against. See ops/checklists/fact_check.md.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^FCK-[A-Z]{2}-S\\d{2}E\\d{2}-\\d{4}$"
+    },
+    "type": {
+      "const": "fact_check"
+    },
+    "line": {
+      "$ref": "_common.schema.json#/$defs/lineCode"
+    },
+    "title": {
+      "type": "string"
+    },
+    "status": {
+      "$ref": "_common.schema.json#/$defs/recordStatus"
+    },
+    "version": {
+      "$ref": "_common.schema.json#/$defs/semver"
+    },
+    "updated": {
+      "$ref": "_common.schema.json#/$defs/isoDate"
+    },
+    "owners": {
+      "type": "array",
+      "items": {
+        "$ref": "_common.schema.json#/$defs/anyRole"
+      },
+      "minItems": 1
+    },
+    "sensitivity": {
+      "$ref": "_common.schema.json#/$defs/sensitivity"
+    },
+    "advisory_ref": {
+      "$ref": "_common.schema.json#/$defs/advisoryId"
+    },
+    "superseded_by": {
+      "type": "string"
+    },
+    "retraction_reason": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "episode": {
+      "$ref": "_common.schema.json#/$defs/episodeCode"
+    },
+    "scope": {
+      "type": "string",
+      "description": "What was checked: narration, on-screen text, graphics, maps, description. All of them, or the gate is partial and must say so."
+    },
+    "claims_checked": {
+      "type": "integer"
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "locator": {
+            "type": "string"
+          },
+          "claim": {
+            "$ref": "_common.schema.json#/$defs/claimId"
+          },
+          "issue": {
+            "type": "string",
+            "enum": [
+              "unsourced",
+              "tier-insufficient",
+              "register-overclaimed",
+              "misleading-placement",
+              "independence-not-established",
+              "name-form-wrong",
+              "figure-imprecise",
+              "prohibited-language"
+            ]
+          },
+          "detail": {
+            "type": "string"
+          },
+          "resolution": {
+            "type": "string",
+            "enum": [
+              "corrected",
+              "register-lowered",
+              "cut",
+              "accepted-with-note",
+              "open"
+            ]
+          }
+        },
+        "required": [
+          "locator",
+          "issue",
+          "resolution"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "unresolved": {
+      "type": "integer",
+      "description": "Must be 0 before the gate can be signed."
+    },
+    "signature": {
+      "$ref": "_common.schema.json#/$defs/signature"
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "line",
+    "title",
+    "status",
+    "version",
+    "updated",
+    "owners",
+    "episode",
+    "scope",
+    "findings"
+  ],
+  "additionalProperties": false
+}
