@@ -49,25 +49,26 @@ continuity_constraints:
 prompt: 'A single invented adult figure, presenting female, apparent age 25-29. Rich
   medium-deep brown skin. Tightly coiled black hair gathered into a compact high natural
   bun, hairline visible. No facial hair. Rounder face than a long-oval, softer jaw,
-  broader cheek area, medium-width nose, dark brown eyes. A small circular dark birthmark
-  high on the LEFT cheek, clearly resolved. Medium to slender build. Neutral expression.
-  Plain neutral mid-grey background, featureless, no environment, no props. Identical
-  to the background of PC-NG-EXP001-0001. Composition: Head and upper shoulders. Near-frontal
-  view, camera at eye level. Face centred and fully visible. Hairline fully in frame
-  including the temples. Framing matched to PC-NG-EXP001-0001. Camera: Eye level,
-  near-frontal, 85mm equivalent, whole face in focus. No motion blur. Matched to PC-NG-EXP001-0001.
-  Light: Even neutral lighting, soft and frontal, from a broad source. No dramatic
-  shadows, no rim, no colour cast. Both sides of the face evenly exposed so skin tone
-  can be measured off the cheek. Matched to PC-NG-EXP001-0001. Palette: Natural. No
-  cinematic grading. Nothing that materially changes skin tone. Texture: Natural skin
-  texture retained. Not smoothed, not beautified. Mood: neutral, documentary, unstyled.
-  Avoid: any change of garment between shots, resembling A in face, age, build, height,
-  or silhouette, loss of the nose-bridge birthmark, or its appearance off the midline,
-  acquiring A''s chin scar, footwear of modern construction, eyeglasses, any manufactured
-  object, dramatic lighting, rim light, coloured gel, heavy grade, smoothed or airbrushed
-  skin, motion blur, hat, headwear, glasses, jewellery, hand or object across the
-  face, patterned or embroidered cloth, environment, props, background detail, beard,
-  moustache, facial hair, chin scar, cheek birthmark.'
+  broader cheek area, medium-width nose, dark brown eyes. A small round dark birthmark
+  centred on the BRIDGE OF THE NOSE, between the brows, on the midline, clearly resolved.  Medium
+  to slender build. Neutral expression. Plain neutral mid-grey background, featureless,
+  no environment, no props. Identical to the background of PC-NG-EXP001-0001. Composition:
+  Head and upper shoulders. Near-frontal view, camera at eye level. Face centred and
+  fully visible. Hairline fully in frame including the temples. Framing matched to
+  PC-NG-EXP001-0001. Camera: Eye level, near-frontal, 85mm equivalent, whole face
+  in focus. No motion blur. Matched to PC-NG-EXP001-0001. Light: Even neutral lighting,
+  soft and frontal, from a broad source. No dramatic shadows, no rim, no colour cast.
+  Both sides of the face evenly exposed so skin tone can be measured off the cheek.
+  Matched to PC-NG-EXP001-0001. Palette: Natural. No cinematic grading. Nothing that
+  materially changes skin tone. Texture: Natural skin texture retained. Not smoothed,
+  not beautified. Mood: neutral, documentary, unstyled. Avoid: any change of garment
+  between shots, resembling A in face, age, build, height, or silhouette, loss of
+  the nose-bridge birthmark, or its appearance off the midline, acquiring A''s chin
+  scar, footwear of modern construction, eyeglasses, any manufactured object, dramatic
+  lighting, rim light, coloured gel, heavy grade, smoothed or airbrushed skin, motion
+  blur, hat, headwear, glasses, jewellery, hand or object across the face, patterned
+  or embroidered cloth, environment, props, background detail, beard, moustache, facial
+  hair, chin scar, cheek birthmark.'
 negative:
 - any change of garment between shots
 - resembling A in face, age, build, height, or silhouette

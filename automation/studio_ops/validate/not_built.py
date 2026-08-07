@@ -46,14 +46,6 @@ PLANNED: dict[str, Planned] = {
             "standards/prohibited_language.md."
         ),
     ),
-    "prompts": Planned(
-        gate="prompts",
-        will_check=(
-            "Vendor cheat sheets older than 90 days flagged stale; prompt cards "
-            "targeting a vendor whose terms_checked date is missing or expired."
-        ),
-        blocked_on="No prompt cards exist yet.",
-    ),
     "delivery": Planned(
         gate="delivery",
         will_check=(
