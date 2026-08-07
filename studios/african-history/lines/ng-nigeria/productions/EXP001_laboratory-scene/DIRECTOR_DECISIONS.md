@@ -33,7 +33,7 @@ before the diagnostic shots.
 | Decision | Constraint |
 |---|---|
 | **One vendor, one model, one exact version identifier** | The *same* one for A, B, and the workshop, held fixed across all four diagnostic shots. Mixing them makes a shot-18 failure uninterpretable. |
-| **Terms verified** before first generation | Recorded in [`model_terms_register.md`](../../../../../rights/permissions/model_terms_register.md). Every row there currently reads `not yet checked`. The card's `terms_checked` field is filled that day and not before. |
+| **Terms verified** before first generation | Recorded in [`model_terms_register.md`](../../../../../../rights/permissions/model_terms_register.md). Every row there currently reads `not yet checked`. The card's `terms_checked` field is filled that day and not before. |
 | **A generation ceiling** for EXP-001 | The adapter refuses a priced run with no ceiling, so this is a hard blocker rather than an oversight. |
 
 `local` stays the mechanics test. Its deterministic colour field proves the round
