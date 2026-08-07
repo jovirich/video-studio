@@ -14,7 +14,7 @@ import pytest
 
 from studio_ops.config import Config
 from studio_ops.paths import Layout
-from studio_ops.result import GateState, Severity
+from studio_ops.result import GateState, RunReport
 from studio_ops.validate import links, naming, root_hygiene, schemas
 from studio_ops.validate import not_built as nb
 
@@ -226,6 +226,34 @@ def test_unbuilt_gate_fails_loudly(tmp_path: Path) -> None:
 
     assert report.state is GateState.NOT_BUILT
     assert not report.passed
-    assert report.findings[0].severity is Severity.ERROR
     assert "NOT BUILT" in report.findings[0].message
     assert report.findings[0].hint  # must say what it is blocked on
+
+
+def test_unbuilt_gate_exits_2_not_1(tmp_path: Path) -> None:
+    """Exit code 2 must be reachable.
+
+    Regression: not_built emitted Severity.ERROR, and `exit_code` tests errors
+    before not-built, so every unbuilt gate returned 1 — indistinguishable from a
+    real finding, and code 2 was dead. The CI workflow's own comment asserted a
+    behaviour that never happened.
+    """
+    cfg = make_cfg(tmp_path)
+
+    run = RunReport()
+    run.add(nb.run(cfg, "canon"))
+
+    assert run.error_count == 0
+    assert run.exit_code() == 2
+
+
+def test_real_finding_outranks_unbuilt_gate(tmp_path: Path) -> None:
+    """A real failure must not be hidden behind a missing gate."""
+    cfg = make_cfg(tmp_path)
+    (tmp_path / "STRAY.md").write_text("x", encoding="utf-8")
+
+    run = RunReport()
+    run.add(root_hygiene.run(cfg))
+    run.add(nb.run(cfg, "canon"))
+
+    assert run.exit_code() == 1

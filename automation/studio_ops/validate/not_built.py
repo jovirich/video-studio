@@ -77,10 +77,14 @@ PLANNED: dict[str, Planned] = {
 def run(cfg: Config, gate: str) -> GateReport:
     planned = PLANNED[gate]
     report = GateReport(gate=gate, state=GateState.NOT_BUILT)
+    # WARNING, not ERROR. Nothing is wrong with the repository — the *tool* is
+    # missing. The distinction is load-bearing: `RunReport.exit_code` tests errors
+    # before it tests not-built, so emitting ERROR here made exit code 2
+    # unreachable and every unbuilt gate indistinguishable from a real failure.
     report.findings.append(
         Finding(
             gate,
-            Severity.ERROR,
+            Severity.WARNING,
             f"NOT BUILT — this gate does not exist yet. Will check: {planned.will_check}",
             rule="not-built",
             hint=f"Blocked on: {planned.blocked_on}",

@@ -110,6 +110,11 @@ class RunReport:
 
         2 is distinguished from 0 deliberately: a green build that ran three of six
         gates must not look like a green build that ran six.
+
+        Order matters. A real finding outranks a missing gate — with both present the
+        caller must fix the finding first. This also means a NOT_BUILT gate must
+        never emit an ERROR finding, or it masks itself as a failure and makes code 2
+        unreachable. See `validate/not_built.py`.
         """
         if self.error_count:
             return 1

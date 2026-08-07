@@ -29,7 +29,7 @@ specific meaning here, the specific meaning governs.
 | **Source record** | `SRC-*`. A described, tiered, critiqued item of evidence. Lives in `sources/registry/records/`. |
 | **Claim** | `CLM-*`. A single factual statement with a confidence register and its supporting sources. Lives in `sources/registry/claims/`. |
 | **Claim ID reference** | `{{CLM-NG-0117}}` inline in a script. Stripped at render; compiled into the citation appendix. |
-| **Tier** | T1–T5 classification of a source's evidentiary weight. See [02_evidence_and_sourcing.md](02_evidence_and_sourcing.md) §2. |
+| **Tier** | T1–T5 classification of a source's evidentiary weight. See [02_evidence_and_sourcing.md](../packs/documentary-history/02_evidence_and_sourcing.md) §2. |
 | **Register** | The level of certainty a statement claims: `established`, `probable`, `contested`, `inferred`, `traditional`, `unknown`. |
 | **Open question** | A recorded gap in the evidence. Lives in `research/open_questions/`. Not a failure — a research artefact. |
 | **Corroboration** | Support from an *independent* source. Two sources sharing an upstream origin are one source. |
