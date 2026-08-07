@@ -1,6 +1,6 @@
 # Prohibited and flagged language
 
-Checked by `studio_ops validate --canon` against narration, on-screen text, titles,
+Checked by `studio_ops validate --canon` against narration, on-screen text, titles, *(NOT BUILT)*
 descriptions, and thumbnails text. Two severities: **fail** blocks the build,
 **warn** requires a reviewer to acknowledge.
 

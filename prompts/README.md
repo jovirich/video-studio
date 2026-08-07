@@ -108,5 +108,5 @@ main practical payoff of the structure. `run` is gated by
 
 Vendors change models, parameters, and terms frequently — often without notice.
 Cheat sheets carry a `checked` date. A sheet older than 90 days is flagged by
-`studio_ops validate --prompts` as stale. Stale is a warning, not a failure; silently
+`studio_ops validate --prompts` as stale. Stale is a warning, not a failure; silently *(NOT BUILT)*
 wrong is the thing to avoid.

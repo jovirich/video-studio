@@ -11,6 +11,40 @@ owners: [platform-owner]
 The honest account of what this repository actually does, as opposed to what it
 specifies.
 
+## This file is authoritative
+
+**Every per-capability maturity verdict in this repository lives here and nowhere
+else.** Where any other document disagrees with this one about whether something
+works, this one is right and the other is stale.
+
+| Document | Answers | Authority over |
+|---|---|---|
+| [ROADMAP.md](../ROADMAP.md) | *Where are we going?* | Sequence, phases, exit criteria |
+| **status.md** (here) | *What actually works today?* | **Maturity verdicts** |
+| [architecture/](architecture/) | *Why is it built this way?* | Structure, decisions, reversals |
+
+Other documents may *name* a capability and *link* here. They must not restate its
+maturity, because duplicated state drifts.
+
+### Why this is enforced rather than requested
+
+It already failed. `ROADMAP.md` carried `studio_ops toolkit — NOT BUILT` and `CI will
+fail on first run` for several commits after both were implemented and passing.
+
+That is not cosmetic. With more than one agent working the repository, a stale verdict
+is worse than a missing one: it invites someone to "fix" what is already done, or to
+rebuild what already exists, and the second agent has no way to tell which document is
+current.
+
+`studio_ops validate --reality` now fails the build when a document marks NOT BUILT
+next to a command that is implemented. The drift that happened cannot recur silently.
+
+### Updating
+
+A maturity change lands **in the same commit** as the code that caused it. Promotion
+names its evidence. `NOT BUILT` is a legitimate, useful state — downgrade freely when
+something breaks, and delete nothing.
+
 ## The three words
 
 They are not degrees of the same thing. They are different claims.

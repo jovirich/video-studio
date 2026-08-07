@@ -45,7 +45,7 @@ and is not restated here. Three consequences of it govern everything in this fol
 
 1. **A script contains no facts.** It contains references to claims. A date, a name, a
    figure, or a quantity that appears in prose without a claim ID is a defect, and
-   `studio_ops validate --sources` fails the build on it — when it is built.
+   `studio_ops validate --sources` fails the build on it — when it is built. *(NOT BUILT)*
 2. **No model output is a source.** It is T5. It may locate a lead; it may never
    support a claim, and a lead is verified against the actual document before it
    becomes anything.

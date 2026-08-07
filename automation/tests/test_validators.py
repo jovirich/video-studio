@@ -310,3 +310,33 @@ def test_reality_exempts_the_status_ledger(tmp_path: Path) -> None:
     )
 
     assert reality.run(cfg).passed
+
+
+def test_reality_flags_stale_not_built(tmp_path: Path) -> None:
+    """The failure that actually happened: a doc says NOT BUILT about working code.
+
+    More dangerous than over-claiming when several agents share a repository — it
+    invites one to rebuild what another already finished.
+    """
+    cfg = make_cfg(tmp_path)
+    docs = tmp_path / "docs"
+    docs.mkdir()
+    (docs / "a.md").write_text(
+        "| `studio_ops validate --naming` | **NOT BUILT** |\n", encoding="utf-8"
+    )
+
+    assert "stale-not-built" in rules(reality.run(cfg))
+
+
+def test_reality_allows_designed_near_built_command(tmp_path: Path) -> None:
+    """`DESIGNED` near working code is legitimate — it may describe the design."""
+    cfg = make_cfg(tmp_path)
+    docs = tmp_path / "docs"
+    docs.mkdir()
+    (docs / "a.md").write_text(
+        "The naming rules are DESIGNED in standards/.\n"
+        "Run `studio_ops validate --naming` to enforce them.\n",
+        encoding="utf-8",
+    )
+
+    assert reality.run(cfg).passed

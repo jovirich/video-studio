@@ -29,7 +29,7 @@ holds the fact, the confidence level, the sources, and the reviewer signature.
               "... the walls enclosed a substantial area {{CLM-NG-0117}} ..."
 ```
 
-`studio_ops validate --sources` walks that chain for every reference in every
+`studio_ops validate --sources` walks that chain for every reference in every *(NOT BUILT)*
 script. A broken link fails the build. This is not bureaucracy; it is the only way
 a small team can honestly answer "where did that come from?" eighteen months later.
 

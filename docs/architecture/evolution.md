@@ -90,9 +90,11 @@ holds what is true for one region. An episode holds what is true once. Nigeria i
 **Cost:** One extra path segment on every line-scoped file. Contributors must know
 which tier a change belongs to — mitigated by the branch naming convention.
 
-**What it protects:** Adding a country becomes `studio_ops new-line` instead of a *(NOT BUILT)*
-refactor. More importantly, it forces the question "is this rule universal or
-regional?" at write time, which is when it is cheap to answer.
+**What it protects:** Adding a country becomes a scaffold command rather than a
+refactor — `studio_ops new-line`, which is NOT BUILT at the time of writing but whose
+manual equivalent is copying `templates/line/`. More importantly, the split forces the
+question "is this rule universal or regional?" at write time, which is when it is
+cheap to answer.
 
 **Watch for:** Studio-level documents accumulating Nigeria-specific examples. If
 `bible/` starts saying "for instance, in Yoruba…", the tiers are leaking and the
@@ -198,7 +200,7 @@ constraint on a small team and is the item most likely to be quietly abandoned.
 **What it protects:** The one structural check on the Showrunner's authority, in the
 place where being wrong harms people outside the studio.
 
-**Watch for:** The same name in two gate signatures. `studio_ops validate --canon`
+**Watch for:** The same name in two gate signatures. `studio_ops validate --canon` *(NOT BUILT)*
 should flag it; if it starts being flagged regularly, the studio has outgrown its
 staffing, not its process.
 

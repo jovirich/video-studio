@@ -1,48 +1,65 @@
 # Roadmap
 
-Where the studio is going, in the order it will get there. This is a *sequencing*
-document — it says what must be true before the next thing starts, not when.
+**Where we are going, and in what order.** This is a *sequencing* document: it says
+what must be true before the next thing starts.
 
-Dates are deliberately absent. Phases advance on **exit criteria**, not calendars;
-an episode that ships before its gates close costs more than one that ships late.
+Dates are deliberately absent. Phases advance on **exit criteria**, not calendars.
 
-## Maturity labels
+## This document does not record what works
 
-This roadmap does not use checkmarks. A ✅ reads as *working* when it usually means
-*specified*, and that gap is how a plan gets mistaken for a product.
+That belongs in exactly one place. Three documents, three jobs, no overlap:
 
-| Label | Means | Evidence |
+| Document | Answers | Authority over |
+|---|---|---|
+| **ROADMAP.md** (here) | *Where are we going?* | Sequence, phases, exit criteria |
+| **[docs/status.md](docs/status.md)** | *What actually works today?* | **Every per-capability maturity verdict** |
+| **[docs/architecture/](docs/architecture/)** | *Why is it built this way?* | Structure, decisions, and their reversals |
+
+**`docs/status.md` is authoritative.** Where this roadmap and the status ledger
+disagree about whether something works, the ledger is right and this file is stale.
+
+This separation exists because it already failed once. This roadmap carried
+`studio_ops toolkit — NOT BUILT` and `CI will fail on first run` for several commits
+after both were implemented and passing. Duplicated state drifts; with more than one
+agent working the repository, a stale verdict is worse than a missing one, because it
+invites someone to "fix" what is already done or to rebuild what already exists.
+
+The `reality` gate now fails the build when a document contradicts the ledger in
+either direction — claiming a command works when it does not, or claiming it does not
+when it does. This specific drift cannot recur silently.
+
+## Maturity vocabulary
+
+Defined here because the roadmap uses the words; the *verdicts* live in the ledger.
+A bare ✅ is prohibited — it reads as *working* when it usually means *specified*.
+
+| Label | Means | Evidence required |
 |---|---|---|
 | **DESIGNED** | Structure, schema, or standard exists on paper. No code runs. | The document exists and is internally consistent |
 | **IMPLEMENTED** | Code exists and executes. Not proven at production scale. | The command runs |
 | **TESTED** | Exercised against a real workload, with a recorded, reviewable result. | A test run, a report, a dated artefact |
-| **NOT BUILT** | Specified but no code. An honest and useful state. | — |
+| **NOT BUILT** | Specified, no code. An honest and useful state. | — |
 
-Per-capability detail: [docs/status.md](docs/status.md). **Nothing in this repository
-is currently TESTED.**
+**Nothing in this repository is currently TESTED.** That single verdict is stated
+here because it governs the sequence of every phase below. Per-capability detail is
+[the ledger's](docs/status.md) job, not this file's.
 
 ---
 
-## Phase 0 — Architecture DESIGNED
+## Phase 0 — Architecture designed, toolkit begun
 
-The repository you are reading. Design work, not working software.
+The repository you are reading.
 
-| Item | Status |
-|---|---|
-| Platform / studio / line / production four-tier architecture (`arch-2`) | DESIGNED |
-| Core canon — binding on every production, any genre | DESIGNED, **not ratified** |
-| Canon pack system; 4 packs authored | DESIGNED |
-| Record schemas (10) and identifier system | DESIGNED, never validated against a real record |
-| Prompt library — 8 modalities, ~49 vendor sheets, 5 chains | DESIGNED, vendor details unverified |
-| Nine-gate set declared as data in `gates.yaml` | DESIGNED, no gate ever signed |
-| `studio_ops` toolkit | **NOT BUILT** |
-| CI validation workflow | DESIGNED — will fail on first run; it calls commands that do not exist |
-| Issue and PR templates, VS Code workspace | IMPLEMENTED |
-| African History Studio; Nigeria registered as line 01 | DESIGNED, `candidate` status |
+The architecture is specified and internally consistent. Some of the toolkit runs.
+**None of it has been exercised against a real production**, which is what Phases 3
+and 3.5 exist to change.
 
-**Exit criterion: met for design.** The architecture is specified and internally
-consistent. It has not been exercised, and no claim beyond that should be read into
-this phase.
+For what runs today and what does not, read
+**[docs/status.md](docs/status.md)** — this phase deliberately does not restate it.
+
+**Exit criterion: met for design.** No claim beyond that should be read into this
+phase. Design being finished is not the same as anything working, and the gap between
+those two is the entire remaining roadmap.
 
 ---
 

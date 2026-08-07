@@ -86,7 +86,7 @@ a different word. Treat it as a factual error, because it is one.
   the picture. This is a pipeline requirement, not a nice-to-have — enforce it in the
   edit project structure.
 - A dub does not change a claim. Translated narration goes through the same
-  fact-check reference chain; `studio_ops validate --sources` runs on translations too.
+  fact-check reference chain; `studio_ops validate --sources` runs on translations too. *(NOT BUILT)*
 
 ## 7. Quotation and translation
 

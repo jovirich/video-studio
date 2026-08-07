@@ -53,7 +53,7 @@ Where a lower layer needs an exemption, it is recorded in
 
 - **By people** — the gate framework in [04_review_gate_framework.md](04_review_gate_framework.md).
 - **By machine** — [../standards/](../standards) encodes the checkable subset;
-  `studio_ops validate --canon` fails a build on prohibited patterns.
+  `studio_ops validate --canon` fails a build on prohibited patterns. *(NOT BUILT)*
 - **By structure** — a production cannot exist outside a line, a line outside a
   studio, or a studio without a declared pack. The scaffolder will not create one.
 

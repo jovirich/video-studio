@@ -45,7 +45,7 @@ Absolute. No exceptions, no override flag.
 7. **Training on, or generating in the style of, a living artist or a specific
    cultural custodian's work** without agreement.
 
-`studio_ops validate --canon` enforces the mechanically checkable subset: missing
+`studio_ops validate --canon` enforces the mechanically checkable subset: missing *(NOT BUILT)*
 provenance, missing labels, `archival` class on a generated asset, likeness flags
 without a clearance reference.
 

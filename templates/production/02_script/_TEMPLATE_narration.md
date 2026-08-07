@@ -33,7 +33,7 @@ resting on different evidence. {{CLM-XX-0001}}
 
 | Rule | Reason |
 |---|---|
-| Double braces, uppercase ID, no spaces inside | `studio_ops validate --sources` parses this exact form; anything else is invisible to it |
+| Double braces, uppercase ID, no spaces inside | `studio_ops validate --sources` parses this exact form; anything else is invisible to it **[NOT BUILT]** |
 | Stripped at render | The braces never reach a viewer, a caption, or a teleprompter |
 | One reference per **clause**, not per paragraph | A paragraph-level reference cannot tell you which sentence the source actually supports, which is precisely what fact-check needs to know |
 | Two facts from two sources get two references | Otherwise the second fact inherits the first's evidence and nobody notices |

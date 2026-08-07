@@ -109,14 +109,17 @@ goes in [docs/architecture/evolution.md](docs/architecture/evolution.md).
 ## 5. Quick start
 
 ```bash
-# NOT BUILT — these commands do not exist yet. See docs/status.md.
 python -m venv .venv
 .venv\Scripts\activate                 # Windows
 pip install -e ".[dev]"
 
-python -m studio_ops validate --all    # what CI enforces
-python -m studio_ops status            # every studio, line, and gate *(NOT BUILT)*
+python -m studio_ops validate --all    # what CI enforces. Works today.
+python -m studio_ops status            # NOT BUILT — read docs/status.md instead
 ```
+
+Exit codes: `0` clean · `1` findings · `2` a requested gate is NOT BUILT. `--all`
+returns 2 today, on purpose: a green build that ran five of ten gates must not look
+like a green build that ran ten.
 
 `validate --all` never asks whether a claim is *true*. It asks whether a claim is
 *sourced, cited, cleared, labelled, and signed*. Truth is a human's signature; the

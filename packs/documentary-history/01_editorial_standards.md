@@ -46,7 +46,7 @@ is an incurious one. The Research Lead should treat its absence as a smell.
 
 - **Passive attribution is banned.** "It is believed", "some say", "historians think"
   without a named referent are prohibited patterns and are flagged by
-  `studio_ops validate --canon`.
+  `studio_ops validate --canon`. *(NOT BUILT)*
 - Where a position belongs to a named scholar or tradition, name it.
 - Where a colonial-era record is the only source, say so, and say what that record's
   author was in a position to know. See
