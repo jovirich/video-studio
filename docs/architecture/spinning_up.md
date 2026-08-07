@@ -45,6 +45,7 @@ gate set has to be different or it protects nothing.
 ### History of Rome — a new studio, no new pack
 
 ```bash
+# NOT BUILT — these commands do not exist yet. See docs/status.md.
 python -m studio_ops new-studio --code roman-history --title "Roman History Studio" \
        --pack documentary-history
 python -m studio_ops new-line   --studio roman-history --code it-rome --title "Rome"
@@ -61,6 +62,7 @@ identity. Which is correct — those *are* the things that differ.
 ### Giftinz product videos — a different kind of work
 
 ```bash
+# NOT BUILT — these commands do not exist yet. See docs/status.md.
 python -m studio_ops new-studio --code giftinz --title "Giftinz" \
        --pack product-marketing
 python -m studio_ops new-line   --studio giftinz --code feature-films \
@@ -81,6 +83,7 @@ brand and approvals are shared, or its own studio if they are not.
 ### A biblical narrative series — narrative pack
 
 ```bash
+# NOT BUILT — these commands do not exist yet. See docs/status.md.
 python -m studio_ops new-pack   --code narrative          # already authored
 python -m studio_ops new-studio --code biblical-narrative --pack narrative
 python -m studio_ops new-line   --studio biblical-narrative --code genesis
@@ -97,6 +100,7 @@ agreed to have.
 ### Fashion films
 
 ```bash
+# NOT BUILT — these commands do not exist yet. See docs/status.md.
 python -m studio_ops new-studio --code <brand> --pack fashion-film
 ```
 

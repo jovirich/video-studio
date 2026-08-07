@@ -1,6 +1,6 @@
 # Canon pack — `<code>`
 
-> Template. Copy with `studio_ops new-pack --code <code> --title "<title>"`.
+> Template. Copy with `studio_ops new-pack --code <code> --title "<title>"`. *(NOT BUILT)*
 > Do not fill this file in place.
 
 ## What this pack is for

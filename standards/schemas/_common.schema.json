@@ -21,7 +21,8 @@
     },
     "isoDate": {
       "type": "string",
-      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "A date that has HAPPENED or is recorded fact: `updated`, a signature date, a date checked. Strict, and quoted in YAML - unquoted, YAML resolves it to a date object and this pattern is never enforced. See standards/metadata_spec.md."
     },
     "lineCode": {
       "type": "string",
@@ -34,7 +35,8 @@
     },
     "episodeCode": {
       "type": "string",
-      "pattern": "^S\\d{2}E\\d{2}$"
+      "pattern": "^S\\d{2}E\\d{2}$",
+      "description": "A broadcast production code. Laboratory productions use EXP<NNN> and are matched separately \u2014 see episode.schema.json properties.code."
     },
     "roleSlug": {
       "type": "string",
@@ -88,19 +90,19 @@
     },
     "shotId": {
       "type": "string",
-      "pattern": "^SHT-[A-Z]{2}-S\\d{2}E\\d{2}-\\d{4}$"
+      "pattern": "^SHT-[A-Z]{2}-(S\\d{2}E\\d{2}|EXP\\d{3})-\\d{4}$"
     },
     "sequenceId": {
       "type": "string",
-      "pattern": "^SEQ-[A-Z]{2}-S\\d{2}E\\d{2}-\\d{3}$"
+      "pattern": "^SEQ-[A-Z]{2}-(S\\d{2}E\\d{2}|EXP\\d{3})-\\d{3}$"
     },
     "promptCardId": {
       "type": "string",
-      "pattern": "^PC-([A-Z]{2}-S\\d{2}E\\d{2}|STUDIO)-\\d{4}$"
+      "pattern": "^PC-([A-Z]{2}-(S\\d{2}E\\d{2}|EXP\\d{3})|STUDIO)-\\d{4}$"
     },
     "assetId": {
       "type": "string",
-      "pattern": "^AST-[A-Z]{2}-S\\d{2}E\\d{2}-\\d{4}$"
+      "pattern": "^AST-[A-Z]{2}-(S\\d{2}E\\d{2}|EXP\\d{3})-\\d{4}$"
     },
     "clearanceId": {
       "type": "string",
@@ -381,6 +383,22 @@
         "NOT_BUILT"
       ],
       "description": "Maturity of the CAPABILITY a document describes, as distinct from the status of the document itself. A locked specification of a NOT_BUILT tool is a coherent and common state. A bare checkmark is prohibited in its place - it reads as 'working' when it usually means 'specified'. See docs/status.md."
+    },
+    "plannedDate": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        {
+          "type": "string",
+          "pattern": "^TBD( .*)?$"
+        },
+        {
+          "const": "n/a"
+        }
+      ],
+      "description": "A date that has NOT yet happened: a schedule target. Accepts an ISO date, `TBD` or `TBD - <what is needed>`, or `n/a` where the milestone does not apply. Kept separate from isoDate so that a pattern-constrained field does not silently opt out of the repo-wide TBD convention - which is what made the convention unusable in schedule blocks. Dates that record fact stay strict."
     }
   }
 }

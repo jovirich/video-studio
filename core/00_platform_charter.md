@@ -74,10 +74,10 @@ This is the load-bearing claim of the architecture and is tested in
 
 | You want to… | You do | Touches |
 |---|---|---|
-| Make another episode of Nigeria | `studio_ops new-production --line ng-nigeria` | the line only |
-| Open Ghana inside African History Studio | `studio_ops new-line --studio african-history --code gh-ghana` | that studio only |
-| Start a completely different show, same genre | `studio_ops new-studio --code <x> --pack documentary-history` | studios/ only |
-| Start a different *kind* of video entirely | `studio_ops new-pack --code <genre>` then `new-studio --pack <genre>` | packs/ + studios/ |
+| Make another episode of Nigeria | `studio_ops new-production --line ng-nigeria` | the line only **[NOT BUILT]** |
+| Open Ghana inside African History Studio | `studio_ops new-line --studio african-history --code gh-ghana` | that studio only **[NOT BUILT]** |
+| Start a completely different show, same genre | `studio_ops new-studio --code <x> --pack documentary-history` | studios/ only **[NOT BUILT]** |
+| Start a different *kind* of video entirely | `studio_ops new-pack --code <genre>` then `new-studio --pack <genre>` | packs/ + studios/ **[NOT BUILT]** |
 
 Nothing on that table requires changing `core/`, `standards/`, `prompts/`,
 `templates/`, or `automation/`. If it ever does, that is an architecture finding and

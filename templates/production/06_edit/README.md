@@ -29,7 +29,7 @@ anything, and the fix stops being findable.
 
 ## Before this stage starts
 
-- **Every asset on the timeline has a manifest entry.** `studio_ops pipeline conform`
+- **Every asset on the timeline has a manifest entry.** `studio_ops pipeline conform` *(NOT BUILT)*
   refuses a clip without one. This is not a warning to be dismissed: an asset with
   no manifest entry has no provenance, no rights status, and no label state, and it
   will be discovered at technical QC when the fix is a re-conform.

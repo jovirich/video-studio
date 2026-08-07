@@ -233,10 +233,10 @@ the registry is *for* changes how it is filled in.
 | Command | Will produce | Manual equivalent today |
 |---|---|---|
 | `studio_ops validate --sources` | Walks every `{{CLM-*}}` → claim → source; checks corroboration against the register; checks independence on every `established` claim | Walk it by hand at fact-check and record the walk as the `FCK-*` report |
-| `studio_ops report bibliography --episode <code>` | The citation appendix and the published sources page, generated from the records | Hand-compiled — and it will silently disagree with the records, which is the risk ADR 0002 was written to remove |
-| `studio_ops report source-coverage` | Claims per source, sources per claim, and which claims rest on a single source | Read the registry |
-| `studio_ops report dependents --claim <id>` | Everything referencing a claim — needed when a claim is corrected or retracted | Grep the scripts and on-screen text |
-| `studio_ops report open-questions` | Every `QST-*` with status and what was searched | Read the folder |
+| `studio_ops report bibliography --episode <code>` | The citation appendix and the published sources page, generated from the records | Hand-compiled — and it will silently disagree with the records, which is the risk ADR 0002 was written to remove **[NOT BUILT]** |
+| `studio_ops report source-coverage` | Claims per source, sources per claim, and which claims rest on a single source | Read the registry **[NOT BUILT]** |
+| `studio_ops report dependents --claim <id>` | Everything referencing a claim — needed when a claim is corrected or retracted | Grep the scripts and on-screen text **[NOT BUILT]** |
+| `studio_ops report open-questions` | Every `QST-*` with status and what was searched | Read the folder **[NOT BUILT]** |
 
 The gap matters more than it looks. ADR 0002's most concrete promise is that the
 bibliography and sources page are **generated, not written**; until the compiler exists,

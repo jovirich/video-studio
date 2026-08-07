@@ -1,0 +1,265 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://video-studio.local/schemas/continuity_character.schema.json",
+  "title": "Continuity character",
+  "description": "How a persistent character is RENDERED, shot after shot, production after production. Deliberately separate from the character record (CHR-*), which holds who they were and what the evidence says. That record answers 'what do we know?'; this one answers 'what does the model produce?'. Keeping them apart stops rendering decisions leaking into the evidence layer and lets this record cite claims where an appearance choice rests on one. Generative tools have no memory: without this registry a character drifts across twenty shots and nobody can say what the correct version was.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "pattern": "^CNC-([A-Z]{2}|STUDIO)-\\d{4}$" },
+    "type": { "const": "continuity_character" },
+    "line": { "$ref": "_common.schema.json#/$defs/lineCode" },
+    "title": { "type": "string" },
+    "status": { "$ref": "_common.schema.json#/$defs/recordStatus" },
+    "version": { "$ref": "_common.schema.json#/$defs/semver" },
+    "updated": { "$ref": "_common.schema.json#/$defs/isoDate" },
+    "owners": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/anyRole" }, "minItems": 1 },
+    "sensitivity": { "$ref": "_common.schema.json#/$defs/sensitivity" },
+    "advisory_ref": { "$ref": "_common.schema.json#/$defs/advisoryId" },
+    "superseded_by": { "type": "string" },
+    "retraction_reason": { "type": "string" },
+    "notes": { "type": "string" },
+
+    "entity": {
+      "$ref": "_common.schema.json#/$defs/characterId",
+      "description": "The evidence record this renders. Absent for an invented character under a narrative pack, where there is no historical entity to be answerable to."
+    },
+
+    "canonical_name": {
+      "type": "string",
+      "description": "The on-screen name form. Must match the entity record's naming.on_screen exactly where an entity exists — checked mechanically, not by eye."
+    },
+
+    "age_range": {
+      "type": "object",
+      "description": "Apparent age as depicted, which is a rendering decision, not a biographical fact. Where the character appears at more than one life stage, create a separate continuity record per stage and link them: a model cannot hold two ages under one reference set.",
+      "properties": {
+        "low": { "type": ["integer", "string"] },
+        "high": { "type": ["integer", "string"] },
+        "life_stage": { "type": "string" },
+        "basis": { "type": "string", "description": "Why this range. Cite claims where the evidence constrains it; say 'directorial' where it does not." },
+        "claims": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/claimId" } }
+      },
+      "additionalProperties": false
+    },
+
+    "appearance": {
+      "type": "object",
+      "description": "The physical description a prompt inherits. Write it as a model would need to read it: concrete nouns, not evaluative adjectives.",
+      "properties": {
+        "skin_tone": {
+          "type": "string",
+          "description": "Stated explicitly and checked on every shot. Skin-tone rendering is the most common failure in both generation and grading, and a show LUT will crush or desaturate it unless someone is watching."
+        },
+        "skin_tone_reference": { "type": "string", "description": "A measurable reference — a swatch asset, or a named value — rather than a word, so QC has something to compare against." },
+        "hair": { "type": "string", "description": "Texture, length, style, treatment, and how it changes across the production if it does." },
+        "body_build": { "type": "string" },
+        "height_relative": { "type": "string", "description": "Relative to other characters in frame. Absolute height means nothing to a generator; relative height is what a two-shot needs." },
+        "facial_structure": { "type": "string" },
+        "eyes": { "type": "string" },
+        "posture_and_gait": { "type": "string", "description": "Matters for motion generation and is routinely forgotten until a clip looks wrong." },
+        "hands": { "type": "string", "description": "Hands are the reliable failure point. Recording what they should look like — and what they are usually doing — gives the prompt something to hold." }
+      },
+      "additionalProperties": false
+    },
+
+    "distinctive_features": {
+      "type": "array",
+      "description": "Scars, markings, scarification, tattoos, body modification, disability, missing digits. Each carries its evidence basis and, where it is culturally specific, a sensitivity note — bodily markings are frequently meaningful rather than decorative, and depicting them wrongly is a substantive error rather than a cosmetic one.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "feature": { "type": "string" },
+          "location_on_body": { "type": "string" },
+          "always_visible": { "type": "boolean" },
+          "evidence": { "type": "array", "items": { "type": "string" } },
+          "cultural_note": { "type": "string" },
+          "advisory_ref": { "$ref": "_common.schema.json#/$defs/advisoryId" }
+        },
+        "required": ["feature"],
+        "additionalProperties": false
+      }
+    },
+
+    "wardrobe": {
+      "type": "array",
+      "description": "Every garment set the character wears. A 'set' is what appears together in a scene — recording items individually and hoping they combine correctly is how continuity breaks.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "set_id": { "type": "string" },
+          "when_worn": { "type": "string", "description": "Which sequences or scenes. A wardrobe change is a continuity event and must be deliberate." },
+          "items": { "type": "array", "items": { "type": "string" } },
+          "materials": { "type": "array", "items": { "type": "string" }, "description": "Fibre, weave, dye. This is the period marker that does most of the work against generic output." },
+          "colours": { "type": "array", "items": { "type": "string" } },
+          "construction": { "type": "string", "description": "How it is made and fastened. Machine stitching is the classic anachronism." },
+          "condition": { "type": "string", "description": "New, worn, mended, dirty. Uniform pristine costume is a tell." },
+          "evidence": { "type": "array", "items": { "type": "string" } },
+          "reference_images": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["set_id", "items"],
+        "additionalProperties": false
+      }
+    },
+
+    "jewellery_and_adornment": {
+      "type": "array",
+      "description": "Separate from wardrobe because adornment frequently carries status, office, or initiatory meaning that clothing does not. Anything signifying rank or ritual office requires an advisory ruling before it is depicted.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "item": { "type": "string" },
+          "materials": { "type": "array", "items": { "type": "string" } },
+          "worn_where": { "type": "string" },
+          "signifies": { "type": "string", "description": "Status, office, age grade, marital state, ritual role. If this is non-empty, the item is a claim about the person and needs evidence." },
+          "evidence": { "type": "array", "items": { "type": "string" } },
+          "advisory_ref": { "$ref": "_common.schema.json#/$defs/advisoryId" },
+          "reference_images": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["item"],
+        "additionalProperties": false
+      }
+    },
+
+    "references": {
+      "type": "object",
+      "description": "The machine-usable half of the record. Prose fixes intent; these fix output.",
+      "properties": {
+        "facial_reference": {
+          "$ref": "_common.schema.json#/$defs/styleAnchorId",
+          "description": "The single canonical face anchor. One per continuity record. If a production needs two, it has two characters or two life stages."
+        },
+        "anchor_set": {
+          "type": "array",
+          "items": { "$ref": "_common.schema.json#/$defs/styleAnchorId" },
+          "description": "Full body, three-quarter, profile, wardrobe sets. Each is a checksummed file — an anchor that can change silently is not an anchor."
+        },
+        "approved_seeds": {
+          "type": "array",
+          "description": "Seeds that produced an on-model result, with the tool and model version they are valid for. A seed does not transfer between models, or between versions of one model, and recording it without the version is recording nothing.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "seed": { "type": ["integer", "string"] },
+              "vendor": { "type": "string" },
+              "model": { "type": "string" },
+              "model_version": { "type": "string" },
+              "prompt_card": { "$ref": "_common.schema.json#/$defs/promptCardId" },
+              "asset": { "$ref": "_common.schema.json#/$defs/assetId" },
+              "note": { "type": "string" }
+            },
+            "required": ["seed", "vendor", "model"],
+            "additionalProperties": false
+          }
+        },
+        "trained_adapter": {
+          "type": "object",
+          "description": "A LoRA or equivalent trained on approved stills. A production asset in its own right — versioned, archived with the season, and a rights question if any training image is third-party.",
+          "properties": {
+            "identifier": { "type": "string" },
+            "trained_on": { "type": "array", "items": { "type": "string" } },
+            "base_model": { "type": "string" },
+            "rights_note": { "type": "string" }
+          },
+          "additionalProperties": false
+        },
+        "drift_test": {
+          "type": "object",
+          "description": "Evidence that the chosen mechanism actually holds. Required before this record can reach status: locked — an untested continuity mechanism is an assumption, and the narrative pack's continuity_lock gate exists to catch exactly this.",
+          "properties": {
+            "run_on": { "$ref": "_common.schema.json#/$defs/isoDate" },
+            "shots_tested": { "type": "integer" },
+            "angles_tested": { "type": "array", "items": { "type": "string" } },
+            "lighting_tested": { "type": "array", "items": { "type": "string" } },
+            "held": { "type": "boolean" },
+            "failure_modes": { "type": "array", "items": { "type": "string" }, "description": "Where it broke. More useful than where it held." }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "voice": {
+      "type": "object",
+      "description": "Only for a character who is heard. Core prohibits synthesising a real or historical person's voice outright, so for a documentary character this block is normally empty and the alternative is a credited actor reading a documented quotation.",
+      "properties": {
+        "voice_id": { "type": "string" },
+        "provider": { "type": "string" },
+        "model_version": { "type": "string", "description": "Pinned. A vendor model update changes the voice audibly mid-season." },
+        "settings": { "type": "object", "additionalProperties": true },
+        "licence_ref": { "$ref": "_common.schema.json#/$defs/clearanceId", "description": "Required. A licensed voice is a consenting, compensated human whose agreement covers synthetic reproduction." },
+        "performer_credit": { "type": "string" },
+        "name_ipa": { "type": "string" },
+        "pronunciation_ref": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+
+    "forbidden_variations": {
+      "type": "array",
+      "description": "Things that must NEVER appear on this character. The most valuable field in the record and the one most often left empty. Feeds the negative prompt and gives QC something falsifiable to check. Examples of the KIND of entry: a material the period did not have; an item of office the character did not hold; a garment restricted to a role they did not occupy; an anachronistic hairstyle a model reaches for by default.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "forbidden": { "type": "string" },
+          "why": { "type": "string" },
+          "severity": {
+            "type": "string",
+            "enum": ["anachronism", "evidence-contradicted", "culturally-prohibited", "style-breach"],
+            "description": "'culturally-prohibited' is a hard stop routed to the sensitivity gate, not a negative-prompt term. A negative prompt is a statistical nudge and must never be relied on as a safeguard."
+          },
+          "advisory_ref": { "$ref": "_common.schema.json#/$defs/advisoryId" }
+        },
+        "required": ["forbidden", "why", "severity"],
+        "additionalProperties": false
+      }
+    },
+
+    "historical_uncertainty": {
+      "type": "array",
+      "description": "Where the depiction goes beyond the evidence — which for most historical characters is most of it. Recording it here is what keeps the rendering honest and tells the shot list where to compose around a gap rather than invent one.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "element": { "type": "string", "description": "The appearance element that is not attested." },
+          "what_is_known": { "type": "string" },
+          "what_is_not": { "type": "string" },
+          "how_handled": {
+            "type": "string",
+            "enum": ["composed-around", "generic-to-period", "directorial-choice-disclosed", "shot-cut"],
+            "description": "'composed-around' is the preferred answer: framing is the honest tool for uncertainty."
+          },
+          "claims": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/claimId" } },
+          "open_questions": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/questionId" } }
+        },
+        "required": ["element", "how_handled"],
+        "additionalProperties": false
+      }
+    },
+
+    "appears_in": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["id", "type", "line", "title", "status", "version", "updated", "owners", "canonical_name", "appearance", "references"],
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "locked" } }, "required": ["status"] },
+      "then": {
+        "properties": {
+          "references": { "required": ["facial_reference", "drift_test"] }
+        },
+        "description": "A locked continuity record must name its face anchor and carry a drift test. Locking an untested mechanism is how a production discovers at shot 40 that its character was never held."
+      }
+    },
+    {
+      "if": {
+        "properties": { "voice": { "properties": { "voice_id": { "type": "string" } }, "required": ["voice_id"] } },
+        "required": ["voice"]
+      },
+      "then": {
+        "properties": { "voice": { "required": ["licence_ref"] } },
+        "description": "A synthesised voice without a clearance reference is prohibited by core/01 §2."
+      }
+    }
+  ],
+  "additionalProperties": false
+}

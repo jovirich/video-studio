@@ -1,7 +1,7 @@
 # Metadata specification
 
 Every document and record in this repository carries structured metadata. This is
-what makes the repository queryable — `studio_ops report` and every validator read
+what makes the repository queryable — `studio_ops report` and every validator read *(NOT BUILT)*
 front matter, not prose.
 
 ## Markdown front matter

@@ -75,7 +75,7 @@ pack. If it is right for one brand, studio.
 
 **Positive**
 
-- A new genre is `studio_ops new-pack`, not a fork. Tested at
+- A new genre is `studio_ops new-pack`, not a fork. Tested at *(NOT BUILT)*
   [ROADMAP](../../ROADMAP.md) Phase 6.
 - Genres with incompatible obligations coexist without either compromising. A brand
   film gets no fake fact-check gate; a history documentary cannot skip a real one.

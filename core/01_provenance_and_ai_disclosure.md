@@ -60,7 +60,7 @@ Disclosure operates at four levels and all four are required:
    template is in [../templates/episode/10_publish/credits_ai_statement.md](../templates/production/10_publish/credits_ai_statement.md).
 4. **A public methodology page** per series, and a per-episode provenance summary
    published alongside the episode, generated from the manifest by
-   `studio_ops report provenance`.
+   `studio_ops report provenance`. *(NOT BUILT)*
 
 Level 4 is unusual and is the point. A viewer who wants to know exactly which shots
 were generated, with which tool, from which prompt, can find out. That is a much

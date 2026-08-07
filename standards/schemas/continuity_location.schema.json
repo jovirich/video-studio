@@ -1,0 +1,246 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://video-studio.local/schemas/continuity_location.schema.json",
+  "title": "Continuity location",
+  "description": "How a persistent place is RENDERED. Separate from the location record (LOC-*), which holds where it was and what the evidence says. Ask a generator for the same courtyard three times and you get three courtyards; this record is what makes the fourth match the first. It also carries the forbidden-object list, which is where a period is most often broken — a model will place a plastic vessel or a corrugated roof in an otherwise correct frame without hesitation.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "pattern": "^CNL-([A-Z]{2}|STUDIO)-\\d{4}$" },
+    "type": { "const": "continuity_location" },
+    "line": { "$ref": "_common.schema.json#/$defs/lineCode" },
+    "title": { "type": "string" },
+    "status": { "$ref": "_common.schema.json#/$defs/recordStatus" },
+    "version": { "$ref": "_common.schema.json#/$defs/semver" },
+    "updated": { "$ref": "_common.schema.json#/$defs/isoDate" },
+    "owners": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/anyRole" }, "minItems": 1 },
+    "sensitivity": { "$ref": "_common.schema.json#/$defs/sensitivity" },
+    "advisory_ref": { "$ref": "_common.schema.json#/$defs/advisoryId" },
+    "superseded_by": { "type": "string" },
+    "retraction_reason": { "type": "string" },
+    "notes": { "type": "string" },
+
+    "entity": {
+      "$ref": "_common.schema.json#/$defs/locationId",
+      "description": "The evidence record this renders. Absent for an invented setting under a narrative pack."
+    },
+
+    "canonical_name": { "type": "string" },
+
+    "era": {
+      "type": "object",
+      "description": "The moment being depicted, not the place's whole history. A location depicted at two periods needs two continuity records — materials, vegetation, and skyline all move.",
+      "properties": {
+        "display": { "type": "string", "description": "How it is spoken or captioned on screen." },
+        "basis": { "type": "string" },
+        "claims": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/claimId" } }
+      },
+      "required": ["display"],
+      "additionalProperties": false
+    },
+
+    "architecture": {
+      "type": "object",
+      "properties": {
+        "building_forms": { "type": "string" },
+        "wall_construction": { "type": "string", "description": "Technique and finish, not just material. Coursing, temper, render, and tool marks are what make a wall read as built rather than extruded." },
+        "roof_form": { "type": "string" },
+        "openings": { "type": "string", "description": "Doors, windows, thresholds. Frequently unattested — say so here rather than letting the model decide." },
+        "scale_and_storeys": { "type": "string" },
+        "decoration": { "type": "string" },
+        "state_of_repair": { "type": "string", "description": "Uniform newness is a tell. So is uniform ruin." },
+        "evidence": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+
+    "materials": {
+      "type": "array",
+      "description": "Every material that may appear in frame. Doubles as the allow-list against which the anachronism pass runs.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "material": { "type": "string" },
+          "used_for": { "type": "string" },
+          "appearance": { "type": "string", "description": "Colour, texture, weathering — how it should render, not just what it is." },
+          "evidence": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["material"],
+        "additionalProperties": false
+      }
+    },
+
+    "spatial": {
+      "type": "object",
+      "description": "The geometry a camera has to obey. Getting this wrong is what makes two shots of one place feel like two places.",
+      "properties": {
+        "street_width": { "type": "string", "description": "Or courtyard, room, or plaza dimensions. Drives lens choice and how many figures can plausibly be in frame." },
+        "layout": { "type": "string" },
+        "elevation_and_terrain": { "type": "string" },
+        "sightlines": { "type": "string", "description": "What is visible from where. The field that keeps a reverse angle consistent with its original." },
+        "boundaries": { "type": "string", "description": "What lies immediately beyond frame, so an unplanned wide shot does not invent it." },
+        "geometry_asset": { "type": "string", "description": "3D scene file, if the location is built rather than prompted. Geometry solves this problem outright rather than mitigating it." }
+      },
+      "additionalProperties": false
+    },
+
+    "vegetation": {
+      "type": "array",
+      "description": "Species and cultivation. A wrong plant is an anachronism a local audience reads instantly, and crops in particular date a scene precisely.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "plant": { "type": "string" },
+          "where": { "type": "string" },
+          "seasonal_state": { "type": "string" },
+          "evidence": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["plant"],
+        "additionalProperties": false
+      }
+    },
+
+    "weather_and_season": {
+      "type": "object",
+      "properties": {
+        "season": { "type": "string" },
+        "conditions": { "type": "string" },
+        "ground_state": { "type": "string", "description": "Dust, mud, standing water. Continuity breaks here constantly and are obvious in a cut." },
+        "sky": { "type": "string" },
+        "consistency_rule": { "type": "string", "description": "Whether weather may vary across the production, and where it changes. Silent variation reads as carelessness." }
+      },
+      "additionalProperties": false
+    },
+
+    "lighting_language": {
+      "type": "object",
+      "description": "Light is what makes a frame read as photographed rather than assembled, and it is where generated imagery most reliably violates physics.",
+      "properties": {
+        "time_of_day": { "type": "string" },
+        "primary_source": { "type": "string" },
+        "direction": { "type": "string", "description": "Fixed for the location, so every shot in the sequence agrees. Inconsistent light direction is the primary QC check." },
+        "quality": { "type": "string" },
+        "practical_sources": { "type": "array", "items": { "type": "string" }, "description": "Fire, lamp, window. Each behaves physically: fire lights warm, moves, and falls off fast." },
+        "shadow_behaviour": { "type": "string" },
+        "atmosphere": { "type": "string", "description": "Dust, smoke, haze. Carries depth, and is period-specific." }
+      },
+      "additionalProperties": false
+    },
+
+    "camera_language": {
+      "type": "object",
+      "description": "How this place is shot. Fixing it per location is a large part of what makes a sequence feel authored rather than assembled.",
+      "properties": {
+        "lens_set": { "type": "array", "items": { "type": "string" }, "description": "From the line's defined set. A defined lens set is the cheapest available purchase of coherence." },
+        "typical_heights": { "type": "array", "items": { "type": "string" } },
+        "movement_rules": { "type": "string", "description": "What movement is permitted here and what motivates it. Unmotivated drift is the signature tell of generated video." },
+        "coverage_pattern": { "type": "string" },
+        "avoid": { "type": "string", "description": "Angles that expose unattested geometry. Framing is the honest tool for uncertainty." }
+      },
+      "additionalProperties": false
+    },
+
+    "soundscape": {
+      "type": "object",
+      "description": "Ambience asserts what a place sounded like and is reconstruction, held to the same standard as image. Wrong birdsong is an error a local audience hears instantly.",
+      "properties": {
+        "ambience": { "type": "string" },
+        "animals_and_birds": { "type": "array", "items": { "type": "string" } },
+        "human_activity": { "type": "string" },
+        "languages_audible": { "type": "array", "items": { "type": "string" } },
+        "forbidden_sounds": { "type": "array", "items": { "type": "string" }, "description": "Species not present, industry not yet invented, traffic. The audio equivalent of forbidden_objects." },
+        "evidence": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+
+    "reference_imagery": {
+      "type": "object",
+      "properties": {
+        "anchor_set": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/styleAnchorId" } },
+        "establishing_anchor": { "$ref": "_common.schema.json#/$defs/styleAnchorId", "description": "The canonical wide. Every other angle is checked against it." },
+        "approved_seeds": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "seed": { "type": ["integer", "string"] },
+              "vendor": { "type": "string" },
+              "model": { "type": "string" },
+              "model_version": { "type": "string" },
+              "prompt_card": { "$ref": "_common.schema.json#/$defs/promptCardId" },
+              "asset": { "$ref": "_common.schema.json#/$defs/assetId" }
+            },
+            "required": ["seed", "vendor", "model"],
+            "additionalProperties": false
+          }
+        },
+        "source_photography": { "type": "array", "items": { "type": "string" }, "description": "Present-day capture of the real place, if it exists. Classified `contemporary`, never `reconstruction`." }
+      },
+      "additionalProperties": false
+    },
+
+    "forbidden_objects": {
+      "type": "array",
+      "description": "Things that must NEVER appear in this location. The highest-value field in the record: it is built from what the anachronism pass actually catches, so it compounds across a season and is the one negative list genuinely worth inheriting.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "forbidden": { "type": "string" },
+          "why": { "type": "string" },
+          "severity": {
+            "type": "string",
+            "enum": ["anachronism", "evidence-contradicted", "culturally-prohibited", "style-breach"],
+            "description": "'culturally-prohibited' is a hard stop routed to the sensitivity gate, never a negative-prompt term."
+          },
+          "advisory_ref": { "$ref": "_common.schema.json#/$defs/advisoryId" }
+        },
+        "required": ["forbidden", "why", "severity"],
+        "additionalProperties": false
+      }
+    },
+
+    "unattested_elements": {
+      "type": "array",
+      "description": "Features the evidence does not cover. Compose around these; do not let the model fill them. This list and camera_language.avoid should agree.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "element": { "type": "string" },
+          "how_handled": {
+            "type": "string",
+            "enum": ["composed-around", "generic-to-period", "directorial-choice-disclosed", "shot-cut"]
+          },
+          "open_questions": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/questionId" } }
+        },
+        "required": ["element", "how_handled"],
+        "additionalProperties": false
+      }
+    },
+
+    "drift_test": {
+      "type": "object",
+      "description": "Evidence the location actually holds across angles. Required at status: locked.",
+      "properties": {
+        "run_on": { "$ref": "_common.schema.json#/$defs/isoDate" },
+        "shots_tested": { "type": "integer" },
+        "angles_tested": { "type": "array", "items": { "type": "string" } },
+        "held": { "type": "boolean" },
+        "failure_modes": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+
+    "appears_in": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["id", "type", "line", "title", "status", "version", "updated", "owners", "canonical_name", "era", "lighting_language", "camera_language"],
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "locked" } }, "required": ["status"] },
+      "then": {
+        "required": ["forbidden_objects", "drift_test"],
+        "description": "A locked location must carry its forbidden-object list and a drift test. An empty forbidden list at lock means nobody has run an anachronism pass yet."
+      }
+    }
+  ],
+  "additionalProperties": false
+}

@@ -65,6 +65,7 @@ memory. This sounds like a small thing and is not — reconstructed provenance i
 most common cause of a source record that cannot be verified when challenged.
 
 ```bash
+# NOT BUILT — these commands do not exist yet. See docs/status.md.
 python -m studio_ops new-record --type source --line ng-nigeria
 ```
 

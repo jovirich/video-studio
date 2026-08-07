@@ -1,0 +1,154 @@
+# Experimental Production 001 — laboratory scene.
+#
+# NOT AN EPISODE. Never published. Its deliverable is 08_review/findings.md.
+# See README.md for what it tests and what blocks it starting.
+#
+# Every subject field is TBD because the subject is a human decision and the claims
+# are human research. Nothing in this repository may author them.
+
+id: EP-NG-EXP001
+type: episode
+kind: laboratory
+line: ng-nigeria
+code: EXP001
+title: TBD
+slug: laboratory-scene
+status: draft
+version: "0.1.0"
+updated: "2026-08-07"
+owners: [showrunner, research-lead, visual-director]
+
+# ---------------------------------------------------------------------------
+# Subject — Showrunner and Research Lead. See README.md § Subject for the
+# constraints the choice must satisfy.
+# ---------------------------------------------------------------------------
+question: >
+  TBD — for a laboratory production the "question with stakes" is a pipeline
+  question, not a historical one. Suggested form: "Can this pipeline take twelve
+  researched claims to twenty conformed shots with continuity intact, and what
+  does it cost?"
+
+thesis: TBD
+logline: TBD
+
+stage: concept
+
+runtime_target_minutes: 2
+
+subject_scope:
+  period_display: TBD
+  regions: []
+  peoples: []
+  languages_on_screen: []
+
+# ---------------------------------------------------------------------------
+# Advisory coverage. Currently false, and it blocks greenlight.
+# An ordinary-life scene still depicts a people. The experiment must not become
+# the reason to skip a ruling.
+# ---------------------------------------------------------------------------
+advisory_coverage:
+  covered: false
+  advisors: []
+  gaps:
+    - TBD — the line has no advisory register. Blocks greenlight.
+
+conflicts_of_interest: []
+
+# ---------------------------------------------------------------------------
+# Gates. Generated from the documentary-history pack's gates.yaml.
+# Every one pending. No gate has been signed anywhere in this repository.
+#
+# Laboratory relaxation: the gate set may run with fewer distinct signatories
+# than the pack requires, PROVIDED the shortfall is recorded as a breakage in
+# findings.md. That is a finding about staffing, not permission to sign your own
+# work. The sensitivity gate is NOT relaxed.
+# ---------------------------------------------------------------------------
+gates:
+  greenlight:
+    status: pending
+    owner: showrunner
+    checklist: ../../../../../../ops/checklists/greenlight.md
+    blockers:
+      - Line status is `candidate`, not `open`
+      - No Research Lead named
+      - No advisory contact agreed
+      - No archive landscape survey
+  source_lock:
+    status: pending
+    owner: research-lead
+    checklist: ../../../../../../ops/checklists/source_lock.md
+    blockers:
+      - No claims or sources exist
+      - "`new-record` is NOT BUILT, so IDs would be hand-allocated"
+  script_lock:
+    status: pending
+    owner: story-producer
+    checklist: ../../../../../../ops/checklists/script_lock.md
+  fact_check:
+    status: pending
+    owner: research-lead
+    checklist: ../../../../../../ops/checklists/fact_check.md
+    blockers:
+      - Must be signed by someone other than the researcher who built the pack (core/04 §5.3)
+  sensitivity:
+    status: pending
+    owner: cultural-advisor
+    checklist: ../../../../../../ops/checklists/sensitivity_review.md
+    blockers:
+      - No Cultural Advisor engaged. Not relaxed for laboratory productions.
+  rights:
+    status: pending
+    owner: rights-and-clearances
+    checklist: ../../../../../../ops/checklists/rights_gate.md
+    blockers:
+      - Model terms register is entirely unchecked
+  picture_lock:
+    status: pending
+    owner: visual-director
+    checklist: ../../../../../../ops/checklists/picture_lock.md
+  audio_lock:
+    status: pending
+    owner: audio-lead
+    checklist: ../../../../../../ops/checklists/audio_lock.md
+  technical_qc:
+    status: pending
+    owner: pipeline-engineer
+    checklist: ../../../../../../ops/checklists/technical_qc.md
+    blockers:
+      - "`pipeline conform` and `pipeline package` are NOT BUILT"
+
+# ---------------------------------------------------------------------------
+# Budget. The generation ceiling is a HARD cap enforced by the adapters, and it
+# is one of the things being measured — cost per finished second is currently
+# unknown and guessing it is how a season budget goes wrong.
+# ---------------------------------------------------------------------------
+budget:
+  currency: TBD
+  total: TBD
+  generation_ceiling_usd: TBD
+  consultation_fees_budgeted: false   # must be true before greenlight
+
+schedule:
+  greenlight_date: TBD
+  source_lock_target: TBD
+  script_lock_target: TBD
+  picture_lock_target: TBD
+  delivery_target: TBD
+  publish_target: n/a                 # laboratory production; never published
+
+# Populated by `studio_ops status` (NOT BUILT). Zero on every line.
+counts:
+  claims: 0
+  sources: 0
+  open_questions: 0
+  shots: 0
+  generated_assets: 0
+  assets_pending_clearance: 0
+
+# ---------------------------------------------------------------------------
+# The actual deliverable. A laboratory production that finds nothing has not
+# been run honestly.
+# ---------------------------------------------------------------------------
+findings:
+  report: 08_review/findings.md
+  breakages: []

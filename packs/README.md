@@ -62,6 +62,7 @@ statement covering every existing studio. That bar is deliberately high.
 ## Authoring a new pack
 
 ```bash
+# NOT BUILT — these commands do not exist yet. See docs/status.md.
 python -m studio_ops new-pack --code brand-film --title "Brand and corporate film"
 ```
 

@@ -71,10 +71,10 @@ correct without contaminating the other.
 
 | You want to… | You run | It touches |
 |---|---|---|
-| Another Nigeria episode | `studio_ops new-production --line ng-nigeria` | that line |
-| Ghana, inside African History Studio | `studio_ops new-line --studio african-history --code gh-ghana` | that studio |
-| A different show, same genre | `studio_ops new-studio --code <x> --pack documentary-history` | `studios/` |
-| A different **kind** of video entirely | `studio_ops new-pack --code <genre>` then `new-studio --pack <genre>` | `packs/` + `studios/` |
+| Another Nigeria episode | `studio_ops new-production --line ng-nigeria` | that line **[NOT BUILT]** |
+| Ghana, inside African History Studio | `studio_ops new-line --studio african-history --code gh-ghana` | that studio **[NOT BUILT]** |
+| A different show, same genre | `studio_ops new-studio --code <x> --pack documentary-history` | `studios/` **[NOT BUILT]** |
+| A different **kind** of video entirely | `studio_ops new-pack --code <genre>` then `new-studio --pack <genre>` | `packs/` + `studios/` **[NOT BUILT]** |
 
 **Nothing on that table requires changing `core/`, `standards/`, `prompts/`,
 `templates/`, or `automation/`.** That is the load-bearing claim of the architecture,
@@ -109,12 +109,13 @@ goes in [docs/architecture/evolution.md](docs/architecture/evolution.md).
 ## 5. Quick start
 
 ```bash
+# NOT BUILT — these commands do not exist yet. See docs/status.md.
 python -m venv .venv
 .venv\Scripts\activate                 # Windows
 pip install -e ".[dev]"
 
 python -m studio_ops validate --all    # what CI enforces
-python -m studio_ops status            # every studio, line, and gate
+python -m studio_ops status            # every studio, line, and gate *(NOT BUILT)*
 ```
 
 `validate --all` never asks whether a claim is *true*. It asks whether a claim is

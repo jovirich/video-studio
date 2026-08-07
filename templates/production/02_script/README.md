@@ -42,7 +42,7 @@ which is exactly what fact-check needs to know.
 
 Double braces, stripped at render. The braces are not decoration — they are what
 `studio_ops validate --sources` reads to check that every asserted fact resolves to
-a claim record at the required tier, and what `studio_ops report dependents` reads
+a claim record at the required tier, and what `studio_ops report dependents` reads *(NOT BUILT)*
 to answer "if this source is withdrawn, which lines of narration die".
 
 A sentence with a date, a name, a figure, or a superlative and no claim reference is

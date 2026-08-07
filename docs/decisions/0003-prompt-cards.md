@@ -46,7 +46,7 @@ A prompt is a YAML record validated against
 | `review` | Sensitivity and anachronism gate status |
 
 Vendor strings are **rendered** from the structure by
-`studio_ops promptlib render`, not hand-written. The same card can target a
+`studio_ops promptlib render`, not hand-written. The same card can target a *(NOT BUILT)*
 different tool by changing one field.
 
 ## Consequences

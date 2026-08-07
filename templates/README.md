@@ -55,10 +55,10 @@ production into every later one.
 
 | Path | Skeleton for | Copied by |
 |---|---|---|
-| [studio/](studio/) | A studio — bible, charter, control record | `studio_ops new-studio` |
-| [line/](line/) | A production line — research, sources, entities, advisory, style | `studio_ops new-line` |
-| [production/](production/) | One episode, film, or short — eleven pipeline stages | `studio_ops new-production` |
-| [records/](records/) | One record of each type in [../standards/id_system.md](../standards/id_system.md) | `studio_ops new-record` |
+| [studio/](studio/) | A studio — bible, charter, control record | `studio_ops new-studio` **[NOT BUILT]** |
+| [line/](line/) | A production line — research, sources, entities, advisory, style | `studio_ops new-line` **[NOT BUILT]** |
+| [production/](production/) | One episode, film, or short — eleven pipeline stages | `studio_ops new-production` **[NOT BUILT]** |
+| [records/](records/) | One record of each type in [../standards/id_system.md](../standards/id_system.md) | `studio_ops new-record` **[NOT BUILT]** |
 | [legal/](legal/) | Consent, release, and agreement instruments | By hand, then a lawyer |
 | [reviews/](reviews/) | Pointer to the canonical gate checklists | — |
 | [prompts/](prompts/) | Pointer to the prompt framework and the prompt card template | — |
@@ -103,7 +103,7 @@ prevent. See [../CONTRIBUTING.md](../CONTRIBUTING.md) § Writing rules.
 ## 4. Where the gate block comes from
 
 Production and line control records carry a `gates` block. It is **generated**, not
-authored: `studio_ops new-production` reads the studio's declared canon pack, opens
+authored: `studio_ops new-production` reads the studio's declared canon pack, opens *(NOT BUILT)*
 that pack's `gates.yaml`, and writes one entry per declared gate with `status:
 pending` and the declared owner.
 

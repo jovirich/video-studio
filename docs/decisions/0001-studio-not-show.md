@@ -44,7 +44,7 @@ Nigeria is `productions/ng-nigeria/`, line 01, opened first.
 
 **Positive**
 
-- Adding a country is `studio_ops new-line`, not a refactor or a fork.
+- Adding a country is `studio_ops new-line`, not a refactor or a fork. *(NOT BUILT)*
 - The tier boundary forces an explicit question at write time: *is this rule
   universal or regional?* That question is nearly free to answer while writing and
   expensive to answer retroactively across a year of accumulated documents.

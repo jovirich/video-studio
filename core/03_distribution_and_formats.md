@@ -63,7 +63,7 @@ Masters live in the asset store, not in git. Path convention in
   not be presented as a photograph.
 - Descriptions carry: the question, the sources summary link, the AI-use statement,
   the correction notice if any, and the credits link.
-- Chapters generated from the beat sheet by `studio_ops report chapters`.
+- Chapters generated from the beat sheet by `studio_ops report chapters`. *(NOT BUILT)*
 
 ## 5. The published evidence layer
 

@@ -135,6 +135,7 @@ Not possible yet, and the toolkit is **NOT BUILT**
 ([docs/status.md](../../../../docs/status.md)). The specified command is:
 
 ```
+# NOT BUILT — these commands do not exist yet. See docs/status.md.
 python -m studio_ops new-production --line ng-nigeria
 ```
 

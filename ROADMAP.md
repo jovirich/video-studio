@@ -86,6 +86,30 @@ which the schema only permits when all opening conditions are met.
 
 ---
 
+## ARCHITECTURE FREEZE — in effect
+
+**No new tiers, packs, or canon documents until EXP-001 reports.**
+
+Every architectural claim in this repository is DESIGNED. Nothing is TESTED. Adding
+more structure now increases untested design without increasing confidence in any of
+it. Recorded as [AE-007](docs/architecture/evolution.md).
+
+The freeze covers **structure**, not tooling. Building the scaffolders and adapters
+is what the freeze exists to make room for.
+
+| Frozen | Not frozen |
+|---|---|
+| New tiers | `studio_ops` scaffolders |
+| New canon packs | Generation adapters |
+| New canon documents | Validators |
+| New record types | Bug fixes |
+| Expanding existing canon | Reconciling docs with implementation |
+
+Lifts when EXP-001's findings report lands. Findings may well *require* structural
+change — that is the point, and a change driven by a finding is not a freeze breach.
+
+---
+
 ## Phase 3 — Pipeline hardening ⬜
 
 Do this *before* episode one, not during it. Every item here is something that is
@@ -105,6 +129,39 @@ cheap now and expensive under deadline.
 **Exit criterion:** the dry-run piece passes all nine gates and delivers a complete
 package per `standards/delivery_specs.md`. Find the pipeline's failures on a piece
 nobody will see.
+
+---
+
+## Phase 3.5 — EXP-001, the laboratory production ⬜
+
+[`studios/african-history/lines/ng-nigeria/productions/EXP001_laboratory-scene/`](studios/african-history/lines/ng-nigeria/productions/EXP001_laboratory-scene/)
+
+Not an episode. Never published. ~20 shots, one location, one or two characters,
+8–12 researched claims, run **at production pace**. The deliverable is the findings
+report.
+
+| Item | Status |
+|---|---|
+| Subject chosen, satisfying the constraints in the production README | ⬜ |
+| 8–12 claims researched against real sources, by a human | ⬜ |
+| One location continuity record, with `forbidden_objects` populated | ⬜ |
+| One or two character continuity records | ⬜ |
+| Anchors generated and checksummed | ⬜ |
+| **Drift test run and recorded** — before the other nineteen shots | ⬜ |
+| ~20 shot records and prompt cards | ⬜ |
+| Generation, with every run recorded including rejections | ⬜ |
+| Conform, edit, M&E stem | ⬜ |
+| All nine gates attempted, shortfalls recorded as breakages | ⬜ |
+| Findings report complete, seven questions answered | ⬜ |
+
+**Exit criterion:** the findings report answers all seven questions with evidence,
+and the actions arising are triaged. **A short findings list is a failed experiment**,
+not a successful production — it means the piece was made too carefully to be
+informative.
+
+Prerequisites, all currently unmet: the line is `candidate`, there is no Research
+Lead, no advisory contact, no archive survey, no visual identity, `new-record` is NOT
+BUILT, and no adapter exists.
 
 ---
 
@@ -148,7 +205,7 @@ order of what they prove.
 ### 6a — Second line, same studio
 
 - ⬜ Select the next line from `studios/african-history/lines/README.md` § Candidate lines
-- ⬜ Run `studio_ops new-line`; measure how much studio-level work it forces
+- ⬜ Run `studio_ops new-line`; measure how much studio-level work it forces *(NOT BUILT)*
 - ⬜ Localisation: first dub or subtitled release using the M&E stems
 
 **Proves:** the studio → line split. **Exit criterion:** the line reaches greenlight
@@ -156,7 +213,7 @@ without modifying anything above `studios/african-history/`.
 
 ### 6b — Second studio, same pack
 
-- ⬜ `studio_ops new-studio --pack documentary-history`
+- ⬜ `studio_ops new-studio --pack documentary-history` *(NOT BUILT)*
 - ⬜ Confirm no platform-level file needed a change
 
 **Proves:** the platform → studio split, and that the pack is genuinely reusable

@@ -52,7 +52,7 @@ Mandatory workflow, no exceptions:
 
 1. Every proper noun in a script is extracted into the **VO record sheet**
    (`02_script/vo_record_sheet.md`) automatically by
-   `studio_ops report pronunciation --episode <code>`.
+   `studio_ops report pronunciation --episode <code>`. *(NOT BUILT)*
 2. Each entry gets an **IPA transcription** and a **reference recording** from a
    speaker of the language, stored in the asset store against the entity record.
 3. The narrator receives both before the session.

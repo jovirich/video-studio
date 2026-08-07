@@ -50,6 +50,8 @@ TYPE_SCHEMAS: dict[str, str] = {
     "advisory_ruling": "advisory_ruling.schema.json",
     "correction": "correction.schema.json",
     "style_anchor": "style_anchor.schema.json",
+    "continuity_character": "continuity_character.schema.json",
+    "continuity_location": "continuity_location.schema.json",
 }
 
 

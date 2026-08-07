@@ -90,7 +90,7 @@ holds what is true for one region. An episode holds what is true once. Nigeria i
 **Cost:** One extra path segment on every line-scoped file. Contributors must know
 which tier a change belongs to — mitigated by the branch naming convention.
 
-**What it protects:** Adding a country becomes `studio_ops new-line` instead of a
+**What it protects:** Adding a country becomes `studio_ops new-line` instead of a *(NOT BUILT)*
 refactor. More importantly, it forces the question "is this rule universal or
 regional?" at write time, which is when it is cheap to answer.
 
@@ -273,6 +273,74 @@ documentary cannot skip a real one. Adding a genre is `new-pack`, not a fork.
 **Reflection:** This is the change AE-001 should have been. It was caught because
 someone asked what the architecture could not do, rather than admiring what it could
 — which is the only question that finds this class of error before it is expensive.
+
+---
+
+## AE-007 — Architecture freeze; continuity registry; laboratory production
+
+**Date:** 2026-08-07 · **Kind:** scaling (constraint, not expansion)
+**Scope:** whole tree — a stop on further structural work, plus two additions
+**ADR:** none — this is a decision about *pace*, not about shape
+
+**Trigger:** A review of the repository at roughly 400 files concluded that the
+conceptual design was sound and that the immediate risk had inverted: *"the immediate
+risk isn't bad architecture — it's over-engineering before we prove generation
+quality."* The instruction was to freeze expansion, reconcile documentation with
+implementation, add a continuity system, and prepare for an experimental production.
+
+That reading is correct and the evidence for it is in this repository's own status
+ledger. Every architectural claim here is **DESIGNED**. Nothing is **TESTED**. The
+schemas have never validated a real record; the continuity mechanisms have never been
+drift-tested; no gate has ever been signed. Continuing to add structure would have
+increased the amount of untested design without increasing confidence in any of it.
+
+**Change:**
+
+1. **Freeze.** No new tiers, no new packs, no new canon documents until EXP-001
+   reports. The freeze is on *structure*, not on tooling — building the scaffolders
+   and adapters is exactly what the freeze exists to make room for.
+2. **Continuity registry** — `CNC-*` and `CNL-*` records, deliberately separate from
+   the `CHR-*` / `LOC-*` evidence records. The entity record answers to sources; the
+   continuity record answers to what the model actually produces. Fusing them would
+   let wardrobe decisions sit beside claims and would make it impossible to depict one
+   person at two life stages.
+3. **Laboratory production kind.** `kind: laboratory`, `EXP<NNN>` codes, and a
+   `findings` block. EXP-001 scaffolded. Its deliverable is a findings report, not a
+   film, and its `10_publish` stage stays permanently empty.
+4. **`validate --reality`** — a gate enforcing that documentation naming an
+   unimplemented command says so. It found 63 violations on its first run.
+
+**Cost:** Two new record types and a validator, against a mandate to stop adding.
+That tension is real and was weighed: the continuity registry addresses the specific
+failure the whole architecture exists to prevent, and the reality gate makes an
+existing rule enforceable rather than adding a new one. Neither adds a tier.
+
+The freeze itself costs optionality — questions that would have been answered by
+writing another document now wait for evidence.
+
+**What it protects:** The ratio of tested to untested design. A repository where
+every part is specified and no part is exercised is not an asset; it is a large
+untested hypothesis, and the longer it grows the more expensive it is to discover the
+hypothesis was wrong.
+
+**Watch for:** Three signals that the freeze is failing.
+
+1. **A new canon document appearing before EXP-001 reports.** The freeze is
+   self-enforced and there is no validator for it. If governance markdown starts
+   accumulating again, the discipline has lapsed.
+2. **EXP-001 producing a short findings list.** That means it was run too carefully to
+   be informative, not that the pipeline is sound. The experiment is only useful at
+   production pace.
+3. **EXP-001 being quietly upgraded into a publishable piece.** The moment it is shown
+   to anyone, its purpose inverts — nobody records honest failures about something
+   they are about to release.
+
+**Reflection:** The instruction to freeze arrived from outside this repository, and
+it should have arrived from inside it. Nothing in the tooling measures the ratio of
+designed to tested capability, so nothing pushed back as that ratio worsened. The
+status ledger records the state but does not raise an alarm about it. Whether that
+should become a gate is itself a question for after EXP-001 — deciding it now would
+be another instance of the error.
 
 ---
 

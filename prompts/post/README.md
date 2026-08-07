@@ -53,6 +53,7 @@ from.
 ## The conform step
 
 ```bash
+# NOT BUILT — these commands do not exist yet. See docs/status.md.
 python -m studio_ops pipeline conform --production <code>
 ```
 
@@ -101,6 +102,7 @@ them. Hand-set exports drift, and the drift is invisible until a distributor rej
 a master.
 
 ```bash
+# NOT BUILT — these commands do not exist yet. See docs/status.md.
 python -m studio_ops pipeline package --production <code>
 ```
 

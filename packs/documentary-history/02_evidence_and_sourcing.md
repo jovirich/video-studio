@@ -104,7 +104,7 @@ trail that justifies keeping the whole system.
 
 Claims are referenced in prose as `{{CLM-NG-0117}}`. The reference is stripped at
 render time and compiled into the episode's citation appendix by
-`studio_ops report bibliography`.
+`studio_ops report bibliography`. *(NOT BUILT)*
 
 ## 6. Numbers, dates, and quantities
 

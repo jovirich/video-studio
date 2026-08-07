@@ -45,6 +45,13 @@ jobs:
         if: always()
         run: python -m studio_ops validate --root-hygiene
 
+      # Enforces the DESIGNED / IMPLEMENTED / TESTED discipline: documentation that
+      # names an unimplemented command must say so. Without this, docs drift toward
+      # optimism by default and a specified-but-unbuilt command reads as working.
+      - name: Gate — documentation reality
+        if: always()
+        run: python -m studio_ops validate --reality
+
       # Non-blocking, and deliberately visible. `--all` includes the gates that are
       # NOT BUILT (sources, canon, prompts, packs, delivery) and exits 2 because of
       # them. Surfacing that in every run keeps the gap in front of reviewers instead

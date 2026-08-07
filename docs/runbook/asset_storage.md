@@ -182,7 +182,7 @@ which one is wrong.
 
 ## Doing this by hand today
 
-Until `studio_ops pipeline` exists, the contract holds and is executed manually:
+Until `studio_ops pipeline` exists, the contract holds and is executed manually: *(NOT BUILT)*
 
 ```bash
 # 1. Hash before anything else

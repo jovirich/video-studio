@@ -10,7 +10,7 @@ from collections.abc import Callable
 
 from ..config import Config
 from ..result import GateReport, RunReport
-from . import links, naming, not_built, root_hygiene, schemas
+from . import links, naming, not_built, reality, root_hygiene, schemas
 
 # Implemented gates.
 IMPLEMENTED: dict[str, Callable[[Config], GateReport]] = {
@@ -18,6 +18,7 @@ IMPLEMENTED: dict[str, Callable[[Config], GateReport]] = {
     "naming": naming.run,
     "links": links.run,
     "root-hygiene": root_hygiene.run,
+    "reality": reality.run,
 }
 
 # Specified but not implemented. Listed so `--all` reports the gap rather than

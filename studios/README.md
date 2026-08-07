@@ -52,6 +52,7 @@ true of *this studio* and nothing else.
 ## Opening a studio
 
 ```bash
+# NOT BUILT — these commands do not exist yet. See docs/status.md.
 python -m studio_ops new-studio --code <code> --title "<Title>" --pack <pack-code>
 ```
 

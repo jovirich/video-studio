@@ -5,157 +5,440 @@
   "description": "The control record for one episode. Applies to episodes/<code>/episode.yaml.",
   "type": "object",
   "properties": {
-    "id":      { "type": "string", "pattern": "^EP-[A-Z]{2}-S\\d{2}E\\d{2}$" },
-    "type":    { "const": "episode" },
-    "line":    { "$ref": "_common.schema.json#/$defs/lineCode" },
-    "code":    { "$ref": "_common.schema.json#/$defs/episodeCode" },
-    "title":   { "type": "string", "description": "Working title until script lock; final title after." },
-    "slug":    { "type": "string", "pattern": "^[a-z0-9-]+$" },
-    "status":  { "$ref": "_common.schema.json#/$defs/recordStatus" },
-    "version": { "$ref": "_common.schema.json#/$defs/semver" },
-    "updated": { "$ref": "_common.schema.json#/$defs/isoDate" },
-    "owners":  { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/roleSlug" } },
-    "sensitivity":  { "$ref": "_common.schema.json#/$defs/sensitivity" },
-    "advisory_ref": { "$ref": "_common.schema.json#/$defs/advisoryId" },
-    "superseded_by": { "type": "string" },
-    "retraction_reason": { "type": "string" },
-
+    "id": {
+      "type": "string",
+      "pattern": "^EP-[A-Z]{2}-(S\\d{2}E\\d{2}|EXP\\d{3})$"
+    },
+    "type": {
+      "const": "episode"
+    },
+    "line": {
+      "$ref": "_common.schema.json#/$defs/lineCode"
+    },
+    "code": {
+      "anyOf": [
+        {
+          "$ref": "_common.schema.json#/$defs/episodeCode"
+        },
+        {
+          "type": "string",
+          "pattern": "^EXP\\d{3}$"
+        }
+      ],
+      "description": "S01E01 for a broadcast production, EXP001 for a laboratory production. The code namespace is separated so an experiment can never be mistaken for an episode in a slate, a report, or a delivery package."
+    },
+    "title": {
+      "type": "string",
+      "description": "Working title until script lock; final title after."
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "status": {
+      "$ref": "_common.schema.json#/$defs/recordStatus"
+    },
+    "version": {
+      "$ref": "_common.schema.json#/$defs/semver"
+    },
+    "updated": {
+      "$ref": "_common.schema.json#/$defs/isoDate"
+    },
+    "owners": {
+      "type": "array",
+      "items": {
+        "$ref": "_common.schema.json#/$defs/roleSlug"
+      }
+    },
+    "sensitivity": {
+      "$ref": "_common.schema.json#/$defs/sensitivity"
+    },
+    "advisory_ref": {
+      "$ref": "_common.schema.json#/$defs/advisoryId"
+    },
+    "superseded_by": {
+      "type": "string"
+    },
+    "retraction_reason": {
+      "type": "string"
+    },
     "question": {
       "type": "string",
-      "description": "The one-sentence question with stakes that the episode is built around. Not a topic. See bible/03 §1."
+      "description": "The one-sentence question with stakes that the episode is built around. Not a topic. See bible/03 \u00a71."
     },
-    "thesis": { "type": "string" },
-    "logline": { "type": "string" },
-
+    "thesis": {
+      "type": "string"
+    },
+    "logline": {
+      "type": "string"
+    },
     "stage": {
       "type": "string",
-      "enum": ["concept", "greenlit", "research", "source-locked", "scripting", "script-locked",
-               "storyboard", "generation", "edit", "picture-locked", "audio-post", "audio-locked",
-               "delivery", "published", "shelved"]
+      "enum": [
+        "concept",
+        "greenlit",
+        "research",
+        "source-locked",
+        "scripting",
+        "script-locked",
+        "storyboard",
+        "generation",
+        "edit",
+        "picture-locked",
+        "audio-post",
+        "audio-locked",
+        "delivery",
+        "published",
+        "shelved"
+      ]
     },
-
-    "runtime_target_minutes": { "type": ["number", "string"] },
-
+    "runtime_target_minutes": {
+      "type": [
+        "number",
+        "string"
+      ]
+    },
     "subject_scope": {
       "type": "object",
-      "description": "What the episode covers. Deliberately descriptive fields with no enums — the schema must not encode historical categories.",
+      "description": "What the episode covers. Deliberately descriptive fields with no enums \u2014 the schema must not encode historical categories.",
       "properties": {
-        "period_display": { "type": "string" },
-        "regions": { "type": "array", "items": { "type": "string" } },
-        "peoples": { "type": "array", "items": { "type": "string" } },
-        "languages_on_screen": { "type": "array", "items": { "type": "string" } }
+        "period_display": {
+          "type": "string"
+        },
+        "regions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "peoples": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "languages_on_screen": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       },
       "additionalProperties": false
     },
-
     "advisory_coverage": {
       "type": "object",
-      "description": "Checked at greenlight. An episode is not greenlit outside its line's advisory coverage. See bible/07 §5.",
+      "description": "Checked at greenlight. An episode is not greenlit outside its line's advisory coverage. See bible/07 \u00a75.",
       "properties": {
-        "covered": { "type": "boolean" },
-        "advisors": { "type": "array", "items": { "type": "string" } },
-        "gaps": { "type": "array", "items": { "type": "string" } }
+        "covered": {
+          "type": "boolean"
+        },
+        "advisors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "gaps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       },
-      "required": ["covered"],
+      "required": [
+        "covered"
+      ],
       "additionalProperties": false
     },
-
     "conflicts_of_interest": {
       "type": "array",
-      "description": "Declared per bible/01 §5. An empty array asserts that the question was asked.",
+      "description": "Declared per bible/01 \u00a75. An empty array asserts that the question was asked.",
       "items": {
         "type": "object",
         "properties": {
-          "person": { "type": "string" },
-          "nature": { "type": "string" },
-          "mitigation": { "type": "string" }
+          "person": {
+            "type": "string"
+          },
+          "nature": {
+            "type": "string"
+          },
+          "mitigation": {
+            "type": "string"
+          }
         },
-        "required": ["person", "nature"],
+        "required": [
+          "person",
+          "nature"
+        ],
         "additionalProperties": false
       }
     },
-
     "gates": {
       "type": "object",
       "description": "The signature set. Each gate has a distinct owner; no person signs two gates on the same episode.",
       "properties": {
-        "greenlight":   { "$ref": "#/$defs/gate" },
-        "source_lock":  { "$ref": "#/$defs/gate" },
-        "script_lock":  { "$ref": "#/$defs/gate" },
-        "fact_check":   { "$ref": "#/$defs/gate" },
-        "sensitivity":  { "$ref": "#/$defs/gate" },
-        "rights":       { "$ref": "#/$defs/gate" },
-        "picture_lock": { "$ref": "#/$defs/gate" },
-        "audio_lock":   { "$ref": "#/$defs/gate" },
-        "technical_qc": { "$ref": "#/$defs/gate" }
+        "greenlight": {
+          "$ref": "#/$defs/gate"
+        },
+        "source_lock": {
+          "$ref": "#/$defs/gate"
+        },
+        "script_lock": {
+          "$ref": "#/$defs/gate"
+        },
+        "fact_check": {
+          "$ref": "#/$defs/gate"
+        },
+        "sensitivity": {
+          "$ref": "#/$defs/gate"
+        },
+        "rights": {
+          "$ref": "#/$defs/gate"
+        },
+        "picture_lock": {
+          "$ref": "#/$defs/gate"
+        },
+        "audio_lock": {
+          "$ref": "#/$defs/gate"
+        },
+        "technical_qc": {
+          "$ref": "#/$defs/gate"
+        }
       },
-      "required": ["greenlight", "source_lock", "script_lock", "fact_check", "sensitivity", "rights", "picture_lock", "audio_lock", "technical_qc"],
+      "required": [
+        "greenlight",
+        "source_lock",
+        "script_lock",
+        "fact_check",
+        "sensitivity",
+        "rights",
+        "picture_lock",
+        "audio_lock",
+        "technical_qc"
+      ],
       "additionalProperties": false
     },
-
     "budget": {
       "type": "object",
       "properties": {
-        "currency": { "type": "string" },
-        "total": { "type": ["number", "string"] },
-        "generation_ceiling_usd": { "type": ["number", "string"], "description": "Hard cap enforced by the adapters. See .env.example." },
-        "consultation_fees_budgeted": { "type": "boolean", "description": "False here is a red flag at greenlight — see bible/06 §7." }
+        "currency": {
+          "type": "string"
+        },
+        "total": {
+          "type": [
+            "number",
+            "string"
+          ]
+        },
+        "generation_ceiling_usd": {
+          "type": [
+            "number",
+            "string"
+          ],
+          "description": "Hard cap enforced by the adapters. See .env.example."
+        },
+        "consultation_fees_budgeted": {
+          "type": "boolean",
+          "description": "False here is a red flag at greenlight \u2014 see bible/06 \u00a77."
+        }
       },
       "additionalProperties": false
     },
-
     "schedule": {
       "type": "object",
       "properties": {
-        "greenlight_date": { "$ref": "_common.schema.json#/$defs/isoDate" },
-        "source_lock_target": { "$ref": "_common.schema.json#/$defs/isoDate" },
-        "script_lock_target": { "$ref": "_common.schema.json#/$defs/isoDate" },
-        "picture_lock_target": { "$ref": "_common.schema.json#/$defs/isoDate" },
-        "delivery_target": { "$ref": "_common.schema.json#/$defs/isoDate" },
-        "publish_target": { "$ref": "_common.schema.json#/$defs/isoDate" }
+        "greenlight_date": {
+          "$ref": "_common.schema.json#/$defs/plannedDate"
+        },
+        "source_lock_target": {
+          "$ref": "_common.schema.json#/$defs/plannedDate"
+        },
+        "script_lock_target": {
+          "$ref": "_common.schema.json#/$defs/plannedDate"
+        },
+        "picture_lock_target": {
+          "$ref": "_common.schema.json#/$defs/plannedDate"
+        },
+        "delivery_target": {
+          "$ref": "_common.schema.json#/$defs/plannedDate"
+        },
+        "publish_target": {
+          "$ref": "_common.schema.json#/$defs/plannedDate"
+        }
       },
-      "additionalProperties": false
+      "additionalProperties": false,
+      "description": "Milestone targets. Uses plannedDate, not isoDate: a target that has not been set yet is TBD, and a milestone that does not apply - publish_target on a laboratory production - is n/a."
     },
-
     "counts": {
       "type": "object",
       "description": "Populated by studio_ops status. Not hand-maintained.",
       "properties": {
-        "claims": { "type": "integer" },
-        "sources": { "type": "integer" },
-        "open_questions": { "type": "integer" },
-        "shots": { "type": "integer" },
-        "generated_assets": { "type": "integer" },
-        "assets_pending_clearance": { "type": "integer" }
+        "claims": {
+          "type": "integer"
+        },
+        "sources": {
+          "type": "integer"
+        },
+        "open_questions": {
+          "type": "integer"
+        },
+        "shots": {
+          "type": "integer"
+        },
+        "generated_assets": {
+          "type": "integer"
+        },
+        "assets_pending_clearance": {
+          "type": "integer"
+        }
       },
       "additionalProperties": false
     },
-
     "published": {
       "type": "object",
       "properties": {
-        "version": { "type": "string", "pattern": "^v\\d+$" },
-        "date": { "$ref": "_common.schema.json#/$defs/isoDate" },
-        "urls": { "type": "array", "items": { "type": "string" } },
-        "corrections": { "type": "array", "items": { "type": "string" } }
+        "version": {
+          "type": "string",
+          "pattern": "^v\\d+$"
+        },
+        "date": {
+          "$ref": "_common.schema.json#/$defs/isoDate"
+        },
+        "urls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "corrections": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       },
       "additionalProperties": false
     },
-
-    "notes": { "type": "string" }
+    "notes": {
+      "type": "string"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "broadcast",
+        "laboratory",
+        "short",
+        "cutdown",
+        "trailer"
+      ],
+      "default": "broadcast",
+      "description": "A `laboratory` production exists to break the pipeline on work nobody will see. It runs every gate for real, but it is never published and its publish stage stays empty. Its output is a findings report, not a film."
+    },
+    "findings": {
+      "type": "object",
+      "description": "Laboratory productions only. The actual deliverable: what broke.",
+      "properties": {
+        "report": {
+          "type": "string"
+        },
+        "breakages": {
+          "type": "array",
+          "description": "Each failure, and what it implies for the architecture. A laboratory production that finds nothing has not been run honestly.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "area": {
+                "type": "string",
+                "enum": [
+                  "research",
+                  "claims",
+                  "continuity",
+                  "prompting",
+                  "generation",
+                  "conform",
+                  "gates",
+                  "tooling",
+                  "cost",
+                  "schedule",
+                  "rights",
+                  "sensitivity"
+                ]
+              },
+              "what_broke": {
+                "type": "string"
+              },
+              "implication": {
+                "type": "string"
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "fix-tooling",
+                  "amend-canon",
+                  "amend-schema",
+                  "change-workflow",
+                  "accept-limitation",
+                  "open"
+                ]
+              }
+            },
+            "required": [
+              "area",
+              "what_broke",
+              "implication",
+              "action"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    }
   },
-  "required": ["id", "type", "line", "code", "title", "slug", "status", "version", "updated", "owners", "question", "stage", "gates"],
+  "required": [
+    "id",
+    "type",
+    "line",
+    "code",
+    "title",
+    "slug",
+    "status",
+    "version",
+    "updated",
+    "owners",
+    "question",
+    "stage",
+    "gates"
+  ],
   "$defs": {
     "gate": {
       "type": "object",
       "properties": {
-        "status": { "$ref": "_common.schema.json#/$defs/gateStatus" },
-        "owner": { "$ref": "_common.schema.json#/$defs/roleSlug" },
-        "signature": { "$ref": "_common.schema.json#/$defs/signature" },
-        "checklist": { "type": "string", "description": "Path to the completed checklist." },
-        "blockers": { "type": "array", "items": { "type": "string" } }
+        "status": {
+          "$ref": "_common.schema.json#/$defs/gateStatus"
+        },
+        "owner": {
+          "$ref": "_common.schema.json#/$defs/roleSlug"
+        },
+        "signature": {
+          "$ref": "_common.schema.json#/$defs/signature"
+        },
+        "checklist": {
+          "type": "string",
+          "description": "Path to the completed checklist."
+        },
+        "blockers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       },
-      "required": ["status", "owner"],
+      "required": [
+        "status",
+        "owner"
+      ],
       "additionalProperties": false
     }
   },

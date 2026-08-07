@@ -55,6 +55,7 @@ The last one blocks all brand design and is routinely discovered too late.
 ## Opening a second line
 
 ```bash
+# NOT BUILT — these commands do not exist yet. See docs/status.md.
 python -m studio_ops new-line --studio african-history --code gh-ghana --title "Ghana"
 ```
 

@@ -40,6 +40,23 @@ and never renumbered. A deleted record keeps its ID as a tombstone.
 | `COR` | Correction | line | `COR-NG-0002` |
 | `STA` | Style anchor | line or studio | `STA-NG-0006` |
 | `RSK` | Risk register entry | platform, studio, or line | `RSK-PLAT-0001` |
+| `CNC` | Continuity character | line or studio | `CNC-NG-0001` |
+| `CNL` | Continuity location | line or studio | `CNL-NG-0001` |
+
+### Continuity IDs are separate from entity IDs, on purpose
+
+`CHR-NG-0007` is *who someone was* — the evidence record, holding claims, naming, and
+dating. `CNC-NG-0001` is *how they are rendered* — face anchor, wardrobe, approved
+seeds, forbidden variations.
+
+They are different records because they answer to different things. The evidence
+record answers to sources; the continuity record answers to what the model actually
+produces. Fusing them would let rendering decisions leak into the evidence layer,
+and would make it impossible to depict one person at two life stages — which needs
+two continuity records and exactly one entity record.
+
+A continuity record links to its entity via `entity:`. Under a narrative pack, where
+a character is invented, that field is simply absent.
 
 ## Pack-scoped types
 
@@ -65,6 +82,7 @@ only reason this table lives at platform level rather than in each pack.
 IDs are allocated by the toolkit, never by hand:
 
 ```bash
+# NOT BUILT — these commands do not exist yet. See docs/status.md.
 python -m studio_ops new-record --type source --line ng-nigeria
 python -m studio_ops new-record --type claim  --line ng-nigeria
 ```

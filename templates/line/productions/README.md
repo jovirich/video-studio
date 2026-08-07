@@ -8,7 +8,7 @@ owners: [showrunner]
 
 # productions
 
-One folder per production, created by `studio_ops new-production --line <line>` from
+One folder per production, created by `studio_ops new-production --line <line>` from *(NOT BUILT)*
 [../../production/](../../production/).
 
 ```

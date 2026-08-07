@@ -15,7 +15,7 @@ import pytest
 from studio_ops.config import Config
 from studio_ops.paths import Layout
 from studio_ops.result import GateState, RunReport
-from studio_ops.validate import links, naming, root_hygiene, schemas
+from studio_ops.validate import links, naming, reality, root_hygiene, schemas
 from studio_ops.validate import not_built as nb
 
 
@@ -257,3 +257,56 @@ def test_real_finding_outranks_unbuilt_gate(tmp_path: Path) -> None:
     run.add(nb.run(cfg, "canon"))
 
     assert run.exit_code() == 1
+
+
+# ---------------------------------------------------------------------- reality
+
+
+def test_reality_flags_unmarked_unbuilt_command(tmp_path: Path) -> None:
+    """Prose naming an unbuilt command without saying so reads as working software."""
+    cfg = make_cfg(tmp_path)
+    docs = tmp_path / "docs"
+    docs.mkdir()
+    (docs / "a.md").write_text(
+        "Scaffold it:\n\n    python -m studio_ops new-record --type source\n",
+        encoding="utf-8",
+    )
+
+    assert "unmarked-unbuilt" in rules(reality.run(cfg))
+
+
+def test_reality_accepts_marked_mention(tmp_path: Path) -> None:
+    cfg = make_cfg(tmp_path)
+    docs = tmp_path / "docs"
+    docs.mkdir()
+    (docs / "a.md").write_text(
+        "```bash\n# NOT BUILT - see docs/status.md\n"
+        "python -m studio_ops new-record --type source\n```\n",
+        encoding="utf-8",
+    )
+
+    assert reality.run(cfg).passed
+
+
+def test_reality_ignores_implemented_commands(tmp_path: Path) -> None:
+    """validate --naming works today and needs no caveat."""
+    cfg = make_cfg(tmp_path)
+    docs = tmp_path / "docs"
+    docs.mkdir()
+    (docs / "a.md").write_text(
+        "Run `studio_ops validate --naming` before you push.\n", encoding="utf-8"
+    )
+
+    assert reality.run(cfg).passed
+
+
+def test_reality_exempts_the_status_ledger(tmp_path: Path) -> None:
+    """docs/status.md is the source of truth about maturity, not a consumer of it."""
+    cfg = make_cfg(tmp_path)
+    docs = tmp_path / "docs"
+    docs.mkdir()
+    (docs / "status.md").write_text(
+        "`studio_ops new-record` and `studio_ops report`.\n", encoding="utf-8"
+    )
+
+    assert reality.run(cfg).passed

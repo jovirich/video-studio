@@ -111,7 +111,7 @@ launch:
 ## 4. The published provenance summary
 
 Core/01 §3 level 4: a per-production provenance summary published alongside the
-production, generated from the manifest by `studio_ops report provenance`.
+production, generated from the manifest by `studio_ops report provenance`. *(NOT BUILT)*
 
 > A viewer who wants to know exactly which shots were generated, with which tool, from
 > which prompt, can find out.

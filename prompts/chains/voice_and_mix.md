@@ -15,7 +15,7 @@ Narration from locked script to delivered stems.
 | # | Step | Tool | Notes |
 |---|---|---|---|
 | 1 | Script lock | human | No VO before the script is locked. Re-recording is cheap; re-cutting around new VO is not. |
-| 2 | Extract proper nouns | `studio_ops report pronunciation` | Every name in the script, automatically, into the VO record sheet |
+| 2 | Extract proper nouns | `studio_ops report pronunciation` | Every name in the script, automatically, into the VO record sheet **[NOT BUILT]** |
 | 3 | IPA and reference recordings | human, speaker of the language | **Mandatory.** A tonal language mispronounced by tone is a different word — a factual error, not a stylistic one. |
 | 4 | Build pronunciation lexicon | [elevenlabs](../audio/elevenlabs/) or equivalent | Versioned per production line, reused across the season |
 | 5 | Record or synthesise | human VO, or licensed synthetic voice | If synthetic: voice ID, model, and version all pinned and recorded |

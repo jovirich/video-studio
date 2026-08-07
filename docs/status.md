@@ -92,7 +92,8 @@ Every `IMPLEMENTED` row below should be read as *"we believe this works"*, not
 | `validate --naming` | **IMPLEMENTED** | Runs against the real tree; PASS, 177 files |
 | `validate --links` | **IMPLEMENTED** | Runs against the real tree; **found 130 real broken links on first run** |
 | `validate --schemas` | **IMPLEMENTED** | Runs; routes YAML and front matter to `standards/schemas/` |
-| Test suite for the above | **IMPLEMENTED** | 20 tests, fixture trees with deliberate violations, all passing |
+| `validate --reality` | **IMPLEMENTED** | Enforces this document's own discipline: prose naming an unimplemented command must say so. **Found 63 violations on its first run.** |
+| Test suite for the above | **IMPLEMENTED** | 26 tests, fixture trees with deliberate violations, all passing |
 | `validate --sources` | **NOT BUILT** | Reports its own absence and exits 2 |
 | `validate --canon` | **NOT BUILT** | Blocked on `prohibited_patterns.json` |
 | `validate --prompts` / `--packs` / `--delivery` | **NOT BUILT** | |
@@ -121,6 +122,25 @@ input, but it is one gate against one repository state.
 | Issue and PR templates | **IMPLEMENTED** | These are declarative; they work as written. |
 | VS Code workspace, tasks, launch | **IMPLEMENTED** | Tasks invoke commands that do not exist yet. |
 | Git repository and remote | **IMPLEMENTED** | Pushed to `jovirich/video-studio`. |
+
+### Continuity registry
+
+| Capability | Status | Notes |
+|---|---|---|
+| `continuity_character` / `continuity_location` schemas | **DESIGNED** | Kept separate from the `CHR-*` / `LOC-*` evidence records on purpose — see `standards/id_system.md`. |
+| Templates for both | **DESIGNED** | |
+| Line registry folder | **DESIGNED** | Empty. No continuity record exists. |
+| Drift test methodology | **DESIGNED, NEVER RUN** | The schema requires a drift test before a record can lock. Nothing has ever been drift-tested, so the central claim — that these mechanisms hold across twenty shots — is entirely unverified. |
+
+### EXP-001, the laboratory production
+
+| Capability | Status | Notes |
+|---|---|---|
+| `kind: laboratory`, `EXP<NNN>` codes, `findings` block | **DESIGNED** | Schema extended; the production record validates. |
+| EXP-001 scaffold | **DESIGNED** | Folder, brief, research README, shot plan, findings template. |
+| Subject | **NOT CHOSEN** | Human decision. |
+| Claims | **NONE** | Human research. Nothing in this repository may author them. |
+| Everything downstream | **NOT STARTED** | Blocked on the line being `candidate`, no Research Lead, no advisory contact, no archive survey, no visual identity, `new-record` NOT BUILT, no adapter. |
 
 ## Studio status — African History Studio
 

@@ -91,7 +91,7 @@ notice is a well-known and entirely avoidable emergency.
 
 Maintained per episode: a single document evidencing that the studio holds
 everything required to distribute. Assembled at delivery by
-`studio_ops report chain-of-title --episode <code>` from the clearance log, and
+`studio_ops report chain-of-title --episode <code>` from the clearance log, and *(NOT BUILT)*
 reviewed by Rights & Clearances. Distributors will ask for it; assembling it from
 memory at that point is how deliveries slip.
 

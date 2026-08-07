@@ -35,7 +35,7 @@ question "does this actually support that?" can be asked. Keeping them apart mea
 - One claim draws on many sources, and their **independence** is asserted
   deliberately rather than inferred from two different titles on a shelf.
 - Withdrawing a source is a query, not an archaeology project:
-  `studio_ops report dependents` names every claim and every line of narration that
+  `studio_ops report dependents` names every claim and every line of narration that *(NOT BUILT)*
   dies with it.
 
 ## Independence is the field that gets waved through

@@ -44,6 +44,7 @@ When adding a candidate, record:
 ## Opening a line
 
 ```bash
+# NOT BUILT — these commands do not exist yet. See docs/status.md.
 python -m studio_ops new-line --studio african-history --code gh-ghana --title "Ghana"
 ```
 

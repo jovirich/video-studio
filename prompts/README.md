@@ -82,6 +82,7 @@ add prohibitions; none may remove these.
 ## Writing a card
 
 ```bash
+# NOT BUILT — these commands do not exist yet. See docs/status.md.
 python -m studio_ops new-prompt --line <line> --shot SHT-XX-S01E01-0042 \
   --modality image --vendor midjourney
 ```
@@ -93,6 +94,7 @@ prevents a model's strong prior toward generic, placeless output.
 ## Rendering and running
 
 ```bash
+# NOT BUILT — these commands do not exist yet. See docs/status.md.
 python -m studio_ops promptlib render --card PC-NG-S01E01-0037
 python -m studio_ops promptlib render --card PC-NG-S01E01-0037 --vendor flux
 python -m studio_ops promptlib run    --card PC-NG-S01E01-0037 --dry-run
