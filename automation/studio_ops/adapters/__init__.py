@@ -67,3 +67,5 @@ __all__ = [
     "registered_adapters",
     "sha256_file",
 ]
+
+from . import interactive  # noqa: F401  (registers the backend)

@@ -61,6 +61,7 @@ import re
 from abc import ABC, abstractmethod
 from collections.abc import Callable
 from dataclasses import dataclass, field
+from enum import StrEnum
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Self, TypeVar
 
@@ -89,6 +90,21 @@ class UnsupportedRequestError(AdapterError):
     """Raised when a request asks a backend for something it does not do."""
 
 
+class AwaitingFulfilmentError(AdapterError):
+    """Raised by an interactive adapter once a job is prepared and waiting.
+
+    Not a failure. It is the honest return of a two-phase backend: the guards ran,
+    the job was written, and there are no bytes yet because a human or another
+    surface has not produced them.
+
+    Carries the job path so a caller can hand it straight to an operator.
+    """
+
+    def __init__(self, message: str, job_path: Path | None = None) -> None:
+        super().__init__(message)
+        self.job_path = job_path
+
+
 class IncompleteProvenanceError(AdapterError):
     """Raised when a backend returns an asset the manifest could not accept.
 
@@ -96,6 +112,32 @@ class IncompleteProvenanceError(AdapterError):
     been written, on purpose: a file on disk with an unusable provenance record is
     precisely the state this module exists to make impossible to ignore.
     """
+
+
+class ExecutionMode(StrEnum):
+    """How a backend gets from a request to bytes.
+
+    This is an implementation detail *behind* the adapter interface, not a new tier
+    and not a property of a production. A production knows it wants an image; it does
+    not know or care whether the pixels came from a container on this machine, a
+    vendor API, or an operator working an interactive surface. Swapping mode changes
+    one config value and no record.
+
+    The distinction that matters is not cost, it is **synchrony**:
+
+    - `LOCAL` and `API` are one-phase. `generate()` returns bytes.
+    - `INTERACTIVE` is two-phase. Generation happens out of band, so `generate()`
+      cannot return a result — the bytes do not exist yet. It prepares a job and
+      raises `AwaitingFulfilmentError`; `fulfil()` completes the trip later.
+
+    That asymmetry is real and is not papered over. An adapter that returned a
+    fabricated result for work that had not happened would defeat every provenance
+    guarantee in this module.
+    """
+
+    LOCAL = "local"
+    INTERACTIVE = "interactive"
+    API = "api"
 
 
 @dataclass(frozen=True)
@@ -112,9 +154,18 @@ class Capabilities:
     accepts_seed: bool = False
     max_pixels: int | None = None
     notes: str = ""
+    # Declared, never inferred. `API` is the conservative default for the same reason
+    # `spends_money` is True by default: an adapter that forgets to say gets the
+    # reading that keeps the guards tightest.
+    execution_mode: ExecutionMode = ExecutionMode.API
 
     def supports(self, modality: str) -> bool:
         return modality in self.modalities
+
+    @property
+    def two_phase(self) -> bool:
+        """True where generation happens out of band and `generate()` cannot return."""
+        return self.execution_mode is ExecutionMode.INTERACTIVE
 
 
 @dataclass(frozen=True)

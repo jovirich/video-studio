@@ -134,6 +134,12 @@ Every `IMPLEMENTED` row below should be read as *"we believe this works"*, not
 | `promptlib override_rate` | **IMPLEMENTED** | The ADR 0003 falsification signal is now computable |
 | Asset store (`local` driver) | **IMPLEMENTED** | Hashes bytes as written, refuses to overwrite, refuses a store path inside the git tree |
 | Manifest — the provenance ledger | **IMPLEMENTED** | 31 tests. `ingest_generation` is the only path joining bytes to a record. |
+| Execution modes (`local` / `interactive` / `api`) | **IMPLEMENTED** | 16 tests. Declared per backend on `Capabilities.execution_mode`; conservative default is `api`. Behind the existing adapter interface — no new tier. |
+| `generation_job` format + operator brief | **IMPLEMENTED** | A derived work order, **not a record**: no ID, no schema, regenerable, nothing cites it. Assembled from prompt card + continuity + shot. Carries forbidden list, hard stops, and acceptance checklist so an operator never reconstructs constraints from four files. |
+| `InteractiveAdapter` (two-phase) | **IMPLEMENTED** | `generate()` runs every guard then raises `AwaitingFulfilmentError` — it never fabricates a result for work that has not happened. `fulfil()` hashes the delivered bytes; the hash is never taken on report. |
+| `studio_ops modes`, `prepare-job` | **IMPLEMENTED** | `prepare-job` verified against the real EXP-001 records: 5 constraints, 22 forbidden terms, 5 hard stops correctly separated. |
+| `studio_ops ingest` | **NOT BUILT** | The thin join between `fulfil` and `manifest.ingest_generation`, both of which exist. Callable from Python meanwhile. |
+| Vendor (`api`) adapter | **NOT BUILT — deliberately** | Not until a vendor is chosen, its terms verified, and a ceiling set. |
 | `local` generation adapter | **IMPLEMENTED** | 26 tests. Deterministic, offline, free, real PNG. Same seed + prompt → identical bytes. |
 | **The round trip** | **IMPLEMENTED and TESTED** | See below — the first thing in this repository to reach TESTED |
 | `validate --sources` | **NOT BUILT** | Reports its own absence and exits 2 |

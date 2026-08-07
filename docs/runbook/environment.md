@@ -194,3 +194,36 @@ gitignored and the CI secret scan rejects it if it is ever tracked.
 | `make: command not found` | Windows | Use the VS Code task, or run the command from the Makefile directly. Note that several Makefile targets name commands that do not exist; see refinements item 15. |
 | Repo root resolves somewhere unexpected | `find_repo_root()` looks for the co-presence of `core/` and `packs/`, then `.git/` | Run from inside the tree, or set `STUDIO_ROOT` |
 </content>
+
+## Docker, and why it stays outside the production model
+
+**No part of the production model depends on Docker, and none should.**
+
+`studio_ops validate`, the record graph, the manifest, the schemas, and the round trip
+all run on a bare Python install. That is deliberate: validation is offline by design
+so CI never waits on a container, and a repository whose records cannot be checked
+without a running service is a repository whose records stop being checked.
+
+Where containers legitimately appear is **inside one adapter**, in `local` mode. A
+genuinely local image model needs a runtime, and that runtime is a deployment detail
+of that backend — the same category as an API key for a vendor backend. It sits behind
+`Adapter`, and nothing above the adapter interface knows it exists.
+
+The test for whether a dependency has leaked:
+
+> Can `studio_ops validate --all` and the round-trip test run with Docker stopped?
+
+Today the answer is yes, and it should stay yes. If a future change makes it no, the
+dependency has escaped the adapter and belongs pushed back behind it.
+
+### What that means for an operator
+
+Starting and stopping services is an **operator** task, not a pipeline stage. Codex,
+a Makefile, or a person can do it. The pipeline's only interaction with a service is
+that an adapter requiring one will fail cleanly when it is absent — a refusal with a
+reason, not a hang.
+
+Do not add a service health check to the gate set. A gate that fails because a
+container is down is reporting on the operator's machine rather than on the work, and
+the distinction between "this repository is wrong" and "your laptop is wrong" is one
+the gates exist to keep sharp.

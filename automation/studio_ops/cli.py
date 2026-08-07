@@ -237,6 +237,119 @@ def new_record_cmd(
     console.print(f"[green]{verb}[/] {path}")
 
 
+@app.command("modes")
+def modes() -> None:
+    """List execution modes and the backends registered against each.
+
+    Mode is an implementation detail behind the adapter interface — not a tier, and
+    not visible to a production. Swapping it changes one config value and no record.
+    """
+    from .adapters import registered_adapters
+
+    table = Table(show_header=True, header_style="bold")
+    table.add_column("Backend")
+    table.add_column("Mode")
+    table.add_column("Phases")
+    table.add_column("Spends")
+    table.add_column("Notes")
+    for name, cls in sorted(registered_adapters().items()):
+        caps = cls.capabilities()
+        table.add_row(
+            name,
+            str(caps.execution_mode),
+            "two" if caps.two_phase else "one",
+            "yes" if caps.spends_money else "no",
+            (caps.notes or "")[:60],
+        )
+    console.print(table)
+    console.print(
+        "\n[dim]local[/]        offline model or deterministic test backend, no external call"
+        "\n[dim]interactive[/]  pipeline prepares a job; an operator generates; the file is ingested"
+        "\n[dim]api[/]          automated vendor call — needs verified terms, credentials, a ceiling\n"
+    )
+
+
+@app.command("prepare-job")
+def prepare_job_cmd(
+    shot: Annotated[str, typer.Option("--shot", help="Path to the shot record")],
+    card: Annotated[str, typer.Option("--card", help="Path to the prompt card")],
+    manifest: Annotated[str, typer.Option("--manifest", help="Path to the production manifest")],
+    continuity: Annotated[
+        list[str], typer.Option("--continuity", help="Continuity record path; repeatable")
+    ] = [],  # noqa: B006
+    out: Annotated[str, typer.Option("--out", help="Where the asset should land")] = "out",
+    job_dir: Annotated[str, typer.Option("--job-dir")] = "jobs",
+    vendor: Annotated[str, typer.Option("--vendor")] = "",
+    seed: Annotated[str, typer.Option("--seed")] = "",
+) -> None:
+    """Assemble a complete generation job for interactive execution.
+
+    Offline and free: nothing is rendered by a vendor and no adapter runs. Produces a
+    `.job.yaml` and an operator-facing `.md` brief carrying the same obligations, so
+    an operator never has to reconstruct constraints from four separate files.
+    """
+    from pathlib import Path
+
+    from .pipeline import generate as gen
+
+    if not continuity:
+        console.print(
+            "[red]--continuity is required.[/] A job assembled without continuity "
+            "records carries the prompt but none of the constraints, which is the "
+            "under-specified brief this format exists to prevent."
+        )
+        raise typer.Exit(1)
+
+    cfg = Config.load()
+    try:
+        path = gen.prepare_job(
+            cfg,
+            shot_path=Path(shot),
+            card_path=Path(card),
+            manifest_path=Path(manifest),
+            work_dir=Path(out),
+            continuity_paths=[Path(c) for c in continuity],
+            job_dir=Path(job_dir),
+            vendor=vendor or None,
+            seed=seed or None,
+        )
+    except (gen.RoundTripError, OSError) as exc:
+        console.print(f"[red]{exc}[/]")
+        raise typer.Exit(1) from exc
+
+    console.print(f"[green]job[/]   {path}")
+    console.print(f"[green]brief[/] {path.with_suffix('.md')}")
+    console.print("\n[dim]Hand the brief to the operator. Ingest the returned file with[/]")
+    console.print("[dim]  studio_ops ingest --job <job> --file <delivered>[/]")
+
+
+@app.command("ingest")
+def ingest_cmd(
+    job: Annotated[str, typer.Option("--job", help="The job file that was fulfilled")],
+    file: Annotated[str, typer.Option("--file", help="The delivered asset")],
+    vendor: Annotated[str, typer.Option("--vendor", help="What ACTUALLY produced it")] = "",
+    model: Annotated[str, typer.Option("--model")] = "",
+    model_version: Annotated[str, typer.Option("--model-version")] = "",
+    seed: Annotated[str, typer.Option("--seed")] = "",
+    cost: Annotated[float, typer.Option("--cost-usd")] = 0.0,
+) -> None:
+    """Ingest an operator-generated file: hash it, record it, add it to the manifest.
+
+    The hash is computed from the delivered bytes and is never taken on report. An
+    operator can hand back the wrong file; they cannot hand back a file whose hash
+    disagrees with its contents, because nobody asks them for it.
+    """
+    _not_built(
+        "ingest",
+        "Read the job, call InteractiveAdapter.fulfil on the delivered file, and "
+        "hand the result to manifest.ingest_generation — which already exists and "
+        "already enforces the ordering.",
+        "Nothing structural — it is the thin join between two built pieces. Until it "
+        "lands, fulfil and ingest_generation can be called directly from Python; see "
+        "docs/status.md.",
+    )
+
+
 @app.command("check-ids")
 def check_ids() -> None:
     """Audit the whole repository for duplicate IDs.

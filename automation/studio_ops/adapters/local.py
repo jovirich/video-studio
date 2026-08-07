@@ -56,6 +56,7 @@ from typing import Any
 from .base import (
     Adapter,
     Capabilities,
+    ExecutionMode,
     GenerationRequest,
     GenerationResult,
     UnsupportedRequestError,
@@ -100,9 +101,12 @@ class LocalImageAdapter(Adapter):
             deterministic=True,
             accepts_seed=True,
             max_pixels=MAX_DIMENSION * MAX_DIMENSION,
+            execution_mode=ExecutionMode.LOCAL,
             notes=(
                 "Offline, zero cost, byte-identical for identical inputs. Safe to run "
-                "in CI. Output is a colour field, not imagery."
+                "in CI. Output is a colour field, not imagery. The LOCAL mode slot is "
+                "also where a genuinely local MODEL belongs — same interface, same "
+                "guards, no external dependency."
             ),
         )
 

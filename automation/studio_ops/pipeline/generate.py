@@ -170,6 +170,122 @@ def request_from_render(
     )
 
 
+def _constraints_from_continuity(paths: list[Path]) -> tuple[list[str], list[str], list[str]]:
+    """Split continuity records into constraints, negative-prompt terms, and hard stops.
+
+    The split is the important part. `culturally-prohibited` entries are NOT negative
+    prompt terms — a negative prompt is a statistical nudge a model may ignore, and
+    treating it as a safeguard is a category error with consequences outside the
+    studio. They go to the operator as hard stops with an instruction to raise rather
+    than to prompt around.
+    """
+    constraints: list[str] = []
+    forbidden: list[str] = []
+    hard_stops: list[str] = []
+
+    for path in paths:
+        meta = _record_meta(path)
+        name = meta.get("canonical_name") or meta.get("title") or path.stem
+
+        appearance = meta.get("appearance")
+        if isinstance(appearance, dict):
+            for key in ("skin_tone_reference", "facial_structure", "hair", "height_relative"):
+                value = appearance.get(key)
+                if _usable(value):
+                    constraints.append(f"{name} — {key.replace('_', ' ')}: {value}")
+
+        for item in meta.get("distinctive_features") or []:
+            if isinstance(item, dict) and _usable(item.get("feature")):
+                always = " (must be visible in every shot)" if item.get("always_visible") else ""
+                constraints.append(f"{name} — {item['feature']}{always}")
+
+        for field_name in ("forbidden_objects", "forbidden_variations"):
+            for item in meta.get(field_name) or []:
+                if not isinstance(item, dict):
+                    continue
+                term = item.get("forbidden")
+                if not _usable(term):
+                    continue
+                if item.get("severity") == "culturally-prohibited":
+                    hard_stops.append(f"{term} — {item.get('why', 'requires a ruling')}")
+                else:
+                    forbidden.append(str(term))
+
+    return constraints, list(dict.fromkeys(forbidden)), list(dict.fromkeys(hard_stops))
+
+
+def prepare_job(
+    cfg: Config,
+    *,
+    shot_path: Path,
+    card_path: Path,
+    manifest_path: Path,
+    work_dir: Path,
+    continuity_paths: list[Path],
+    job_dir: Path | None = None,
+    vendor: str | None = None,
+    seed: int | str | None = None,
+    schema_dir: Path | None = None,
+) -> Path:
+    """Assemble a complete generation job for interactive execution.
+
+    Everything an operator needs, in one artefact. The point is that they never have
+    to reconstruct context from four files — that reconstruction is exactly where the
+    forbidden list gets dropped.
+
+    Costs nothing and touches no vendor: rendering is offline and no adapter runs.
+    """
+    from ..adapters.interactive import InteractiveAdapter
+    from ..adapters.job import JobReference, job_from_request
+
+    shot = _record_meta(shot_path)
+    shot_id = str(shot.get("id") or "")
+    provenance_class = str(shot.get("provenance_class") or "interpretive")
+
+    card = render_mod.load_card(card_path, schemas=schema_dir)
+    style = style_block_from_continuity(continuity_paths)
+    rendered = render_mod.render(card, vendor, style_block=style)
+
+    work_dir.mkdir(parents=True, exist_ok=True)
+    output_path = work_dir / f"{shot_id or rendered.card_id}.png"
+    request = request_from_render(rendered, output_path=output_path, seed=seed)
+
+    constraints, forbidden, hard_stops = _constraints_from_continuity(continuity_paths)
+    forbidden = list(dict.fromkeys([*forbidden, *rendered.negative]))
+
+    notes = str(card.get("notes") or "")
+    checklist = [line.strip(" -") for line in notes.splitlines() if line.strip()]
+
+    job = job_from_request(
+        request,
+        job_id=shot_id or rendered.card_id,
+        production=str(shot.get("episode") or "") or _production_of(shot_id),
+        line=str(shot.get("line") or cfg.default_line or ""),
+        shot_id=shot_id or None,
+        manifest_path=str(manifest_path),
+        provenance_class=provenance_class,
+        negative=tuple(forbidden),
+        references=tuple(
+            JobReference(
+                kind="continuity_record", ref=_record_meta(p).get("id", p.stem), path=str(p)
+            )
+            for p in continuity_paths
+        ),
+        continuity_constraints=tuple(constraints),
+        forbidden=tuple(forbidden),
+        hard_stops=tuple(hard_stops),
+        acceptance_checklist=tuple(checklist),
+    )
+
+    adapter = InteractiveAdapter(dry_run=True, job_dir=job_dir)
+    return adapter.prepare(request, job)
+
+
+def _production_of(shot_id: str) -> str:
+    parts = shot_id.split("-")
+    return parts[2] if len(parts) > 3 else "unknown"
+
+
 def generate_shot(
     cfg: Config,
     *,

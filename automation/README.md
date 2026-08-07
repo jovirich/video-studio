@@ -23,6 +23,9 @@ are the **specification**; this table is what actually runs.
 | `validate --naming` | **IMPLEMENTED** | Prohibited patterns from `standards/naming_conventions.md` |
 | `validate --links` | **IMPLEMENTED** | Internal markdown links resolved |
 | `validate --schemas` | **IMPLEMENTED** | YAML/front matter against `standards/schemas/` |
+| `modes` — list backends by execution mode | **IMPLEMENTED** | |
+| `prepare-job` — assemble an interactive work order | **IMPLEMENTED** | Offline; no adapter runs |
+| `ingest` — fulfil a job | **NOT BUILT** | Thin join between two built pieces |
 | `validate --sources` | **NOT BUILT** | Reports its own absence rather than passing silently |
 | `validate --canon` | **NOT BUILT** | As above |
 | `validate --prompts` | **NOT BUILT** | Cheat-sheet staleness |
@@ -35,6 +38,30 @@ are the **specification**; this table is what actually runs.
 **A stub never passes silently.** Unbuilt validators exit non-zero with
 `NOT BUILT — this gate does not exist yet`. A validator that returns "OK" because it
 does nothing is worse than no validator, because it manufactures false confidence.
+
+## Execution modes
+
+A backend declares how it gets from a request to bytes. This is an implementation
+detail **behind** `Adapter`, not a tier: a production asks for an image and never
+learns which mode produced it. Swapping mode changes one config value and no record.
+
+| Mode | Phases | Needs | Guards |
+|---|---|---|---|
+| `local` | one | nothing external | dry-run |
+| `interactive` | **two** | an operator and a surface | dry-run, ceiling at fulfilment |
+| `api` | one | verified terms, credentials, a ceiling | dry-run, ceiling, post-flight overrun |
+
+The distinction that matters is **synchrony, not cost**. `local` and `api` return
+bytes from `generate()`. `interactive` cannot — the generating happens out of band —
+so it prepares a job and raises `AwaitingFulfilmentError`. It never fabricates a
+result for work that has not happened, which would defeat every provenance guarantee
+in the package.
+
+Interactive mode is deliberately **vendor-agnostic**. A job can be fulfilled from a
+chat client, an image tool, a colleague's workstation, or a vendor console, and the
+ingest path is identical. It asserts nothing about whether any particular assistant,
+subscription, or editor exposes a generation API — it exists precisely because some
+do not.
 
 ## Design
 
