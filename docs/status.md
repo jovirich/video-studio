@@ -105,7 +105,7 @@ input, but it is one gate against one repository state.
 
 | Capability | Status | Notes |
 |---|---|---|
-| CI workflow | **DESIGNED** | Written. **Will fail on first run** — it invokes commands that do not exist. |
+| CI workflow | **IMPLEMENTED** | Runs the four implemented gates as blocking, plus lint, types, and tests. `--all` runs non-blocking so the NOT BUILT gap is visible in every run rather than hidden by a green build. |
 | Issue and PR templates | **IMPLEMENTED** | These are declarative; they work as written. |
 | VS Code workspace, tasks, launch | **IMPLEMENTED** | Tasks invoke commands that do not exist yet. |
 | Git repository and remote | **IMPLEMENTED** | Pushed to `jovirich/video-studio`. |

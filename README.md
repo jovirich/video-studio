@@ -180,10 +180,12 @@ A bare ✅ is banned here — it reads as *working* when it usually means *speci
 
 Concretely, right now:
 
-- Every `studio_ops` command shown in this README is **NOT BUILT**. The commands are
-  the specification, not a working CLI.
-- The CI workflow is **DESIGNED** and will fail on first run, because it invokes
-  those commands.
+- `studio_ops validate` is **IMPLEMENTED** for four gates — schemas, naming, links,
+  root hygiene — with a passing test suite. On its first run against this repository
+  it found 130 broken internal links.
+- Every **other** `studio_ops` command shown in this README is **NOT BUILT**. They
+  exit non-zero and name what they are blocked on rather than passing silently. The
+  commands are a specification, not a working CLI.
 - The schemas are **DESIGNED** and have never been validated against a real record,
   because no real records exist.
 - The vendor cheat sheets are **DESIGNED** from general knowledge and have **not been

@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  repository-gates:
+  gates:
     name: Repository gates
     runs-on: ubuntu-latest
     steps:
@@ -25,31 +25,37 @@ jobs:
       - name: Install toolkit
         run: pip install -e ".[dev]"
 
-      # Each gate runs independently so a PR sees every failure at once,
-      # not just the first. See CONTRIBUTING.md § Pull request gates.
-      - name: Gate 1 — record schemas
+      # Implemented gates are blocking. Each runs independently with `if: always()`
+      # so a pull request sees every failure at once rather than only the first.
+      # Maturity of each gate: automation/README.md and docs/status.md.
+
+      - name: Gate — record schemas
         if: always()
         run: python -m studio_ops validate --schemas
 
-      - name: Gate 2 — naming conventions
+      - name: Gate — naming conventions
         if: always()
         run: python -m studio_ops validate --naming
 
-      - name: Gate 3 — internal links and orphan records
+      - name: Gate — internal links
         if: always()
         run: python -m studio_ops validate --links
 
-      - name: Gate 4 — source coverage for every claim
-        if: always()
-        run: python -m studio_ops validate --sources
-
-      - name: Gate 5 — canon rules
-        if: always()
-        run: python -m studio_ops validate --canon
-
-      - name: Gate 6 — repo root hygiene
+      - name: Gate — repository root hygiene
         if: always()
         run: python -m studio_ops validate --root-hygiene
+
+      # Non-blocking, and deliberately visible. `--all` includes the gates that are
+      # NOT BUILT (sources, canon, prompts, packs, delivery) and exits 2 because of
+      # them. Surfacing that in every run keeps the gap in front of reviewers instead
+      # of letting a green build imply that everything was checked.
+      - name: Coverage report — including NOT BUILT gates
+        if: always()
+        continue-on-error: true
+        run: |
+          python -m studio_ops validate --all || true
+          echo "::notice::Gates marked NOT BUILT above are specified but unimplemented."
+          echo "::notice::See docs/status.md for the capability ledger."
 
   python-quality:
     name: Python quality
@@ -80,10 +86,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
-      - name: Reject committed .env and credential files
+      - name: Reject committed credentials
         run: |
           if git ls-files | grep -E '(^|/)\.env$|service_account.*\.json$|\.pem$|\.key$'; then
-            echo "::error::Credential-shaped file is tracked in git. Remove it and rotate the secret."
+            echo "::error::A credential-shaped file is tracked in git. Remove it and rotate the secret."
             exit 1
           fi
           echo "No credential-shaped files tracked."
