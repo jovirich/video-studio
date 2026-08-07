@@ -195,15 +195,67 @@ def new_pack(code: str = "", title: str = "") -> None:
 
 
 @app.command("new-record")
-def new_record(type_: str = typer.Option("", "--type"), line: str = "") -> None:
-    """Allocate an ID and create a record. NOT BUILT."""
-    _not_built(
-        "new-record",
-        "Allocate the next serial for (type, scope), refuse on a gap-and-collision "
-        "pattern suggesting a hand-edited ID, and write the record from its template.",
-        "The ID allocator. This is the highest-priority scaffolder — hand-allocated "
-        "IDs collide, and a collided ID silently corrupts the reference graph.",
-    )
+def new_record_cmd(
+    type_: Annotated[str, typer.Option("--type", help="Record type. Omit to list them.")] = "",
+    scope: Annotated[str, typer.Option("--scope", help="ID scope, e.g. NG or STUDIO")] = "",
+    slug: Annotated[str, typer.Option("--slug")] = "",
+    episode: Annotated[str, typer.Option("--episode", help="S01E01 or EXP001")] = "",
+    dry_run: Annotated[bool, typer.Option("--dry-run")] = False,
+) -> None:
+    """Allocate an ID and create a record from its template.
+
+    Refuses on any duplicate ID within the (type, scope) being allocated. That
+    refusal is the point: records reference each other by ID string, so a collision
+    resolves to whichever file wins, and corrupts the reference graph silently.
+    """
+    from .scaffold import new_record as scaffold
+
+    if not type_:
+        console.print("[bold]Record types[/]")
+        for name, spec in sorted(scaffold.RECORD_TYPES.items()):
+            console.print(f"  {name:24} {spec.id_type}-*")
+        raise typer.Exit(1)
+    if not scope:
+        console.print("[red]--scope is required[/] (e.g. NG, or STUDIO)")
+        raise typer.Exit(1)
+
+    cfg = Config.load()
+    try:
+        path = scaffold.new_record(
+            cfg,
+            type_,
+            scope.upper(),
+            slug=slug or None,
+            episode=episode or None,
+            dry_run=dry_run,
+        )
+    except scaffold.ScaffoldError as exc:
+        console.print(f"[red]{exc}[/]")
+        raise typer.Exit(1) from exc
+
+    verb = "would create" if dry_run else "created"
+    console.print(f"[green]{verb}[/] {path}")
+
+
+@app.command("check-ids")
+def check_ids() -> None:
+    """Audit the whole repository for duplicate IDs.
+
+    Worth running before any research pass and after any hand-edit of a record. A
+    collided ID is silent and, because IDs are permanent, unrecoverable.
+    """
+    from .scaffold import ids
+
+    cfg = Config.load()
+    collisions = ids.find_collisions(cfg.root)
+    if not collisions:
+        console.print("[green]No duplicate IDs.[/]")
+        return
+    for record_id, paths in sorted(collisions.items()):
+        console.print(f"[red]{record_id}[/] claimed by {len(paths)} files:")
+        for path in paths:
+            console.print(f"    {path}")
+    raise typer.Exit(1)
 
 
 # --------------------------------------------------------------------------
@@ -232,13 +284,48 @@ app.add_typer(promptlib_app, name="promptlib")
 @promptlib_app.callback(invoke_without_command=True)
 def promptlib_root(ctx: typer.Context) -> None:
     if ctx.invoked_subcommand is None:
-        _not_built(
-            "promptlib",
-            "render a prompt card to a vendor-specific string; run it against an "
-            "adapter under the production's cost ceiling.",
-            "Per-vendor renderers. This is the main practical payoff of the card "
-            "structure and is currently unproven.",
-        )
+        console.print("Subcommands: [cyan]render[/]")
+        raise typer.Exit(1)
+
+
+@promptlib_app.command("render")
+def promptlib_render(
+    card: Annotated[str, typer.Argument(help="Path to a *.prompt.yaml")],
+    vendor: Annotated[str, typer.Option("--vendor")] = "",
+    style: Annotated[str, typer.Option("--style", help="Continuity record to inherit")] = "",
+    fmt: Annotated[str, typer.Option("--format", help="text | json")] = "text",
+) -> None:
+    """Render a card to its vendor string. Offline, and costs nothing.
+
+    The same card renders differently per vendor — that portability is the practical
+    payoff of treating a prompt as a record rather than a string.
+    """
+    from pathlib import Path
+
+    from .pipeline.generate import style_block_from_continuity
+    from .promptlib import render as render_mod
+
+    block = style_block_from_continuity([Path(style)]) if style else {}
+    try:
+        rendered = render_mod.render_file(Path(card), vendor or None, style_block=block)
+    except render_mod.PromptCardError as exc:
+        console.print(f"[red]{exc}[/]")
+        raise typer.Exit(1) from exc
+
+    if fmt == "json":
+        import json
+
+        print(json.dumps(rendered.to_dict(), indent=2))
+        return
+
+    console.print(f"[dim]{rendered.card_id} -> {rendered.vendor}[/]")
+    console.print()
+    console.print(rendered.prompt)
+    if rendered.negative:
+        console.print()
+        console.print(f"[dim]negative:[/] {', '.join(rendered.negative)}")
+    if rendered.parameters:
+        console.print(f"[dim]parameters:[/] {rendered.parameters}")
 
 
 pipeline_app = typer.Typer(help="Asset pipeline. NOT BUILT.")

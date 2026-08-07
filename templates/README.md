@@ -58,7 +58,7 @@ production into every later one.
 | [studio/](studio/) | A studio — bible, charter, control record | `studio_ops new-studio` **[NOT BUILT]** |
 | [line/](line/) | A production line — research, sources, entities, advisory, style | `studio_ops new-line` **[NOT BUILT]** |
 | [production/](production/) | One episode, film, or short — eleven pipeline stages | `studio_ops new-production` **[NOT BUILT]** |
-| [records/](records/) | One record of each type in [../standards/id_system.md](../standards/id_system.md) | `studio_ops new-record` **[NOT BUILT]** |
+| [records/](records/) | One record of each type in [../standards/id_system.md](../standards/id_system.md) | `studio_ops new-record` |
 | [legal/](legal/) | Consent, release, and agreement instruments | By hand, then a lawyer |
 | [reviews/](reviews/) | Pointer to the canonical gate checklists | — |
 | [prompts/](prompts/) | Pointer to the prompt framework and the prompt card template | — |

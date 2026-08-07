@@ -113,9 +113,9 @@ Every `IMPLEMENTED` row below should be read as *"we believe this works"*, not
 | ~49 vendor cheat sheets | **DESIGNED** | Written from general knowledge. **Not verified against current vendor documentation.** Treat parameter details as indicative until a human checks each one. |
 | 5 chain recipes | **DESIGNED** | No chain has been run. |
 | Prompt-card generator (`new-prompt`) | **NOT BUILT** | |
-| Prompt renderer (card → vendor string) | **NOT BUILT** | The main practical payoff of the card structure. Unproven. |
-| Style inheritance | **DESIGNED** | Mechanism specified; nothing resolves it yet. |
-| 20-shot continuity test | **NOT RUN** | The test that would show whether the continuity toolkit works at all. |
+| Prompt renderer (card → vendor string) | **IMPLEMENTED** | Generic + Midjourney. The same card rendering differently per vendor is asserted, so the payoff is no longer merely claimed. |
+| Style inheritance | **IMPLEMENTED** | `resolve` applies block → card → overrides; list fields merge; an override without a reason raises. Exercised by the round trip from a real continuity record. |
+| 20-shot continuity test | **NOT RUN** | Still the open question. The round trip proves continuity *reaches* the prompt; only twenty shots show whether it *holds*. |
 
 ### Automation (`studio_ops`)
 
@@ -127,7 +127,15 @@ Every `IMPLEMENTED` row below should be read as *"we believe this works"*, not
 | `validate --links` | **IMPLEMENTED** | Runs against the real tree; **found 130 real broken links on first run** |
 | `validate --schemas` | **IMPLEMENTED** | Runs; routes YAML and front matter to `standards/schemas/` |
 | `validate --reality` | **IMPLEMENTED** | Enforces this document's own discipline: prose naming an unimplemented command must say so. **Found 63 violations on its first run.** |
-| Test suite for the above | **IMPLEMENTED** | 26 tests, fixture trees with deliberate violations, all passing |
+| Test suite | **IMPLEMENTED** | 180 tests across validators, scaffold, promptlib, manifest, adapters, and the round trip. Fixture trees carry deliberate violations. |
+| `new-record` — ID allocator | **IMPLEMENTED** | 47 tests. Refuses on any duplicate in the namespace being allocated. Smoke-run against all 14 real templates. |
+| `check-ids` — repo-wide duplicate audit | **IMPLEMENTED** | Returns clean on the current repository |
+| `promptlib render` | **IMPLEMENTED** | 63 tests. Generic + Midjourney renderers; the same card renders differently per vendor, asserted. |
+| `promptlib override_rate` | **IMPLEMENTED** | The ADR 0003 falsification signal is now computable |
+| Asset store (`local` driver) | **IMPLEMENTED** | Hashes bytes as written, refuses to overwrite, refuses a store path inside the git tree |
+| Manifest — the provenance ledger | **IMPLEMENTED** | 31 tests. `ingest_generation` is the only path joining bytes to a record. |
+| `local` generation adapter | **IMPLEMENTED** | 26 tests. Deterministic, offline, free, real PNG. Same seed + prompt → identical bytes. |
+| **The round trip** | **IMPLEMENTED and TESTED** | See below — the first thing in this repository to reach TESTED |
 | `validate --sources` | **NOT BUILT** | Reports its own absence and exits 2 |
 | `validate --canon` | **NOT BUILT** | Blocked on `prohibited_patterns.json` |
 | `validate --prompts` / `--packs` / `--delivery` | **NOT BUILT** | |
@@ -139,7 +147,36 @@ Every `IMPLEMENTED` row below should be read as *"we believe this works"*, not
 | Generation adapters | **DESIGNED** | Deliberate stubs. `Adapter.generate` enforces dry-run and budget before any subclass runs, so no adapter can bypass the ceiling by forgetting to check. |
 | Asset store | **NOT BUILT** | No round trip has been proved. |
 
-**Why none of these is TESTED.** The validators run and their unit tests pass against
+### The round trip — the first TESTED capability
+
+`automation/tests/test_roundtrip.py`, 11 tests, all passing:
+
+```
+continuity record + shot record
+    → prompt card
+    → render                 (offline, no spend)
+    → local adapter          (guarded by dry-run and a cost ceiling)
+    → PNG on disk            (654 KB, valid signature)
+    → manifest entry         (sha256 matches the bytes)
+```
+
+What is asserted, not merely hoped:
+
+| Assertion | Why it matters |
+|---|---|
+| The manifest sha256 equals the hash of the file on disk | This *is* the traceability guarantee |
+| The manifest on disk validates against its schema afterwards | A round trip must not leave the ledger invalid |
+| The continuity record's lighting reaches the prompt, and its `forbidden_objects` become negatives | Otherwise the continuity registry is decoration |
+| Same seed + same prompt → identical bytes | Determinism is what makes any of this assertable |
+| A `reconstruction` shot with no evidence basis **refuses** | This is what keeps a no-claims laboratory production honest |
+| A generated asset can never be `archival` | The prohibition that matters most, enforced in code as well as schema |
+| **When a record is refused, no bytes land in the store** | The ordering property behind "no asset without a manifest entry" |
+| The budget guard still refuses a priced run with no ceiling | A free backend did not widen the guard for paid ones |
+
+This is a *mechanics* result. It says nothing about output quality, about continuity
+holding across twenty shots, or about the claim chain. Those are EXP-001's job.
+
+**Why none of the rest is TESTED.** The validators run and their unit tests pass against
 fixture trees. That is IMPLEMENTED. TESTED would mean running them against a real
 production's worth of records — several hundred, with known violations planted — and
 recording the result. No such corpus exists, because no production exists.
@@ -175,6 +212,22 @@ input, but it is one gate against one repository state.
 | Subject | **NOT CHOSEN** | Human decision. |
 | Claims | **NONE** | Human research. Nothing in this repository may author them. |
 | Everything downstream | **NOT STARTED** | Blocked on the line being `candidate`, no Research Lead, no advisory contact, no archive survey, no visual identity, `new-record` NOT BUILT, no adapter. |
+
+## Known gaps found while implementing
+
+Real defects surfaced by writing the code against the schemas. Recorded here rather
+than fixed immediately: the architecture freeze is in force and none of these blocks
+the first generated shot. Each is a candidate for the post-EXP-001 pass.
+
+| # | Gap | Where | Why deferred |
+|---|---|---|---|
+| G1 | **`raw_override` carries no machine-checkable justification.** ADR 0003 and the card template both say it "requires a reason in `notes`" — the schema enforces nothing. Ordinary `inheritance.overrides` entries *do* require a reason. So the one deviation most in need of justification is the only one without it. | `prompt_card.schema.json` | One-line `allOf`. Tightens an existing documented rule rather than adding a concept, so it is freeze-compatible — but it may invalidate the shipped template, and that check is not worth doing before Shot 001. |
+| G2 | **`inheritance.overrides[].value` is `type: string` only.** An override can never target a list field (`negative`, `period_markers`) or a numeric parameter without stringifying it. `parameters.stylize` overrides land as `"50"`, not `50`. | `prompt_card.schema.json` | Renderable but lossy. No effect on the round trip. |
+| G3 | **Schema validation alone does not catch an unfilled template.** Every placeholder is a free-form string, so a card of pure `TBD` is schema-valid. | `prompt_card.schema.json` | Correct division of labour — placeholder detection belongs to the unbuilt `--prompts` gate, not to the schema. Pinned by a test so it cannot be forgotten. |
+| G4 | **`inheritance.style_block` is a string with no schema behind it.** "Path or ID of the inherited style block", but no `style_block.schema.json` exists, so `resolve` cannot follow the reference — it takes the resolved mapping as an argument. | `prompt_card.schema.json` | Whoever wires the CLI decides how a `style_block` string becomes a mapping. EXP-001 supplies one directly. |
+| G5 | ~~`asset_manifest.episode` rejected `EXP` codes~~ | `asset_manifest.schema.json` | **Fixed.** Every ID in the file already admitted `EXP\d{3}`; the production code did not, so a manifest whose every entry was valid would still be refused. |
+
+G1 is the one worth doing first after EXP-001.
 
 ## Studio status — African History Studio
 

@@ -39,7 +39,7 @@ each is the answer to a specific way productions go wrong:
 |---|---|
 | **Reviewable before generation** | Once a striking image exists, the argument about whether it should exist is much harder to win. Reviewing the card is the only moment the question is cheap. |
 | **Versioned, never overwritten** | "Why does shot 42 look different now" is otherwise unanswerable, and the answer is usually a prompt edit nobody recorded. |
-| **Structured, not a blob** | `studio_ops promptlib render` targets more than one vendor from one card. A hand-assembled string is locked to the tool it was written for, which is a problem the first time a vendor changes its terms. **[NOT BUILT]** |
+| **Structured, not a blob** | `studio_ops promptlib render` targets more than one vendor from one card. A hand-assembled string is locked to the tool it was written for, which is a problem the first time a vendor changes its terms. |
 | **Carries the evidence basis** | A reconstruction is a claim about the past made in pictures. The card is where that claim is attached to the record that grounds it. |
 
 Together with the seed and parameters recorded in

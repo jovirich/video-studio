@@ -45,7 +45,7 @@ twice.
 ## The rule that matters more than any template
 
 **A prompt card is a record, not a text string.** It is versioned, never overwritten;
-reviewable before generation; structured so `studio_ops promptlib render` can target *(NOT BUILT)*
+reviewable before generation; structured so `studio_ops promptlib render` can target
 more than one vendor from it; and it carries the evidence a reconstruction is built
 from.
 

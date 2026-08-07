@@ -177,7 +177,7 @@ changes a capability's maturity — it is not a separate chore.
 ```bash
 python -m studio_ops validate --all --format json
 python -m studio_ops validate --root-hygiene
-python -m studio_ops new-record --type source --line ng-nigeria   # NOT BUILT — read what it says
+python -m studio_ops new-record --type source --line ng-nigeria
 ```
 
 That last command is the most informative thing you will run this week. It does not

@@ -85,13 +85,14 @@ Treating it as a safeguard is a category error with consequences outside the stu
 ## Creating a record
 
 ```bash
-python -m studio_ops new-record --type continuity_character --line ng-nigeria   # NOT BUILT
+python -m studio_ops new-record --type continuity_character --scope NG
+python -m studio_ops check-ids          # audit the whole repo for duplicates
 ```
 
-Until the allocator exists, copy from
-[`templates/records/`](../../../../../templates/records/) and allocate the ID by hand
-against this directory — checking for a collision first. See
-[`standards/id_system.md`](../../../../../standards/id_system.md).
+The allocator refuses on any duplicate within the namespace it is allocating. Never
+hand-allocate: records reference each other by ID string, so a collision resolves to
+whichever file wins, and because IDs are permanent the corruption is unrecoverable.
+See [`standards/id_system.md`](../../../../../standards/id_system.md).
 
 ## Status
 
@@ -99,8 +100,10 @@ against this directory — checking for a collision first. See
 |---|---|
 | Schemas | DESIGNED |
 | Records here | none |
-| Drift test methodology | DESIGNED, never run |
-| Allocator (`new-record`) | NOT BUILT |
+| Allocator | IMPLEMENTED |
+| Continuity reaching a rendered prompt | **IMPLEMENTED and exercised** — the round-trip test asserts that a location record's lighting reaches the prompt and its `forbidden_objects` become negatives |
+| Drift test methodology | DESIGNED, **never run** |
 
-Nothing here has been exercised. The first test is
-[Experimental Production 001](../productions/).
+The mechanism is proven to *reach* the prompt. Whether it *holds* across twenty shots
+is the open question, and only [Experimental Production 001](../productions/) answers
+it.

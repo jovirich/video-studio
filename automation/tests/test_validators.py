@@ -268,7 +268,7 @@ def test_reality_flags_unmarked_unbuilt_command(tmp_path: Path) -> None:
     docs = tmp_path / "docs"
     docs.mkdir()
     (docs / "a.md").write_text(
-        "Scaffold it:\n\n    python -m studio_ops new-record --type source\n",
+        "Scaffold it:\n\n    python -m studio_ops new-production --line ng-nigeria\n",
         encoding="utf-8",
     )
 
@@ -340,3 +340,66 @@ def test_reality_allows_designed_near_built_command(tmp_path: Path) -> None:
     )
 
     assert reality.run(cfg).passed
+
+
+# ----------------------------------------------------------------- frontmatter
+
+
+def test_frontmatter_survives_a_banner_comment(tmp_path: Path) -> None:
+    """Regression: a `# ----` banner inside front matter terminated the parse.
+
+    Eleven of thirteen record templates use that comment style. Because
+    `validate --schemas` routes records by their `type` field, a real record built
+    from one of them would have passed the schema gate BY BEING INVISIBLE TO IT —
+    no error, no warning, simply never checked. A gate that silently skips what it
+    cannot see is worse than no gate.
+    """
+    from studio_ops.frontmatter import read as read_doc
+
+    path = tmp_path / "rec.md"
+    path.write_text(
+        "---\n"
+        "id: SRC-NG-0001\n"
+        "type: source\n"
+        "# ---------------------------------------------------------------\n"
+        "# Custody — where the thing physically is\n"
+        "# ---------------------------------------------------------------\n"
+        "tier: T1\n"
+        "---\n"
+        "Body text.\n",
+        encoding="utf-8",
+    )
+
+    doc = read_doc(path)
+
+    assert doc.error is None
+    assert doc.meta["id"] == "SRC-NG-0001"
+    assert doc.meta["type"] == "source"
+    assert doc.meta["tier"] == "T1"
+    assert doc.body.strip() == "Body text."
+
+
+def test_every_record_template_parses(tmp_path: Path) -> None:
+    """No record template may parse as empty front matter.
+
+    This is the invariant the banner bug broke. `type` itself is not asserted here:
+    `_TEMPLATE_research_brief.md` legitimately has none, because no schema exists for
+    that record type and the template says so. An absent `type` is a documented gap;
+    front matter that silently parses as `{}` is a defect.
+    """
+    from studio_ops.frontmatter import read as read_doc
+    from studio_ops.paths import find_repo_root
+
+    templates = sorted((find_repo_root() / "templates" / "records").glob("_TEMPLATE_*.md"))
+    assert templates, "no record templates found"
+
+    empty = [p.name for p in templates if not read_doc(p).meta]
+    assert not empty, f"templates whose front matter parses as empty: {empty}"
+
+    # Every template that declares a type must expose it to the schema router.
+    unrouted = [
+        p.name
+        for p in templates
+        if (meta := read_doc(p).meta) and "type" in meta and not str(meta["type"]).strip()
+    ]
+    assert not unrouted, f"templates with a blank `type`: {unrouted}"

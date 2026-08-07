@@ -2,13 +2,22 @@
 
 Each names the specific precondition that is missing, so the gap is legible rather
 than a generic "not implemented". See base.py for why these refuse by design.
+
+Registered under their modality names, so `get_adapter("video")` returns the stub and
+its refusal, rather than a KeyError that says nothing about why. A caller asking for
+video by name deserves the reason.
+
+`local.LocalImageAdapter` is registered as "local" and is the one backend that runs.
+It does not replace `ImageAdapter`: this stub stands for a *vendor* image backend,
+whose preconditions are still unmet.
 """
 
 from __future__ import annotations
 
-from .base import StubAdapter
+from .base import StubAdapter, register
 
 
+@register("image")
 class ImageAdapter(StubAdapter):
     modality = "image"
     vendor = "generic-image"
@@ -18,6 +27,7 @@ class ImageAdapter(StubAdapter):
     )
 
 
+@register("video")
 class VideoAdapter(StubAdapter):
     modality = "video"
     vendor = "generic-video"
@@ -28,6 +38,7 @@ class VideoAdapter(StubAdapter):
     )
 
 
+@register("audio_voice")
 class VoiceAdapter(StubAdapter):
     modality = "audio_voice"
     vendor = "generic-voice"
@@ -37,6 +48,7 @@ class VoiceAdapter(StubAdapter):
     )
 
 
+@register("audio_music")
 class MusicAdapter(StubAdapter):
     modality = "audio_music"
     vendor = "generic-music"
@@ -47,6 +59,7 @@ class MusicAdapter(StubAdapter):
     )
 
 
+@register("text")
 class TextAdapter(StubAdapter):
     modality = "text"
     vendor = "generic-text"

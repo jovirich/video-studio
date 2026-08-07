@@ -92,7 +92,7 @@ delivery, no conditional master, and no "we'll paper it after air".
 
 | Command | Reads | Maturity |
 |---|---|---|
-| `studio_ops new-record --type clearance` | Allocates the next `CLR-*` serial | **NOT BUILT** |
+| `studio_ops new-record --type clearance` | Allocates the next `CLR-*` serial | **IMPLEMENTED** |
 | `studio_ops report chain-of-title --episode <code>` | Clearance log + frozen manifest → chain of title | **NOT BUILT** |
 | `studio_ops validate --canon` | Flags manifest entries whose `clearance_ref` has no row | **NOT BUILT** |
 

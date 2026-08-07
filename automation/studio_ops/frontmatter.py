@@ -29,28 +29,46 @@ def read(path: Path) -> Document:
 
     A parse error is returned on the Document rather than raised — one bad file
     should not abort a validation run over four hundred good ones.
+
+    The closing delimiter is matched as a WHOLE LINE, not as a substring.
+
+    That distinction is not pedantry. An earlier version split on the bare string
+    `---`, which meant any front matter containing a banner comment — `# --------` —
+    terminated at the banner. Eleven of thirteen record templates use exactly that
+    style, so their `id` and `type` fields parsed as empty. And because
+    `validate --schemas` routes records by their `type` field, a real record built
+    from one of those templates would have passed the schema gate *by being
+    invisible to it*: no error, no warning, simply never checked.
+
+    A gate that silently skips what it cannot see is worse than no gate. Hence the
+    regression test in test_validators.py.
     """
     try:
         text = path.read_text(encoding="utf-8")
     except (OSError, UnicodeDecodeError) as exc:
         return Document(path, {}, "", False, f"unreadable: {exc}")
 
-    if not text.startswith(DELIM):
+    lines = text.splitlines(keepends=True)
+    if not lines or lines[0].strip() != DELIM:
         return Document(path, {}, text, False)
 
-    parts = text.split(DELIM, 2)
-    if len(parts) < 3:
+    for index in range(1, len(lines)):
+        if lines[index].strip() == DELIM:
+            block = "".join(lines[1:index])
+            body = "".join(lines[index + 1 :])
+            break
+    else:
         return Document(path, {}, text, False, "front matter opened but not closed")
 
     try:
-        meta = yaml.safe_load(parts[1]) or {}
+        meta = yaml.safe_load(block) or {}
     except yaml.YAMLError as exc:
-        return Document(path, {}, parts[2], True, f"invalid YAML front matter: {exc}")
+        return Document(path, {}, body, True, f"invalid YAML front matter: {exc}")
 
     if not isinstance(meta, dict):
-        return Document(path, {}, parts[2], True, "front matter is not a mapping")
+        return Document(path, {}, body, True, "front matter is not a mapping")
 
-    return Document(path, meta, parts[2], True)
+    return Document(path, meta, body, True)
 
 
 def read_yaml(path: Path) -> tuple[dict[str, Any] | None, str | None]:

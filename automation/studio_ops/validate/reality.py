@@ -44,14 +44,15 @@ UNBUILT_COMMANDS: frozenset[str] = frozenset(
         "new-production",
         "new-episode",
         "new-pack",
-        "new-record",
         "new-prompt",
         "report",
-        "promptlib",
         "pipeline",
         "status",
     }
 )
+
+# Commands that now exist. Marking one NOT BUILT is stale documentation.
+BUILT_COMMANDS: frozenset[str] = frozenset({"new-record", "check-ids", "promptlib", "generate"})
 
 # Gate flags that do not exist.
 UNBUILT_FLAGS: frozenset[str] = frozenset(
@@ -127,7 +128,7 @@ def run(cfg: Config) -> GateReport:
                     continue
                 window = "\n".join(lines[max(0, i - CONTEXT_LINES) : i + CONTEXT_LINES + 1])
 
-                if token in BUILT_FLAGS:
+                if token in BUILT_FLAGS or token in BUILT_COMMANDS:
                     # Stale pessimism: this works, and the document says it does not.
                     #
                     # Scoped to the SAME LINE, unlike the over-claim check below. A
@@ -140,7 +141,7 @@ def run(cfg: Config) -> GateReport:
                             Finding(
                                 GATE,
                                 Severity.ERROR,
-                                f"marks `studio_ops validate {token}` NOT BUILT, but it is "
+                                f"marks `studio_ops {token}` NOT BUILT, but it is "
                                 "IMPLEMENTED — stale documentation",
                                 relpath,
                                 i + 1,
