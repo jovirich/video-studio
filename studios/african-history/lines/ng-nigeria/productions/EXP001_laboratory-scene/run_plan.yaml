@@ -1,0 +1,71 @@
+# EXP-001 RUN PLAN — what is authorised to generate, and when.
+#
+# Configuration for one production, not a record: no ID, nothing cites it, and
+# deleting it authorises nothing rather than losing something.
+#
+# The point of this file is that REMAINING BUDGET IS NOT AN AUTHORISATION. A ceiling
+# stops an expensive run; it does nothing about a cheap unauthorised one, which is the
+# likelier failure — the anchors come back, they look good, there is money left, and
+# someone generates shot 02 because nothing said not to.
+#
+# `studio_ops` refuses any job not named in the active phase, and the refusal does not
+# consult the budget.
+
+production: EXP001
+active_phase: A
+
+# Fixed for the whole diagnostic run. Mixing modes inside one continuity run makes a
+# drift result uninterpretable: a difference between two shots could be the mechanism
+# or the surface, with no way to tell which.
+#
+# The `interactive` path stays fully built and available for subscription and manual
+# workflows — it is simply not used inside THIS run.
+execution_mode: api
+
+vendor: openai
+
+# PINNED SNAPSHOT, deliberately not the floating `gpt-image-2` alias. A continuity
+# experiment needs the model to hold still; a floating alias can change underneath the
+# run and every drift measurement becomes uninterpretable.
+#
+# DIRECTED, NOT VERIFIED: nothing in this repository has confirmed that this snapshot
+# resolves. Confirm it against the API before the first call — and confirm it does not
+# silently fall back to the alias, which would defeat the pinning entirely.
+model: gpt-image-2-2026-04-21
+
+phases:
+  - key: A
+    title: Canonical anchors
+    requires_approval_before: false
+    approved: true
+    allowed:
+      - PC-NG-EXP001-0001   # Character A canonical face
+      - PC-NG-EXP001-0002   # Character B canonical face
+      - PC-NG-EXP001-0003   # Workshop establishing wide
+    note: >
+      Three images. No production shot may be generated in this phase. Each is
+      accepted against the checklist in its own prompt card, not on taste.
+
+  - key: B
+    title: Diagnostic shots
+    requires_approval_before: true
+    approved: false          # <- Director sets true after approving all three anchors
+    allowed:
+      - SHT-NG-EXP001-0001   # baseline
+      - SHT-NG-EXP001-0004   # profile
+      - SHT-NG-EXP001-0006   # backlit
+      - SHT-NG-EXP001-0018   # two-shot
+    note: >
+      The four hardest cases. Blocked until every Phase A anchor is approved and its
+      STA id recorded on the continuity record. If these four fail, change the
+      mechanism and repeat — do not proceed to the remaining sixteen.
+
+  - key: C
+    title: Remaining sixteen shots
+    requires_approval_before: true
+    approved: false          # <- stays false until the diagnostic review is signed off
+    allowed: []              # <- deliberately empty; populate only on authorisation
+    note: >
+      NOT AUTHORISED. Unused budget is not a reason to begin. The diagnostic review
+      must be explicitly approved first, and it may conclude that the mechanism does
+      not hold — in which case these sixteen shots should never be generated at all.

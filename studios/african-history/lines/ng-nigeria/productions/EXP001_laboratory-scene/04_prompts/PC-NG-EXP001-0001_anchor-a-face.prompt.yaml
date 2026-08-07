@@ -33,12 +33,18 @@ modality: image
 # `local` remains the mechanics test only — its deterministic colour field proves the
 # round trip, and cannot serve as a face anchor.
 tool:
-  vendor: TBD
-  model: TBD
-  version: TBD
-  # terms_checked OMITTED, not TBD: it is isoDate-patterned. It is filled the
-  # day the chosen vendor's terms are verified in the model terms register, and a
-  # card must not be generated from before then.
+  vendor: openai
+  # PINNED SNAPSHOT, not the floating `gpt-image-2` alias. A continuity run needs the
+  # model to hold still; a floating alias can change underneath it mid-experiment and
+  # every drift measurement becomes uninterpretable.
+  #
+  # DIRECTED, NOT VERIFIED: nothing here has confirmed this snapshot resolves. Confirm
+  # against the API before the first call.
+  model: gpt-image-2-2026-04-21
+  version: gpt-image-2-2026-04-21
+  # terms_checked STILL OMITTED. It is filled the day a person opens OpenAI's current
+  # terms and records them in rights/permissions/model_terms_register.md. The adapter
+  # refuses to generate until then — this absence is a working guard, not a gap.
 
 target:
   provenance_class: interpretive

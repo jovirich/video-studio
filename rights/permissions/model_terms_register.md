@@ -8,6 +8,66 @@ owners: [rights-and-clearances, pipeline-engineer]
 
 # Model terms register
 
+## ACTIVE VERIFICATION REQUIRED — OpenAI, EXP-001
+
+The first vendor selected for a real run. **Nothing has been generated and nothing has
+been spent**, because `studio_ops` refuses until the fields below are filled by a
+person who has opened the current terms.
+
+| Field | Value |
+|---|---|
+| Vendor | OpenAI |
+| Model family | GPT Image 2 |
+| Pinned snapshot | `gpt-image-2-2026-04-21` — **directed, not confirmed to resolve** |
+| Floating alias | `gpt-image-2` — **refused by the adapter** for this run |
+| Execution mode | `api` |
+| Production | EXP-001, Phase A only |
+| Terms URL | **TBD — not opened** |
+| Terms effective date | **TBD** |
+| Plan tier held | **TBD** |
+| Output ownership provisions | **TBD — not read** |
+| Commercial use permitted | **TBD — not read** |
+| Broadcast / streaming use | **TBD — not read** |
+| Indemnity, and at what tier | **TBD — not read** |
+| Trains on inputs; can it be disabled | **TBD — not read** |
+| Content restrictions relevant to this run | **TBD — not read** |
+| Required attribution | **TBD — not read** |
+| Price per image, current | **TBD — not read** |
+| Date checked | **NOT CHECKED** |
+| Checked by | — |
+
+### Why every cell says TBD rather than a plausible answer
+
+No process in this repository can read a vendor's terms page, and a remembered
+summary of a terms document is not a verification — terms change, tiers differ, and
+the studio's answer to *"were you permitted to use that?"* cannot be *"we believed
+so."* The same reasoning that makes a language model tier T5 for research applies to
+the studio's own commercial position.
+
+The price cell is empty for a sharper reason: **a guessed price produces a ceiling
+that bounds nothing while looking like a control.** The adapter refuses rather than
+estimate.
+
+### What unblocks generation
+
+Four human acts, each mapping to a guard that is already live and tested:
+
+| Act | Sets | Guard that lifts |
+|---|---|---|
+| Read the terms; fill this table | `OPENAI_TERMS_CHECKED` | `TermsNotVerifiedError` |
+| Record the current per-image price | `OPENAI_IMAGE_PRICE_USD` | `PriceUnknownError` |
+| Set a ceiling for the diagnostic phase | `budget_usd` | `BudgetExceededError` |
+| Verify the request/response shape against live API docs | `WIRE_FORMAT_VERIFIED` | `AdapterNotBuiltError` |
+
+Plus `GENERATION_DRY_RUN=false`, and `OPENAI_API_KEY`.
+
+**Confirm the snapshot separately.** A snapshot ID that does not exist fails loudly and
+harmlessly. A snapshot ID that silently resolves to the floating alias would defeat the
+entire reason for pinning it, and the failure would be invisible until a mid-run model
+update made the drift numbers meaningless.
+
+
+
 Per-tool record of what each generative vendor's terms permit, at a stated date, at
 the plan tier the studio actually holds.
 

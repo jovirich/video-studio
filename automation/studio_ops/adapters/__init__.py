@@ -68,4 +68,7 @@ __all__ = [
     "sha256_file",
 ]
 
-from . import interactive  # noqa: F401  (registers the backend)
+from . import (
+    interactive,  # noqa: F401  (registers the backend)
+    openai_images,  # noqa: F401  (registers the backend)
+)

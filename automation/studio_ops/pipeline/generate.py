@@ -281,6 +281,27 @@ def prepare_job(
     return adapter.prepare(request, job)
 
 
+def _check_phase(production_dir: Path, job_id: str, adapter_name: str) -> None:
+    """Enforce the run plan, if the production has one.
+
+    A production without a plan is unconstrained by this check — which is correct for
+    a laboratory piece with no spend, and is exactly why EXP-001 has one.
+    """
+    from . import phases
+
+    plan = phases.find(production_dir)
+    if plan is None:
+        return
+    mode = ""
+    try:
+        from ..adapters.base import get_adapter
+
+        mode = str(get_adapter(adapter_name).capabilities().execution_mode)
+    except Exception:
+        mode = ""
+    plan.check(job_id, execution_mode=mode or None)
+
+
 def _production_of(shot_id: str) -> str:
     parts = shot_id.split("-")
     return parts[2] if len(parts) > 3 else "unknown"
@@ -406,6 +427,10 @@ def generate_shot(
     shot_id = str(shot.get("id") or "")
     if not shot_id:
         raise RoundTripError(f"{shot_path}: shot record has no id")
+
+    # Phase control. Refuses anything the active phase does not authorise, and does
+    # not consult the budget while doing so — remaining money is not permission.
+    _check_phase(manifest_path.parent, shot_id, adapter_name)
 
     provenance_class = str(shot.get("provenance_class") or "")
     if not provenance_class:
