@@ -127,7 +127,7 @@ Every `IMPLEMENTED` row below should be read as *"we believe this works"*, not
 | `validate --links` | **IMPLEMENTED** | Runs against the real tree; **found 130 real broken links on first run** |
 | `validate --schemas` | **IMPLEMENTED** | Runs; routes YAML and front matter to `standards/schemas/` |
 | `validate --reality` | **IMPLEMENTED** | Enforces this document's own discipline: prose naming an unimplemented command must say so. **Found 63 violations on its first run.** |
-| Test suite | **IMPLEMENTED** | 198 tests across validators, scaffold, promptlib, manifest, adapters, execution modes, and both round trips. Fixture trees carry deliberate violations. |
+| Test suite | **IMPLEMENTED** | 220 tests across validators, scaffold, promptlib, manifest, adapters, execution modes, and both round trips. Fixture trees carry deliberate violations. |
 | `new-record` — ID allocator | **IMPLEMENTED** | 47 tests. Refuses on any duplicate in the namespace being allocated. Smoke-run against all 14 real templates. |
 | `check-ids` — repo-wide duplicate audit | **IMPLEMENTED** | Returns clean on the current repository |
 | `promptlib render` | **IMPLEMENTED** | 63 tests. Generic + Midjourney renderers; the same card renders differently per vendor, asserted. |
