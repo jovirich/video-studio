@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://african-history-studio.local/schemas/source_record.schema.json",
+  "$id": "https://video-studio.local/schemas/source_record.schema.json",
   "title": "Source record",
   "description": "One item of evidence. Applies to sources/registry/records/SRC-*.yaml. See bible/02.",
   "type": "object",

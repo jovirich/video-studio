@@ -23,7 +23,7 @@ Three failure modes are treated as equally serious:
 | **Misleading true statement** | A true fact placed so as to imply something false; a real image captioned to suggest a different time or place. | Deceives more efficiently than a lie, and is harder to retract. |
 
 The third is the one that kills documentaries. Most of the review effort in
-[08_review/](../templates/episode/08_review) is aimed at it.
+[08_review/](../../templates/production/08_review) is aimed at it.
 
 ## 2. Registers of certainty
 
@@ -50,7 +50,7 @@ is an incurious one. The Research Lead should treat its absence as a smell.
 - Where a position belongs to a named scholar or tradition, name it.
 - Where a colonial-era record is the only source, say so, and say what that record's
   author was in a position to know. See
-  [../research/methodology/bias_register.md](../research/methodology/bias_register.md).
+  [../research/methodology/bias_register.md](methodology/bias_register.md).
 - Numbers get their basis. "An estimated N, on the basis of X" — never a bare figure.
 
 ## 4. Corrections
@@ -91,7 +91,7 @@ Reconstructed sequences are permitted and are governed by
 Where a contributor's safety depends on anonymity, the source record is held with
 restricted access and the on-screen credit is anonymised. The Research Lead and
 Showrunner hold the identity; it does not enter the git repository in any form.
-See [../docs/runbook/restricted_records.md](../docs/runbook/restricted_records.md).
+See [../docs/runbook/restricted_records.md](../../docs/runbook/restricted_records.md).
 
 ## 8. Political and contemporary material
 

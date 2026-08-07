@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://african-history-studio.local/schemas/character.schema.json",
+  "$id": "https://video-studio.local/schemas/character.schema.json",
   "title": "Character",
   "description": "A person or collective actor appearing in the series. Applies to <line>/characters/profiles/CHR-*.md front matter. Holds NO historical facts — every substantive statement is a claim reference. This is what keeps cross-episode consistency mechanical.",
   "type": "object",

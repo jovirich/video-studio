@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://african-history-studio.local/schemas/episode.schema.json",
+  "$id": "https://video-studio.local/schemas/episode.schema.json",
   "title": "Episode",
   "description": "The control record for one episode. Applies to episodes/<code>/episode.yaml.",
   "type": "object",

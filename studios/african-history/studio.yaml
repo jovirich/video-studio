@@ -4,8 +4,7 @@ code: african-history
 title: African History Studio
 version: "0.1.0"
 status: draft
-updated: 2026-08-07
-
+updated: "2026-08-07"
 # --- Canon ---------------------------------------------------------------
 # The pack determines what this studio's productions are held to.
 # Upgrading a pack major version mid-season is refused by the scaffolder.

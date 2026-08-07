@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://african-history-studio.local/schemas/location.schema.json",
+  "$id": "https://video-studio.local/schemas/location.schema.json",
   "title": "Location",
   "description": "A place appearing in the series. Applies to <line>/locations/profiles/LOC-*.md front matter. Holds no historical facts — only references to claims.",
   "type": "object",

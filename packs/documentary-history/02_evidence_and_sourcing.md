@@ -40,12 +40,12 @@ a small team can honestly answer "where did that come from?" eighteen months lat
 | **T1** | Primary and archival: documents, inscriptions, excavation reports, contemporaneous accounts, material objects with provenance, datasets. | Yes, for `established`, with the caveats in §4. |
 | **T2** | Peer-reviewed secondary scholarship: monographs from academic presses, refereed journal articles, critical editions. | Yes, for `established`. |
 | **T3** | Reputable general: museum and archive catalogue entries, encyclopedias of record, serious journalism, institutional publications. | No. Supports `probable` at best; requires a T1 or T2 to reach `established`. |
-| **T4** | Oral testimony, tradition, and community knowledge, recorded under the protocol in [../research/methodology/oral_history_protocol.md](../research/methodology/oral_history_protocol.md). | Sufficient for the `traditional` register. Not converted into `established` by volume alone. |
+| **T4** | Oral testimony, tradition, and community knowledge, recorded under the protocol in [../research/methodology/oral_history_protocol.md](methodology/oral_history_protocol.md). | Sufficient for the `traditional` register. Not converted into `established` by volume alone. |
 | **T5** | Everything else: undated web pages, aggregators, AI output, popular video, social media, uncited compilations. | **Never citable.** May be used to find a lead; never to support a claim. |
 
 **T5 includes any output of a language model.** A model may help locate, summarise,
 or structure; its assertions are leads, not sources. This rule is absolute and is
-the reason [../prompts/text/](../prompts/text) contains research *assistance*
+the reason [../prompts/text/](../../prompts/text) contains research *assistance*
 templates and no research *authority* templates.
 
 ### 2.1 On T4 and the hierarchy
@@ -87,7 +87,7 @@ A citation is a location, not a warrant. Every source record carries a
 5. **What does its silence mean?** Absence of evidence in a record that would not
    have recorded the thing anyway is not evidence of absence.
 
-The [bias register](../research/methodology/bias_register.md) holds the recurring
+The [bias register](methodology/bias_register.md) holds the recurring
 patterns so this is not re-derived per source.
 
 ## 5. Claim IDs
@@ -133,12 +133,12 @@ This is what makes cross-episode consistency mechanical instead of hopeful.
 Source scans, recordings, transcripts, and correspondence are retained in the asset
 store under the source record's ID for the life of the studio plus seven years, or
 per the consent form where a contributor set a shorter term. Restricted material
-follows [../docs/runbook/restricted_records.md](../docs/runbook/restricted_records.md).
+follows [../docs/runbook/restricted_records.md](../../docs/runbook/restricted_records.md).
 
 ## 9. What a researcher does when the evidence runs out
 
 In order:
-1. Record an open question in [../research/open_questions/](../research/open_questions).
+1. Record an open question in [../research/open_questions/](../../templates/records).
 2. Change the register down, not the claim up.
 3. If the sequence cannot survive the honest register, cut the sequence.
 4. Never fill the gap with a plausible reconstruction stated as fact. Never ask a

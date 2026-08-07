@@ -5,8 +5,7 @@ version: "0.1.0"
 core_version: "0.2.0"
 status: active
 owners: [pack-owner, showrunner, research-lead, cultural-advisor]
-updated: 2026-08-07
-
+updated: "2026-08-07"
 summary: >
   Historical documentary made with heavy generative assistance. Factual claims are
   answerable to a source-record chain; imagery is largely reconstructed and always

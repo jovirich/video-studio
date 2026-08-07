@@ -85,7 +85,7 @@ the register has no one competent on a tradition an episode needs, the episode w
   admiring.
 - **Colonial framing.** Colonial-era categories — "tribe", "chief", "primitive",
   "discovery", "pre-history" for periods with rich records — are interrogated, not
-  inherited. See [../standards/prohibited_language.md](../standards/prohibited_language.md).
+  inherited. See [../standards/prohibited_language.md](../../standards/prohibited_language.md).
 - **The corrective trap.** Overclaiming grandeur to counter denigration is still
   overclaiming, and it hands critics an easy target. The defence against a
   distorted record is an accurate one.
@@ -105,7 +105,7 @@ the register has no one competent on a tradition an episode needs, the episode w
 
 ## 8. Consent
 
-Templates in [../templates/legal/](../templates/legal). Every consent record states:
+Templates in [../templates/legal/](../../templates/legal). Every consent record states:
 scope of use, media, territories, duration, whether AI processing is permitted on
 the material, right of review, and right of withdrawal (and what withdrawal can and
 cannot undo after release). Consent obtained without stating the AI processing scope
@@ -115,4 +115,4 @@ is not valid for this studio's purposes.
 
 The sensitivity gate runs at three points: at greenlight (does the premise clear?),
 before generation (do these prompts clear?), and at picture lock (does the cut
-clear?). Checklist: [../ops/checklists/sensitivity_review.md](../ops/checklists/sensitivity_review.md).
+clear?). Checklist: [../ops/checklists/sensitivity_review.md](../../ops/checklists/sensitivity_review.md).

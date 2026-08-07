@@ -80,14 +80,55 @@ makes it feel like what it is.
 
 ## 5. Separation of duties
 
-**No person signs two gates on the same production.**
+The principle: **the most common review failure is not incompetence but proximity.**
+The person who made a thing cannot see it. Every rule below follows from that and
+from nothing else.
 
-This is core, not a pack's choice, and it is the single constraint most likely to be
-quietly abandoned on a small team. It exists because the most common review failure
-is not incompetence but proximity — the person who made the thing cannot see it.
+### 5.1 The binding rule
 
-`studio_ops validate --canon` flags a repeated name across a production's
-signatures. Being flagged is a staffing signal, not a paperwork problem.
+> **A gate is never signed by the person who produced the work it certifies.**
+
+This is core, and no pack may loosen it. It is the rule that makes a signature mean
+something rather than record that someone was satisfied with their own output.
+
+### 5.2 What that does and does not forbid
+
+| Situation | Permitted? |
+|---|---|
+| One person signs two gates that certify *different people's* work | **Yes** |
+| One person signs a gate certifying work they produced | **No** |
+| One person produces the research *and* signs the gate certifying the research | **No** |
+| One person signs every gate on a production | **No** — they produced some of it |
+
+An earlier version of this section read *"no person signs two gates on the same
+production"*. That was a blunt proxy for §5.1 and it was wrong in both directions: it
+forbade a Rights lead from signing both the rights gate and technical QC — neither of
+which certifies their own work — while a role that both produces and checks could
+still satisfy it by holding only one gate. The proxy has been replaced by the
+principle. Recorded in [05_amendment_log.md](05_amendment_log.md).
+
+### 5.3 The producer/checker split inside a role
+
+Where a single role both produces an artefact and owns the gate certifying it, the
+pack must name a **distinct checker**. Two known instances:
+
+| Pack | Gate pair | Problem | Resolution |
+|---|---|---|---|
+| documentary-history | `source_lock` and `fact_check`, both owned by `research-lead` | The researcher certifies their own research pack, then certifies that its claims resolve | The fact-check signatory must be a different person from the researcher who built the pack. Where the line has one research lead, fact-check is signed by an external checker named on the production record. |
+| narrative | `story_bible_lock` and `script_lock`, both `story-producer` | Same shape | The script-lock signatory must not be the author of the locked draft. |
+
+A pack that assigns one role two gates must state, in that gate's `certifies` block
+or `note`, how §5.1 is satisfied. `studio_ops validate --canon` (NOT BUILT) will
+check for a stated resolution, not merely for distinct names.
+
+### 5.4 Minimum distinct signatories
+
+Each pack declares `minimum_distinct_signatories`. This is a **staffing floor**, not
+a restatement of §5.1 — a production can satisfy §5.1 with three people and still be
+under-reviewed if all three sit in the same room every day.
+
+Being flagged for a thin signatory set is a staffing signal, not a paperwork problem.
+The honest response is to bring in an external checker, not to lower the floor.
 
 ## 6. Holds
 

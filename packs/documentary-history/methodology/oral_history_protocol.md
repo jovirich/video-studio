@@ -28,7 +28,7 @@ boundary with the advisor before the conversation, not during it.**
 
 ## 2. Consent
 
-Template: [../../templates/legal/interview_consent.md](../../templates/legal/interview_consent.md).
+Template: [../../templates/legal/interview_consent.md](../../../templates/legal/interview_consent.md).
 
 Must state, in the holder's language:
 
@@ -47,7 +47,7 @@ Must state, in the holder's language:
 
 ## 3. Recording
 
-- Spec per [../../standards/delivery_specs.md](../../standards/delivery_specs.md)
+- Spec per [../../standards/delivery_specs.md](../../../standards/delivery_specs.md)
   § Interview capture. Two recorders, always.
 - Record the **context of transmission**: who taught the holder this, in what
   setting, on what occasions it is normally recounted. This is as much a part of the
@@ -69,7 +69,7 @@ Must state, in the holder's language:
 
 ## 5. Evidentiary handling
 
-Per [../../bible/02_evidence_and_sourcing.md](../../bible/02_evidence_and_sourcing.md) §2.1:
+Per [../../bible/02_evidence_and_sourcing.md](../02_evidence_and_sourcing.md) §2.1:
 
 - T4 material carries the **`traditional`** confidence register with named
   attribution: "In the accounts kept by X…", never "It is said that…".

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://african-history-studio.local/schemas/shot.schema.json",
+  "$id": "https://video-studio.local/schemas/shot.schema.json",
   "title": "Shot",
   "description": "One shot on the shot list. Applies to episodes/<code>/03_storyboard/shots/SHT-*.yaml.",
   "type": "object",

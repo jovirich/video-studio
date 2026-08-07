@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://african-history-studio.local/schemas/prompt_card.schema.json",
+  "$id": "https://video-studio.local/schemas/prompt_card.schema.json",
   "title": "Prompt card",
   "description": "A versioned, reviewable specification for one generated asset. Applies to **/*.prompt.yaml. A prompt card is a record, not a text string — this is what makes generation auditable and repeatable. See prompts/README.md.",
   "type": "object",
@@ -29,7 +29,7 @@
         "vendor":  { "type": "string", "description": "Folder name under prompts/<modality>/, e.g. midjourney, runway, elevenlabs." },
         "model":   { "type": "string" },
         "version": { "type": "string" },
-        "terms_checked": { "$ref": "_common.schema.json#/$defs/isoDate", "description": "When this tool's terms were last verified in sources/permissions/model_terms_register.md." }
+        "terms_checked": { "$ref": "_common.schema.json#/$defs/isoDate", "description": "When this tool's terms were last verified in rights/permissions/model_terms_register.md." }
       },
       "required": ["vendor", "model"],
       "additionalProperties": false

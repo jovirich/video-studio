@@ -8,13 +8,19 @@ pack: narrative
 pack_version: "0.1.0"
 core_version: "0.2.0"
 
+# Checklist bodies live in ops/checklists/, not in this pack. technical_qc is
+# core's universal gate and greenlight, script_lock, sensitivity_review, and
+# picture_audio_lock are shared with other packs; four copies would diverge
+# quietly. Paths below are relative to this file. A pack needing a materially
+# different checklist for a shared key declares a new key rather than editing the
+# shared file. See ops/README.md §2.
 gates:
   - key: greenlight
     title: Greenlight
     owner: showrunner
     stage: 00_brief
     blocks: [02_script]
-    checklist: checklists/greenlight.md
+    checklist: ../../ops/checklists/greenlight.md
     required: true
     certifies: >
       The story has a reason to exist in this form. Where it adapts a source text or
@@ -27,7 +33,7 @@ gates:
     owner: story-producer
     stage: 01_research
     blocks: [02_script]
-    checklist: checklists/story_bible_lock.md
+    checklist: ../../ops/checklists/story_bible_lock.md
     required: true
     certifies: >
       World rules, character canon, timeline, and geography are fixed and internally
@@ -40,7 +46,7 @@ gates:
     owner: story-producer
     stage: 02_script
     blocks: [03_storyboard, 04_prompts, 05_assets]
-    checklist: checklists/script_lock.md
+    checklist: ../../ops/checklists/script_lock.md
     required: true
     certifies: >
       The script is final and consistent with the story bible. Any departure from the
@@ -51,7 +57,7 @@ gates:
     owner: cultural-advisor
     stage: [00_brief, 02_script, 08_review]
     blocks: [05_assets, 09_delivery]
-    checklist: checklists/sensitivity_review.md
+    checklist: ../../ops/checklists/sensitivity_review.md
     required: true
     hold_authority: true
     certifies: >
@@ -64,7 +70,7 @@ gates:
     owner: visual-director
     stage: 04_prompts
     blocks: [05_assets]
-    checklist: checklists/continuity_lock.md
+    checklist: ../../ops/checklists/continuity_lock.md
     required: true
     certifies: >
       Every recurring character has a character anchor set; every recurring location
@@ -77,7 +83,7 @@ gates:
     owner: visual-director
     stage: [06_edit, 07_audio_post]
     blocks: [09_delivery]
-    checklist: checklists/picture_audio_lock.md
+    checklist: ../../ops/checklists/picture_audio_lock.md
     required: true
     certifies: >
       The cut is final. A continuity pass has been run across every recurring element
@@ -89,7 +95,7 @@ gates:
     owner: pipeline-engineer
     stage: 09_delivery
     blocks: [10_publish]
-    checklist: checklists/technical_qc.md
+    checklist: ../../ops/checklists/technical_qc.md
     required: true
     universal: true
     certifies: >

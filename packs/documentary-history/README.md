@@ -48,7 +48,7 @@ numbers stay stable if a document moves between layers.
 |---|---|
 | [methodology/](methodology) | Research protocol, bias register, oral history protocol, AI-in-research rules |
 | [sourcing/](sourcing) | How the source and claim registry works |
-| [checklists/](checklists) | One per gate |
+| [`ops/checklists/`](../../ops/checklists) | The gate checklists. They live at platform level, not in this pack: `technical_qc` and `rights` are required by core in *every* pack, and four copies would diverge quietly, leaving no single body to verify a platform guarantee against. |
 | [gates.yaml](gates.yaml) | The nine-gate set |
 
 Registers of actual records — sources, claims, questions, entities — live at the

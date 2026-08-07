@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://african-history-studio.local/schemas/asset_manifest.schema.json",
+  "$id": "https://video-studio.local/schemas/asset_manifest.schema.json",
   "title": "Asset manifest",
   "description": "The episode's provenance ledger. Every asset that reaches the edit appears here — generated or not. An asset absent from the manifest cannot be conformed. Applies to episodes/<code>/manifest.yaml. See bible/06 §4.",
   "type": "object",

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://african-history-studio.local/schemas/claim.schema.json",
+  "$id": "https://video-studio.local/schemas/claim.schema.json",
   "title": "Claim",
   "description": "One factual statement, its confidence register, and its evidence. Applies to sources/registry/claims/CLM-*.yaml. Scripts reference claims; they do not contain facts. See bible/02 §1.",
   "type": "object",

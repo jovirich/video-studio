@@ -31,7 +31,7 @@ geography.
 | | |
 |---|---|
 | Line 01 | **Nigeria** — `productions/ng-nigeria/` |
-| Future lines | Opened by decision of the Showrunner. Candidate lines are held in [../productions/README.md](../productions/README.md) § Candidate lines. |
+| Future lines | Opened by decision of the Showrunner. Candidate lines are held in [../productions/README.md](../lines/README.md) § Candidate lines. |
 
 A production line is opened when three conditions hold, not before:
 1. A named research lead with domain competence has agreed to own it.
@@ -46,7 +46,7 @@ insults the people it claims to honour.
 
 `TBD — Showrunner.` Define at least: primary audience, assumed prior knowledge,
 and the reading age of the narration. These three drive nearly every downstream
-decision in [03_narrative_doctrine.md](03_narrative_doctrine.md).
+decision in [03_narrative_doctrine.md](../../../packs/documentary-history/03_narrative_doctrine.md).
 
 Whatever is chosen, one constraint is fixed: **the work must be legible and
 non-condescending to an audience from the region it depicts.** A documentary about
@@ -71,7 +71,7 @@ regardless of its viewing figures.
   organising purpose.
 - **Not a synthetic-archive operation.** We generate imagery. We never present
   generated imagery as recovered evidence. See
-  [06_ai_disclosure_and_ethics.md](06_ai_disclosure_and_ethics.md).
+  [06_ai_disclosure_and_ethics.md](../../../core/01_provenance_and_ai_disclosure.md).
 - **Not a single-narrative studio.** Where historians disagree, the disagreement is
   the content, not an obstacle to it.
 
@@ -82,12 +82,12 @@ advisors, and institutional lenders may advise; none may compel a change to a
 factual claim or its framing.
 
 Where an archive grants access on condition of editorial input, that condition is
-recorded in [../sources/permissions/clearance_log.md](../sources/permissions/clearance_log.md)
+recorded in [../sources/permissions/clearance_log.md](../../../rights/permissions/clearance_log.md)
 and disclosed on screen. If the condition cannot be disclosed, the material is not
 used.
 
 The Cultural Advisor is the one exception to unilateral Showrunner authority: an
-advisory hold under [07_cultural_sensitivity.md](07_cultural_sensitivity.md) §4
+advisory hold under [07_cultural_sensitivity.md](../../../packs/documentary-history/07_cultural_sensitivity.md) §4
 cannot be overridden by the Showrunner alone. It requires a documented ruling.
 
 ## 7. Standing commitments
@@ -97,7 +97,7 @@ These are binding and are enforced by review gates:
 1. **Every factual claim is traceable to a source record.**
 2. **Every generated asset is labelled and logged.**
 3. **Errors are corrected publicly and permanently**, per
-   [01_editorial_standards.md](01_editorial_standards.md) §4.
+   [01_editorial_standards.md](../../../packs/documentary-history/01_editorial_standards.md) §4.
 4. **Regional scholars and knowledge holders are credited by name and paid.**
    Consultation is labour, not a favour.
 5. **Nothing sacred is depicted on the studio's own judgement.**
@@ -114,4 +114,4 @@ for a second season.
 
 This charter is reviewed at the close of each season and on the opening of each new
 production line. Changes go through the amendment process in
-[README.md](README.md) § How to change the Bible.
+[README.md](../../../packs/documentary-history/README.md) § How to change the Bible.

@@ -5,8 +5,7 @@ version: "0.1.0"
 core_version: "0.2.0"
 status: draft
 owners: [pack-owner]
-updated: 2026-08-07
-
+updated: "2026-08-07"
 summary: >
   Video about a product, service, or company the studio controls. The risk is not
   inventing history but claiming something untrue about the product — so claims are
@@ -23,7 +22,7 @@ suited_to:
 
 not_suited_to:
   - Comparative advertising against named competitors — jurisdictional rules apply
-  - Regulated categories: financial products, health claims, children's advertising
+  - "Regulated categories: financial products, health claims, children's advertising"
   - Factual content about the world, which needs documentary-history's evidence chain
   - Sponsored or influencer content, which has its own disclosure obligations
 

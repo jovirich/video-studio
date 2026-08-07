@@ -39,6 +39,26 @@ and never renumbered. A deleted record keeps its ID as a tombstone.
 | `ADV` | Advisory ruling | line | `ADV-NG-0004` |
 | `COR` | Correction | line | `COR-NG-0002` |
 | `STA` | Style anchor | line or studio | `STA-NG-0006` |
+| `RSK` | Risk register entry | platform, studio, or line | `RSK-PLAT-0001` |
+
+## Pack-scoped types
+
+A canon pack may declare record types the platform set does not have. Their prefixes
+are registered here so they cannot collide, but they are only valid under a studio
+running that pack.
+
+| Code | Entity | Pack | Example |
+|---|---|---|---|
+| `PCL` | Product claim | product-marketing | `PCL-GFT-0014` |
+| `WRL` | World rule | narrative | `WRL-BIB-0003` |
+| `SCH` | Story character | narrative | `SCH-BIB-0021` |
+| `RES` | Variant resolution | narrative | `RES-BIB-0007` |
+| `GRM` | Garment | fashion-film | `GRM-XXX-0042` |
+| `DSR` | Design source | fashion-film | `DSR-XXX-0009` |
+
+A pack that needs a new prefix registers it here in the same pull request that
+declares it in `pack.yaml`. Two packs may not claim the same prefix — that is the
+only reason this table lives at platform level rather than in each pack.
 
 ## Allocation
 

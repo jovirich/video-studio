@@ -39,7 +39,7 @@ Deliver and archive:
 | Caption files | SRT + VTT, per language |
 | Stems | VO, testimony, music, ambience, SFX, M&E |
 | Provenance manifest | `manifest.yaml` for the episode |
-| Chain of title | Assembled per [08_rights_and_licensing.md](08_rights_and_licensing.md) §8 |
+| Chain of title | Assembled per [08_rights_and_licensing.md](02_rights_and_licensing.md) §8 |
 
 Masters live in the asset store, not in git. Path convention in
 [../docs/runbook/asset_storage.md](../docs/runbook/asset_storage.md).
@@ -56,7 +56,7 @@ Masters live in the asset store, not in git. Path convention in
 
 - Titles state the subject honestly. Curiosity gaps are permitted; misdirection is
   not. A title implying a claim the episode does not make is an accuracy failure
-  under [01_editorial_standards.md](01_editorial_standards.md) §1.
+  under [01_editorial_standards.md](../packs/documentary-history/01_editorial_standards.md) §1.
 - Thumbnails follow the system in [../brand/thumbnail_system.md](../studios/african-history/brand/thumbnail_system.md).
   **A thumbnail using generated imagery carries the same honesty standard as the
   episode** — it may not depict something the episode shows to be false, and it may

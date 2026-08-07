@@ -15,7 +15,7 @@ because audiences interrogate images and absorb sound.
 
 | | |
 |---|---|
-| Casting | `TBD per line.` The Nigeria line's position on accent, gender, and register is set in [../productions/ng-nigeria/languages/voice_policy.md](../productions/ng-nigeria/languages/voice_policy.md). |
+| Casting | `TBD per line.` The Nigeria line's position on accent, gender, and register is set in [../productions/ng-nigeria/languages/voice_policy.md](../../studios/african-history/lines/ng-nigeria/languages/voice_policy.md). |
 | Human or synthetic | Both permitted. If synthetic, the voice is licensed from a consenting, compensated human whose agreement covers this use, and the credit names them. |
 | Disclosure | Where narration is synthetic, the credits state it plainly. Not in six-point type. |
 | Pace | 145–165 wpm. Slower for dense passages; the script marks them. |
@@ -33,7 +33,7 @@ because audiences interrogate images and absorb sound.
 
 ## 3. Interview and testimony audio
 
-- Recorded to the spec in [../standards/delivery_specs.md](../standards/delivery_specs.md) §Audio.
+- Recorded to the spec in [../standards/delivery_specs.md](../../standards/delivery_specs.md) §Audio.
 - Never re-timed, pitch-shifted, or "cleaned" in a way that changes meaning. Noise
   reduction and level correction only; anything further is logged on the asset.
 - Edits within a testimony answer are marked visually (a cut, not a seamless
@@ -96,7 +96,7 @@ localisation deal appears, costs more than producing it correctly the first time
 
 ## 9. Sound QC checklist
 
-Enforced at audio lock via [../ops/checklists/audio_lock.md](../ops/checklists/audio_lock.md):
+Enforced at audio lock via [../ops/checklists/audio_lock.md](../../ops/checklists/audio_lock.md):
 
 - [ ] Every proper noun pronounced per the VO record sheet
 - [ ] No synthesised voice of a real or historical person

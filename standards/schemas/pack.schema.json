@@ -1,0 +1,232 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://video-studio.local/schemas/pack.schema.json",
+  "title": "Canon pack",
+  "description": "The identity record for a genre canon pack. Applies to packs/<code>/pack.yaml. A pack supplies what core deliberately omits — evidence standards, narrative doctrine, visual and sonic language, sensitivity procedure, localisation, and the gate set — and a studio declares exactly one. This record is therefore the contract between a genre's rulebook and every studio that adopts it: it names the core version the pack targets, the documents that constitute it, the record types it demands, and the decisions a studio must make before its first greenlight. See packs/README.md and CONTRIBUTING.md § Which layer does your change belong to?",
+  "type": "object",
+  "properties": {
+    "type": {
+      "const": "canon_pack",
+      "description": "Routes this file to this schema when it is not named pack.yaml, and makes the record self-describing when it is read out of context."
+    },
+
+    "code": {
+      "$ref": "#/$defs/kebabOrTbd",
+      "description": "The pack's directory name under packs/, and the value a studio.yaml writes in its `pack` field. Kebab-case. Permanent: a studio pins it, so renaming a pack orphans every studio that declared it."
+    },
+
+    "title": {
+      "type": "string",
+      "description": "Human-readable name. Appears in the pack index and in any report that names which canon a production was held to."
+    },
+
+    "version": {
+      "$ref": "_common.schema.json#/$defs/semver",
+      "description": "Packs are semver'd independently of core. MAJOR means existing productions must be re-reviewed; a studio pins this in studio.yaml and a major upgrade mid-season is refused by the scaffolder. See packs/README.md § Versioning."
+    },
+
+    "core_version": {
+      "$ref": "_common.schema.json#/$defs/semver",
+      "description": "The core canon version this pack was written against. Without it there is no way to tell whether a pack predates a core amendment that would change it — and since a pack may tighten core but never loosen it, that question has to be answerable."
+    },
+
+    "status": {
+      "type": "string",
+      "enum": ["draft", "active", "deprecated"],
+      "description": "Lifecycle of the pack itself, not of any record it governs. Only 'active' should be adopted by a studio intending to ship. 'deprecated' keeps the pack readable for productions already made under it — packs are never deleted, because a delivered production's canon must remain inspectable."
+    },
+
+    "owners": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/packOwner" },
+      "minItems": 1,
+      "description": "Roles accountable for this pack's content. Roles, never names — a pack outlives the people who wrote it. See standards/metadata_spec.md § Anti-patterns."
+    },
+
+    "updated": {
+      "$ref": "#/$defs/yamlDate",
+      "description": "When the pack was last substantively changed. Read against core_version: a pack whose core moved after this date has not been reconciled."
+    },
+
+    "summary": {
+      "type": "string",
+      "description": "One paragraph: what kind of work this governs and what makes it distinct. Read by anyone choosing a pack, which is a decision made once and expensive to reverse."
+    },
+
+    "suited_to": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Kinds of work this pack is for."
+    },
+
+    "not_suited_to": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Kinds of work this pack is NOT for, and ideally which pack is. Required, and required to be non-empty, because it prevents misuse far more effectively than suited_to does: the failure mode is a studio adopting a nearly-right pack, not a studio finding no pack at all. Forcing a brand film through an evidence chain produces theatre; letting a history documentary skip one produces something worse."
+    },
+
+    "documents": {
+      "type": "array",
+      "minItems": 1,
+      "description": "The canon documents that constitute this pack. A pack with three documents is a legitimate pack — only the ones the genre actually needs. Every entry must resolve to a file in the pack directory; studio_ops checks that, this schema only checks the shape.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "pattern": "^([0-9]{2}_[a-z0-9_-]+\\.md|TBD)$",
+            "description": "Filename relative to the pack directory. The NN_ prefix is load-bearing: it slots the document into the shared numbering so a reader moving between packs finds comparable material at comparable numbers."
+          },
+          "title": { "type": "string" },
+          "owner": {
+            "$ref": "#/$defs/ownerOrOwners",
+            "description": "The role accountable for this document's content. A string, or an array where two roles genuinely share it — cultural sensitivity and adaptation are the recurring cases. A committee is not an owner; two named roles are the practical limit."
+          }
+        },
+        "required": ["file", "title", "owner"],
+        "additionalProperties": false
+      }
+    },
+
+    "methodology": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Working protocols the pack ships: research method, bias register, oral-history protocol, and similar. Distinct from `documents` because these are how the work is done rather than what it must satisfy — they are guidance a contributor follows, not rules a gate checks. Paths relative to the pack directory. May be empty; many genres need none."
+    },
+
+    "gates_file": {
+      "type": "string",
+      "description": "Path, relative to the pack directory, to the gate set. A production cannot be created without a pack, so declaring the gate set here is what guarantees no production ever has an undefined one. See core/04_review_gate_framework.md §3."
+    },
+
+    "required_record_types": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*$"
+      },
+      "uniqueItems": true,
+      "description": "Record types this pack requires beyond the platform set. Snake_case, matching the `type` field the records themselves carry. Empty is legal and common — a genre that needs no extra record types is not an incomplete pack."
+    },
+
+    "record_extensions": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Additional constraints this pack places on platform record types, keyed by record type. Deliberately open: the platform cannot enumerate what a future genre will need to add, and closing this object would mean every new pack requires a schema change here — which is precisely the coupling the pack layer exists to avoid. The cost is that a typo in a key is not caught; studio_ops is where that check belongs, because only it knows which record types exist."
+    },
+
+    "line_opening_conditions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*$"
+      },
+      "uniqueItems": true,
+      "description": "Conditions a production line must satisfy before it may open under this pack. Each key corresponds to a boolean in the line record's `opening_conditions` block (production_line.schema.json), which is what makes the condition mechanically checkable rather than aspirational. May be empty."
+    },
+
+    "studio_must_decide": {
+      "type": "array",
+      "description": "Decisions a studio adopting this pack must make before its first greenlight. studio_ops refuses to greenlight while any is unresolved. Use it for the choices that are cheap now and expensive to change after episode one — a decision deferred past the first production is a decision made by accident.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "description": "Stable identifier. A studio's decisions[] entry uses the same key, which is how studio_ops matches the pack's requirement to the studio's answer. Renaming it silently unresolves the decision in every studio that had answered it."
+          },
+          "doc": {
+            "type": "string",
+            "description": "The pack document that frames the decision. Relative to the pack directory."
+          },
+          "section": {
+            "type": "string",
+            "description": "Section number within that document, as a string — quote it in YAML, or '4' becomes an integer and '4.1' does not. Required because sending a studio to read a whole document to find one decision is how the decision gets deferred."
+          },
+          "note": {
+            "type": "string",
+            "description": "What the decision turns on, and the default position pending a decision if the pack has one. Optional, but the entries that carry it are the ones most likely to be made well."
+          },
+          "owner": {
+            "$ref": "#/$defs/ownerOrOwners",
+            "description": "The role the pack expects to own this decision at the studio. Advisory: the studio's own decisions[] entry is authoritative, since only the studio knows its staffing."
+          }
+        },
+        "required": ["key", "doc", "section"],
+        "additionalProperties": false
+      }
+    }
+  },
+
+  "required": [
+    "type", "code", "title", "version", "core_version", "status", "owners",
+    "updated", "summary", "suited_to", "not_suited_to", "documents", "gates_file"
+  ],
+
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "active" } }, "required": ["status"] },
+      "then": {
+        "properties": {
+          "code":  { "not": { "type": "string", "pattern": "^TBD" } },
+          "title": { "not": { "type": "string", "pattern": "^TBD" } },
+          "summary": { "not": { "type": "string", "pattern": "^TBD" } },
+          "updated": { "not": { "type": "string", "pattern": "^TBD" } },
+          "documents": {
+            "items": {
+              "properties": {
+                "file":  { "not": { "const": "TBD" } },
+                "title": { "not": { "type": "string", "pattern": "^TBD" } },
+                "owner": { "not": { "const": "TBD" } }
+              }
+            }
+          }
+        },
+        "description": "TBD is legal while a pack is being written and illegal once it is active, on the same principle as standards/README.md § Design principles item 2: scaffolding may exist, invented placeholders may not. An active pack is one a studio may pin, and a studio cannot pin a document whose filename is still TBD."
+      }
+    }
+  ],
+
+  "additionalProperties": false,
+
+  "$defs": {
+    "kebabOrTbd": {
+      "type": "string",
+      "pattern": "^([a-z][a-z0-9]*(-[a-z0-9]+)*|TBD)$",
+      "description": "Kebab-case identifier, or the literal TBD while the pack is a draft."
+    },
+
+    "packOwner": {
+      "description": "A role slug. Widens _common.schema.json#/$defs/roleSlug with the two platform-level roles that enum does not contain — 'pack-owner' (used by every pack in the repository) and 'platform-owner' (used in core and docs front matter). Widening it here rather than editing _common is deliberate: _common's roleSlug is the production-role vocabulary, and quietly adding governance roles to it would let them appear as owners of shots and claim records. The right long-term fix is a separate governanceRole def in _common; until then this local widening is the honest version and is recorded as a finding.",
+      "anyOf": [
+        { "$ref": "_common.schema.json#/$defs/roleSlug" },
+        { "type": "string", "enum": ["pack-owner", "platform-owner"] }
+      ]
+    },
+
+    "ownerOrOwners": {
+      "description": "One role, or two or more sharing accountability. Accepts the literal TBD so a pack skeleton validates before its owners are assigned.",
+      "anyOf": [
+        { "$ref": "#/$defs/packOwner" },
+        { "type": "string", "const": "TBD" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/$defs/packOwner" },
+          "minItems": 1
+        }
+      ]
+    },
+
+    "yamlDate": {
+      "description": "An ISO date, the literal TBD, or a YAML timestamp. The third branch exists because PyYAML resolves an unquoted 2026-08-07 to a Python date object rather than a string, so a plain string type here would reject every pack.yaml in the repository — all of which write the date unquoted. `not: {type: [...the six JSON types...]}` matches exactly that non-JSON value and nothing else. Quoting the date in YAML makes the first branch apply and the ISO pattern actually enforceable, which is strictly better and is a finding against the existing files rather than a limitation of this schema.",
+      "anyOf": [
+        { "$ref": "_common.schema.json#/$defs/isoDate" },
+        { "type": "string", "pattern": "^TBD" },
+        { "not": { "type": ["null", "boolean", "object", "array", "number", "string"] } }
+      ]
+    }
+  }
+}

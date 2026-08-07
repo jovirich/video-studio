@@ -5,8 +5,7 @@ version: "0.1.0"
 core_version: "0.2.0"
 status: draft
 owners: [pack-owner]
-updated: 2026-08-07
-
+updated: "2026-08-07"
 summary: >
   Story-driven work where depiction is the point: original fiction, adaptation,
   scripture-based and mythological narrative, dramatised anthology. The characteristic
@@ -41,6 +40,14 @@ required_record_types:
   - story_location
   - world_rule           # what is true in this world, and what is not
   - continuity_note
+  # story_bible_lock certifies that contradictions between source variants are
+  # "resolved deliberately, and the resolution is recorded". Without a record type
+  # the gate certifies something with nowhere to live. Defined in 05_story_bible.md §6.
+  - variant_resolution
+  # setting_evidence_threshold at L2 or above requires source records. A pack cannot
+  # inherit documentary-history's record types by declaring a threshold, so either
+  # this is declared here or the threshold is unimplementable above L1.
+  - source
 
 record_extensions:
   prompt_card:

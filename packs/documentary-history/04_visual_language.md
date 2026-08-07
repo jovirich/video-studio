@@ -11,7 +11,7 @@ owners: [visual-director]
 > **Fill state.** The *rules* below are studio policy. The *look* — palette, grade,
 > lens character — is `TBD` per production line and is specified in each line's
 > `style/` folder. A single continental look would be a mistake; Nigeria's line
-> defines its own in [../productions/ng-nigeria/style/visual_identity.md](../productions/ng-nigeria/style/visual_identity.md).
+> defines its own in [../productions/ng-nigeria/style/visual_identity.md](../../studios/african-history/lines/ng-nigeria/style/visual_identity.md).
 
 ## 1. The consistency problem
 
@@ -29,7 +29,7 @@ The studio solves this with three mechanisms, in order of authority:
    prompt card. Not "a vibe" — specific files with checksums.
 3. **Prompt inheritance** — every prompt card inherits a `style_block` from its
    sequence, which inherits from the line. A prompt card that overrides the style
-   block must say why. See [../prompts/README.md](../prompts/README.md) § Inheritance.
+   block must say why. See [../prompts/README.md](../../prompts/README.md) § Inheritance.
 
 ## 2. Camera grammar
 
@@ -38,7 +38,7 @@ if a physical crew shot it is what separates cinematic from generated-looking.
 
 | Element | Studio default |
 |---|---|
-| Format | 2K/4K UHD delivery, 16:9 primary. See [10_distribution_and_formats.md](10_distribution_and_formats.md). |
+| Format | 2K/4K UHD delivery, 16:9 primary. See [10_distribution_and_formats.md](../../core/03_distribution_and_formats.md). |
 | Aspect discipline | One aspect ratio per episode body. Ratio changes are a deliberate device (e.g. archival inserts), never an artefact of tool defaults. |
 | Frame rate | 24 fps for the documentary body. Generated clips are produced at native rate then conformed; conform method recorded on the asset. |
 | Motion | Motivated only. A drifting camera on every shot is the signature tell of generated video. Roughly one third of shots should be locked. |
@@ -61,7 +61,7 @@ if a physical crew shot it is what separates cinematic from generated-looking.
 | | |
 |---|---|
 | Working space | `TBD` — recommend Rec.709 / Gamma 2.4 for a 709 deliverable, ACEScct if HDR is in scope |
-| Delivery | Rec.709, 100 nit reference, per [../standards/delivery_specs.md](../standards/delivery_specs.md) |
+| Delivery | Rec.709, 100 nit reference, per [../standards/delivery_specs.md](../../standards/delivery_specs.md) |
 | Grade | One show LUT per line, in `library/luts/`, versioned. Shot-level grading works *under* the show LUT, never around it. |
 | Palette | `TBD per line`. Define a primary, a secondary, and one accent reserved for a specific narrative function. |
 | Skin tone | The single most common failure in generated imagery and in grading. The line's style doc must state the skin-tone rendering intent explicitly, and the QC pass checks it on every shot with people. Do not let a show LUT crush or desaturate skin. |
@@ -104,7 +104,7 @@ Every generated shot is labelled. The studio uses three simultaneous layers:
 
 1. **In-frame** — a persistent, unobtrusive corner mark reading `RECONSTRUCTION` (or
    the line's localised equivalent) for the duration of any `reconstruction` or
-   `interpretive` shot. Design spec in [../brand/labelling_system.md](../brand/labelling_system.md).
+   `interpretive` shot. Design spec in [../brand/labelling_system.md](../../studios/african-history/brand/labelling_system.md).
 2. **Sequence-level** — a full card at the first reconstruction of each episode
    explaining what the mark means, and a statement in the credits.
 3. **Metadata** — C2PA/Content Credentials on delivery where the platform supports
@@ -120,12 +120,12 @@ material they are told is real.
 - Modern national borders are never drawn over pre-colonial periods without an
   explicit on-screen note that they are a modern overlay for orientation.
 - Every map cites its geographic and historical sources.
-- Data graphics follow [../standards/data_graphics.md](../standards/data_graphics.md):
+- Data graphics follow [../standards/data_graphics.md](../../standards/data_graphics.md):
   no truncated axes, uncertainty shown, source and date in the frame.
 
 ## 9. Typography
 
-`TBD per line`, specified in [../brand/](../brand). Constraints: one display face,
+`TBD per line`, specified in [../brand/](../../studios/african-history/brand). Constraints: one display face,
 one text face, both licensed for broadcast and for the delivery territories; full
 diacritic coverage for every language the line uses (see
 [09_localization.md](09_localization.md) §2 — this eliminates most fonts, so choose
@@ -133,7 +133,7 @@ before designing).
 
 ## 10. QC checklist for every generated shot
 
-Enforced at picture lock via [../ops/checklists/picture_lock.md](../ops/checklists/picture_lock.md):
+Enforced at picture lock via [../ops/checklists/picture_lock.md](../../ops/checklists/picture_lock.md):
 
 - [ ] Anatomy: hands, limbs, eyes, count of people consistent across the shot
 - [ ] Text in frame: no garbled pseudo-script; any lettering is deliberate and correct

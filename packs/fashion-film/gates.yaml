@@ -7,13 +7,19 @@ pack: fashion-film
 pack_version: "0.1.0"
 core_version: "0.2.0"
 
+# Checklist bodies live in ops/checklists/, not in this pack. technical_qc is
+# core's universal gate and brief_approval, stakeholder_approval, and
+# picture_audio_lock are shared with other packs; four copies would diverge
+# quietly. Paths below are relative to this file. A pack needing a materially
+# different checklist for a shared key declares a new key rather than editing the
+# shared file. See ops/README.md §2.
 gates:
   - key: brief_approval
     title: Brief approval
     owner: showrunner
     stage: 00_brief
     blocks: [02_script]
-    checklist: checklists/brief_approval.md
+    checklist: ../../ops/checklists/brief_approval.md
     required: true
     certifies: >
       Collection, season, audience, and the single idea the film carries are agreed.
@@ -22,22 +28,27 @@ gates:
   - key: garment_verification
     title: Garment verification
     owner: visual-director
-    stage: 08_review
-    blocks: [09_delivery]
-    checklist: checklists/garment_verification.md
+    stage: [04_prompts, 08_review]
+    blocks: [05_assets, 09_delivery]
+    checklist: ../../ops/checklists/garment_verification.md
     required: true
     certifies: >
-      Every garment appearing in a deliverable exists physically and has a reference
-      capture on file. Generated imagery has been compared against that reference for
-      colour, texture, drape, closure, and finish. Nothing shown is a property the
-      garment does not have.
+      At 04_prompts: every garment the production will depict has a reference capture
+      on file. At 08_review: generated imagery has been compared against that
+      reference for colour, texture, drape, closure, and finish, and nothing shown is
+      a property the garment does not have.
+    note: >
+      Runs twice, and the first pass is the one that saves money. Reference capture
+      cannot be retrofitted — that is why it is a line-opening condition — so a
+      review-only gate lets a production generate a full campaign against a garment
+      that was never captured and discover it at review.
 
   - key: representation_review
     title: Representation review
     owner: cultural-advisor
     stage: [04_prompts, 08_review]
     blocks: [05_assets, 09_delivery]
-    checklist: checklists/representation_review.md
+    checklist: ../../ops/checklists/representation_review.md
     required: true
     hold_authority: true
     certifies: >
@@ -52,7 +63,7 @@ gates:
     owner: showrunner
     stage: 08_review
     blocks: [09_delivery]
-    checklist: checklists/stakeholder_approval.md
+    checklist: ../../ops/checklists/stakeholder_approval.md
     required: true
     certifies: >
       Designer and brand owner have seen and signed this specific version. Model
@@ -63,7 +74,7 @@ gates:
     owner: visual-director
     stage: [06_edit, 07_audio_post]
     blocks: [09_delivery]
-    checklist: checklists/picture_audio_lock.md
+    checklist: ../../ops/checklists/picture_audio_lock.md
     required: true
     certifies: >
       The cut is final. Colour is accurate to the physical garments under the show
@@ -75,7 +86,7 @@ gates:
     owner: pipeline-engineer
     stage: 09_delivery
     blocks: [10_publish]
-    checklist: checklists/technical_qc.md
+    checklist: ../../ops/checklists/technical_qc.md
     required: true
     universal: true
     certifies: >

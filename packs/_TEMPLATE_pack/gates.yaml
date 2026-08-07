@@ -8,6 +8,12 @@
 #
 # Delete the example and write your own. Do not inherit another pack's gates
 # because they look thorough.
+#
+# Checklist BODIES live in ops/checklists/, never inside a pack. Shared keys
+# (technical_qc, rights_gate, brief_approval, ...) are written once so a platform
+# guarantee has one body to verify against. If your pack needs a materially
+# different checklist for a shared key, declare a NEW key rather than editing the
+# shared file. Paths below are relative to this file.
 
 pack: TBD
 pack_version: "0.1.0"
@@ -20,7 +26,7 @@ gates:
     owner: TBD                      # role slug from ops/roles.md
     stage: 00_brief                 # pipeline stage, or a list of stages
     blocks: [01_research]           # what cannot proceed until signed
-    checklist: checklists/example_gate.md
+    checklist: ../../ops/checklists/example_gate.md   # create it there, not here
     required: true
     hold_authority: false           # true if this owner can freeze work platform-wide
     certifies: >
@@ -33,7 +39,7 @@ gates:
     owner: pipeline-engineer
     stage: 09_delivery
     blocks: [10_publish]
-    checklist: checklists/technical_qc.md
+    checklist: ../../ops/checklists/technical_qc.md
     required: true
     universal: true
     certifies: >

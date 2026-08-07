@@ -8,13 +8,19 @@ pack: documentary-history
 pack_version: "0.1.0"
 core_version: "0.2.0"
 
+# Checklist bodies live in ops/checklists/, not in this pack. Two gates —
+# technical_qc and rights — are required by core in every pack, and four packs
+# carrying four copies of them would diverge quietly, leaving no single body to
+# verify a platform guarantee against. Paths below are relative to this file.
+# A pack needing a materially different checklist for a shared key declares a new
+# key rather than editing the shared file. See ops/README.md §2.
 gates:
   - key: greenlight
     title: Greenlight
     owner: showrunner
     stage: 00_brief
     blocks: [01_research]
-    checklist: checklists/greenlight.md
+    checklist: ../../ops/checklists/greenlight.md
     required: true
     certifies: >
       The production has a question with stakes, falls inside the line's advisory
@@ -26,7 +32,7 @@ gates:
     owner: research-lead
     stage: 01_research
     blocks: [02_script]
-    checklist: checklists/source_lock.md
+    checklist: ../../ops/checklists/source_lock.md
     required: true
     certifies: >
       Every claim the outline requires exists at its required tier, independence has
@@ -38,7 +44,7 @@ gates:
     owner: story-producer
     stage: 02_script
     blocks: [03_storyboard, 04_prompts, 05_assets]
-    checklist: checklists/script_lock.md
+    checklist: ../../ops/checklists/script_lock.md
     required: true
     certifies: >
       The narration and shooting script are final, every factual statement carries a
@@ -53,7 +59,7 @@ gates:
     owner: research-lead
     stage: 08_review
     blocks: [picture_lock, 09_delivery]
-    checklist: checklists/fact_check.md
+    checklist: ../../ops/checklists/fact_check.md
     required: true
     certifies: >
       Every claim referenced in the locked script resolves to a claim record at the
@@ -65,7 +71,7 @@ gates:
     owner: cultural-advisor
     stage: [00_brief, 04_prompts, 08_review]
     blocks: [05_assets, 09_delivery]
-    checklist: checklists/sensitivity_review.md
+    checklist: ../../ops/checklists/sensitivity_review.md
     required: true
     hold_authority: true
     certifies: >
@@ -82,7 +88,7 @@ gates:
     owner: rights-and-clearances
     stage: [08_review, 09_delivery]
     blocks: [09_delivery]
-    checklist: checklists/rights_gate.md
+    checklist: ../../ops/checklists/rights_gate.md
     required: true
     certifies: >
       Every asset in the manifest has a rights status other than 'pending'; model
@@ -94,7 +100,7 @@ gates:
     owner: visual-director
     stage: 06_edit
     blocks: [07_audio_post, 09_delivery]
-    checklist: checklists/picture_lock.md
+    checklist: ../../ops/checklists/picture_lock.md
     required: true
     certifies: >
       The cut is final. Every generated shot passed anatomy, anachronism, light
@@ -106,7 +112,7 @@ gates:
     owner: audio-lead
     stage: 07_audio_post
     blocks: [09_delivery]
-    checklist: checklists/audio_lock.md
+    checklist: ../../ops/checklists/audio_lock.md
     required: true
     certifies: >
       Loudness and true-peak targets met, all stems rendered including M&E, every
@@ -118,7 +124,7 @@ gates:
     owner: pipeline-engineer
     stage: 09_delivery
     blocks: [10_publish]
-    checklist: checklists/technical_qc.md
+    checklist: ../../ops/checklists/technical_qc.md
     required: true
     universal: true
     certifies: >

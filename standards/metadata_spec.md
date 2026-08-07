@@ -86,7 +86,7 @@ gate_blocking: script-lock | none
 | `id` | string | Must match [id_system.md](id_system.md). Immutable. |
 | `type` | enum | One of the schema types in [README.md](README.md) § Schema index |
 | `line` | string | Production line code, or `studio` |
-| `status` | enum | `draft`, `review`, `locked`, `superseded`, `retracted` |
+| `status` | enum | **Records:** `draft`, `review`, `locked`, `superseded`, `retracted`. **Standing documents** (canon, standards, ops, docs — things that are maintained rather than signed off): `active`, `template`, `deprecated`. The two vocabularies are separate because a record moves toward a signature and a standing document never does. |
 | `version` | semver | Bump minor on substantive change, patch on correction |
 | `updated` | date | ISO. Set by the toolkit on write, not by hand. |
 | `owners` | list | Role slugs from [../ops/roles.md](../ops/roles.md), not names — people change roles |

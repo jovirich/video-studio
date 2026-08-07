@@ -17,7 +17,7 @@ read — correctly — as evidence that nobody from the place was in the room.
 Primary production language: `TBD — Showrunner.` For the Nigeria line the working
 assumption is English narration with substantial Nigerian-language content in
 testimony, quotation, and naming; the line's position is set in
-[../productions/ng-nigeria/languages/README.md](../productions/ng-nigeria/languages/README.md).
+[../productions/ng-nigeria/languages/README.md](../../studios/african-history/lines/ng-nigeria/languages/README.md).
 
 ## 2. Orthography
 
@@ -71,7 +71,7 @@ a different word. Treat it as a factual error, because it is one.
 - Non-production-language speech is subtitled, with the language named on first
   appearance.
 - Subtitle style: max 2 lines, 42 characters per line, 1–7 second duration,
-  reading speed ≤ 20 cps. Spec in [../standards/delivery_specs.md](../standards/delivery_specs.md).
+  reading speed ≤ 20 cps. Spec in [../standards/delivery_specs.md](../../standards/delivery_specs.md).
 - Formats: SRT and VTT minimum; TTML where the platform requires styled captions.
 - Translated subtitles are produced by a human translator or human-reviewed; machine
   drafts are permitted as a first pass and are always reviewed. The translator is

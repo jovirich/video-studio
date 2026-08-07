@@ -1,13 +1,19 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://african-history-studio.local/schemas/_common.schema.json",
+  "$id": "https://video-studio.local/schemas/_common.schema.json",
   "title": "Common definitions",
   "description": "Shared field definitions referenced by every other schema. Never validated directly.",
   "$defs": {
     "recordStatus": {
       "type": "string",
-      "enum": ["draft", "review", "locked", "superseded", "retracted"],
-      "description": "See standards/id_system.md § Lifecycle states."
+      "enum": [
+        "draft",
+        "review",
+        "locked",
+        "superseded",
+        "retracted"
+      ],
+      "description": "See standards/id_system.md \u00a7 Lifecycle states."
     },
     "semver": {
       "type": "string",
@@ -20,7 +26,11 @@
     "lineCode": {
       "type": "string",
       "pattern": "^([a-z]{2}-[a-z-]+|studio)$",
-      "examples": ["ng-nigeria", "gh-ghana", "studio"]
+      "examples": [
+        "ng-nigeria",
+        "gh-ghana",
+        "studio"
+      ]
     },
     "episodeCode": {
       "type": "string",
@@ -29,113 +39,348 @@
     "roleSlug": {
       "type": "string",
       "enum": [
-        "showrunner", "research-lead", "story-producer", "visual-director",
-        "audio-lead", "rights-and-clearances", "cultural-advisor",
-        "pipeline-engineer", "editor", "composer", "translator", "advisor"
-      ]
+        "showrunner",
+        "research-lead",
+        "story-producer",
+        "visual-director",
+        "audio-lead",
+        "rights-and-clearances",
+        "cultural-advisor",
+        "pipeline-engineer",
+        "editor",
+        "composer",
+        "translator",
+        "advisor"
+      ],
+      "description": "Production roles \u2014 the people who make and review a production. Governance roles are deliberately NOT here: adding them would let a platform-owner own a shot or a claim record. Use anyRole where either is acceptable."
     },
-    "sourceId":  { "type": "string", "pattern": "^SRC-([A-Z]{2}|STUDIO)-\\d{4}$" },
-    "claimId":   { "type": "string", "pattern": "^CLM-[A-Z]{2}-\\d{4}$" },
-    "characterId": { "type": "string", "pattern": "^CHR-[A-Z]{2}-\\d{4}$" },
-    "locationId":  { "type": "string", "pattern": "^LOC-[A-Z]{2}-\\d{4}$" },
-    "orgId":     { "type": "string", "pattern": "^ORG-[A-Z]{2}-\\d{4}$" },
-    "objectId":  { "type": "string", "pattern": "^OBJ-[A-Z]{2}-\\d{4}$" },
-    "eventId":   { "type": "string", "pattern": "^EVT-[A-Z]{2}-\\d{4}$" },
-    "questionId":{ "type": "string", "pattern": "^QST-[A-Z]{2}-\\d{4}$" },
-    "shotId":    { "type": "string", "pattern": "^SHT-[A-Z]{2}-S\\d{2}E\\d{2}-\\d{4}$" },
-    "sequenceId":{ "type": "string", "pattern": "^SEQ-[A-Z]{2}-S\\d{2}E\\d{2}-\\d{3}$" },
-    "promptCardId": { "type": "string", "pattern": "^PC-([A-Z]{2}-S\\d{2}E\\d{2}|STUDIO)-\\d{4}$" },
-    "assetId":   { "type": "string", "pattern": "^AST-[A-Z]{2}-S\\d{2}E\\d{2}-\\d{4}$" },
-    "clearanceId": { "type": "string", "pattern": "^CLR-([A-Z]{2}|STUDIO)-\\d{4}$" },
-    "advisoryId":{ "type": "string", "pattern": "^ADV-[A-Z]{2}-\\d{4}$" },
-    "styleAnchorId": { "type": "string", "pattern": "^STA-([A-Z]{2}|STUDIO)-\\d{4}$" },
-
+    "sourceId": {
+      "type": "string",
+      "pattern": "^SRC-([A-Z]{2}|STUDIO)-\\d{4}$"
+    },
+    "claimId": {
+      "type": "string",
+      "pattern": "^CLM-[A-Z]{2}-\\d{4}$"
+    },
+    "characterId": {
+      "type": "string",
+      "pattern": "^CHR-[A-Z]{2}-\\d{4}$"
+    },
+    "locationId": {
+      "type": "string",
+      "pattern": "^LOC-[A-Z]{2}-\\d{4}$"
+    },
+    "orgId": {
+      "type": "string",
+      "pattern": "^ORG-[A-Z]{2}-\\d{4}$"
+    },
+    "objectId": {
+      "type": "string",
+      "pattern": "^OBJ-[A-Z]{2}-\\d{4}$"
+    },
+    "eventId": {
+      "type": "string",
+      "pattern": "^EVT-[A-Z]{2}-\\d{4}$"
+    },
+    "questionId": {
+      "type": "string",
+      "pattern": "^QST-[A-Z]{2}-\\d{4}$"
+    },
+    "shotId": {
+      "type": "string",
+      "pattern": "^SHT-[A-Z]{2}-S\\d{2}E\\d{2}-\\d{4}$"
+    },
+    "sequenceId": {
+      "type": "string",
+      "pattern": "^SEQ-[A-Z]{2}-S\\d{2}E\\d{2}-\\d{3}$"
+    },
+    "promptCardId": {
+      "type": "string",
+      "pattern": "^PC-([A-Z]{2}-S\\d{2}E\\d{2}|STUDIO)-\\d{4}$"
+    },
+    "assetId": {
+      "type": "string",
+      "pattern": "^AST-[A-Z]{2}-S\\d{2}E\\d{2}-\\d{4}$"
+    },
+    "clearanceId": {
+      "type": "string",
+      "pattern": "^CLR-([A-Z]{2}|STUDIO)-\\d{4}$"
+    },
+    "advisoryId": {
+      "type": "string",
+      "pattern": "^ADV-[A-Z]{2}-\\d{4}$"
+    },
+    "styleAnchorId": {
+      "type": "string",
+      "pattern": "^STA-([A-Z]{2}|STUDIO)-\\d{4}$"
+    },
     "sourceTier": {
       "type": "string",
-      "enum": ["T1", "T2", "T3", "T4", "T5"],
+      "enum": [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5"
+      ],
       "description": "T1 primary/archival, T2 peer-reviewed secondary, T3 reputable general, T4 oral testimony, T5 never citable. See bible/02."
     },
     "confidenceRegister": {
       "type": "string",
-      "enum": ["established", "probable", "contested", "inferred", "traditional", "unknown"],
-      "description": "See bible/01 § Registers of certainty."
+      "enum": [
+        "established",
+        "probable",
+        "contested",
+        "inferred",
+        "traditional",
+        "unknown"
+      ],
+      "description": "See bible/01 \u00a7 Registers of certainty."
     },
     "provenanceClass": {
       "type": "string",
-      "enum": ["archival", "contemporary", "artefact", "reconstruction", "interpretive", "graphic", "text_on_screen"],
-      "description": "See bible/04 § Categories of image."
+      "enum": [
+        "archival",
+        "contemporary",
+        "artefact",
+        "reconstruction",
+        "interpretive",
+        "graphic",
+        "text_on_screen"
+      ],
+      "description": "See bible/04 \u00a7 Categories of image."
     },
     "sensitivity": {
       "type": "string",
-      "enum": ["none", "review-required", "held"],
-      "description": "'held' places an advisory hold; advisory_ref becomes required. See bible/07 §4."
+      "enum": [
+        "none",
+        "review-required",
+        "held"
+      ],
+      "description": "'held' places an advisory hold; advisory_ref becomes required. See bible/07 \u00a74."
     },
     "gateStatus": {
       "type": "string",
-      "enum": ["not-required", "pending", "in-review", "signed", "blocked"]
+      "enum": [
+        "not-required",
+        "pending",
+        "in-review",
+        "signed",
+        "blocked"
+      ]
     },
     "signature": {
       "type": "object",
       "description": "A human sign-off. Absence of a signature is never inferred from anything else.",
       "properties": {
-        "role":   { "$ref": "#/$defs/roleSlug" },
-        "person": { "type": "string" },
-        "date":   { "$ref": "#/$defs/isoDate" },
-        "note":   { "type": "string" }
+        "role": {
+          "$ref": "#/$defs/roleSlug"
+        },
+        "person": {
+          "type": "string"
+        },
+        "date": {
+          "$ref": "#/$defs/isoDate"
+        },
+        "note": {
+          "type": "string"
+        }
       },
-      "required": ["role", "person", "date"],
+      "required": [
+        "role",
+        "person",
+        "date"
+      ],
       "additionalProperties": false
     },
     "tbdString": {
-      "description": "A string that may be the literal 'TBD' or 'TBD — <reason>' while status is draft or review. Illegal at status locked; enforced by studio_ops, not by this schema.",
+      "description": "A string that may be the literal 'TBD' or 'TBD \u2014 <reason>' while status is draft or review. Illegal at status locked; enforced by studio_ops, not by this schema.",
       "type": "string"
     },
     "dateRange": {
       "type": "object",
       "description": "Historical dating. Always a range, because point dates are usually false precision.",
       "properties": {
-        "earliest": { "type": "string" },
-        "latest":   { "type": "string" },
-        "display":  { "type": "string", "description": "How this is spoken on screen." },
-        "calendar": { "type": "string", "description": "Gregorian, Hijri, regnal, relative, etc." },
-        "basis":    { "type": "string", "description": "How the dating was arrived at." },
-        "confidence": { "$ref": "#/$defs/confidenceRegister" },
-        "claims":   { "type": "array", "items": { "$ref": "#/$defs/claimId" } }
+        "earliest": {
+          "type": "string"
+        },
+        "latest": {
+          "type": "string"
+        },
+        "display": {
+          "type": "string",
+          "description": "How this is spoken on screen."
+        },
+        "calendar": {
+          "type": "string",
+          "description": "Gregorian, Hijri, regnal, relative, etc."
+        },
+        "basis": {
+          "type": "string",
+          "description": "How the dating was arrived at."
+        },
+        "confidence": {
+          "$ref": "#/$defs/confidenceRegister"
+        },
+        "claims": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/claimId"
+          }
+        }
       },
-      "required": ["display", "confidence"],
+      "required": [
+        "display",
+        "confidence"
+      ],
       "additionalProperties": false
     },
     "baseRecord": {
       "type": "object",
       "properties": {
-        "id":       { "type": "string" },
-        "type":     { "type": "string" },
-        "line":     { "$ref": "#/$defs/lineCode" },
-        "title":    { "type": "string" },
-        "status":   { "$ref": "#/$defs/recordStatus" },
-        "version":  { "$ref": "#/$defs/semver" },
-        "updated":  { "$ref": "#/$defs/isoDate" },
-        "owners":   { "type": "array", "items": { "$ref": "#/$defs/roleSlug" }, "minItems": 1 },
-        "sensitivity":  { "$ref": "#/$defs/sensitivity" },
-        "advisory_ref": { "$ref": "#/$defs/advisoryId" },
-        "superseded_by": { "type": "string" },
-        "retraction_reason": { "type": "string" }
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "line": {
+          "$ref": "#/$defs/lineCode"
+        },
+        "title": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/recordStatus"
+        },
+        "version": {
+          "$ref": "#/$defs/semver"
+        },
+        "updated": {
+          "$ref": "#/$defs/isoDate"
+        },
+        "owners": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/anyRole"
+          },
+          "minItems": 1
+        },
+        "sensitivity": {
+          "$ref": "#/$defs/sensitivity"
+        },
+        "advisory_ref": {
+          "$ref": "#/$defs/advisoryId"
+        },
+        "superseded_by": {
+          "type": "string"
+        },
+        "retraction_reason": {
+          "type": "string"
+        }
       },
-      "required": ["id", "type", "line", "title", "status", "version", "updated", "owners"],
+      "required": [
+        "id",
+        "type",
+        "line",
+        "title",
+        "status",
+        "version",
+        "updated",
+        "owners"
+      ],
       "allOf": [
         {
-          "if": { "properties": { "sensitivity": { "const": "held" } }, "required": ["sensitivity"] },
-          "then": { "required": ["advisory_ref"] }
+          "if": {
+            "properties": {
+              "sensitivity": {
+                "const": "held"
+              }
+            },
+            "required": [
+              "sensitivity"
+            ]
+          },
+          "then": {
+            "required": [
+              "advisory_ref"
+            ]
+          }
         },
         {
-          "if": { "properties": { "status": { "const": "superseded" } }, "required": ["status"] },
-          "then": { "required": ["superseded_by"] }
+          "if": {
+            "properties": {
+              "status": {
+                "const": "superseded"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "superseded_by"
+            ]
+          }
         },
         {
-          "if": { "properties": { "status": { "const": "retracted" } }, "required": ["status"] },
-          "then": { "required": ["retraction_reason"] }
+          "if": {
+            "properties": {
+              "status": {
+                "const": "retracted"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "retraction_reason"
+            ]
+          }
         }
       ]
+    },
+    "governanceRole": {
+      "type": "string",
+      "enum": [
+        "platform-owner",
+        "pack-owner",
+        "line-lead"
+      ],
+      "description": "Roles that own layers rather than work. platform-owner owns core canon, schemas, and tooling; pack-owner owns one canon pack; line-lead owns one production line."
+    },
+    "anyRole": {
+      "description": "A production role or a governance role. Used in document front matter.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/roleSlug"
+        },
+        {
+          "$ref": "#/$defs/governanceRole"
+        }
+      ]
+    },
+    "docStatus": {
+      "type": "string",
+      "enum": [
+        "active",
+        "template",
+        "deprecated"
+      ],
+      "description": "Status vocabulary for STANDING DOCUMENTS - canon, standards, ops, docs. Separate from recordStatus because a record moves toward a signature and a standing document never does. See standards/metadata_spec.md."
+    },
+    "maturity": {
+      "type": "string",
+      "enum": [
+        "DESIGNED",
+        "IMPLEMENTED",
+        "TESTED",
+        "NOT_BUILT"
+      ],
+      "description": "Maturity of the CAPABILITY a document describes, as distinct from the status of the document itself. A locked specification of a NOT_BUILT tool is a coherent and common state. A bare checkmark is prohibited in its place - it reads as 'working' when it usually means 'specified'. See docs/status.md."
     }
   }
 }

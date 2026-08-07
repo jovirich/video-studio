@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://african-history-studio.local/schemas/timeline_event.schema.json",
+  "$id": "https://video-studio.local/schemas/timeline_event.schema.json",
   "title": "Timeline event",
   "description": "An event on a production line's timeline. Applies to <line>/timeline/events/EVT-*.yaml. Every event is backed by claims; a timeline is a graphic and therefore an assertion. See standards/data_graphics.md § Timelines.",
   "type": "object",

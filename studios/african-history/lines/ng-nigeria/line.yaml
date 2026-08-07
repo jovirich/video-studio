@@ -1,0 +1,152 @@
+# =========================================================================
+# Production line control record — Nigeria (line 01, African History Studio)
+#
+# Validated against standards/schemas/production_line.schema.json by
+# `python -m studio_ops validate --schemas`.
+#
+# -------------------------------------------------------------------------
+# WHAT MUST BECOME TRUE BEFORE `line_status` CAN BE `open`
+# -------------------------------------------------------------------------
+# `line_status: open` is the only value that permits greenlighting a
+# production. Reaching it requires all three `opening_conditions` to be
+# `true` — the three conditions in bible/00_charter.md §2:
+#
+#   1. research_lead_named        A named research lead with domain
+#                                 competence has agreed to own this line.
+#                                 Not "someone will pick it up".
+#   2. advisory_contact_agreed    At least one advisory contact with
+#                                 standing in the region has agreed to
+#                                 review, on recorded terms — fee, credit,
+#                                 review rights, right to withdraw.
+#                                 See advisory/README.md.
+#   3. archive_landscape_surveyed The archive landscape has been surveyed
+#                                 and recorded in sources/archive_landscape.md,
+#                                 including what could NOT be reached.
+#
+# THE SCHEMA ENFORCES THIS. The `allOf` block in
+# production_line.schema.json makes `line_status: open` fail validation
+# while any condition is false, so the check is not a convention someone
+# can decide to skip under deadline — it is a red build.
+#
+# Condition 2 is the one that gets skipped under enthusiasm. Skipping it is
+# the most reliable way to produce work that insults the people it claims
+# to honour, and it is not recoverable after publication.
+#
+# Separately and additionally: the studio bible is NOT RATIFIED
+# (bible/amendment_log.md) and eleven studio decisions are `unresolved`
+# (studio.yaml). No production may be greenlit while either is true, even
+# if all three conditions above become satisfied first.
+#
+# -------------------------------------------------------------------------
+# NO HISTORICAL CONTENT
+# -------------------------------------------------------------------------
+# This record contains no claim about the past. Every substantive field is
+# `TBD` with a named owner. Facts enter this line only as claim records
+# under sources/, through the chain in
+# packs/documentary-history/02_evidence_and_sourcing.md.
+# =========================================================================
+
+id: LINE-NG
+type: production_line
+line: ng-nigeria
+title: Nigeria
+status: draft
+version: "0.1.0"
+updated: "2026-08-07"
+owners: [showrunner, research-lead]
+
+code: ng-nigeria
+id_scope: NG          # record IDs in this line: SRC-NG-*, CLM-NG-*, CHR-NG-*, ...
+order: 1
+
+line_status: candidate    # candidate | opening | open | paused | closed
+
+# --- Opening conditions --------------------------------------------------
+# All three false. This is the accurate state, not an oversight.
+opening_conditions:
+  research_lead_named: false
+  research_lead: "TBD — Showrunner. Domain competence is the qualifier, not availability."
+  advisory_contact_agreed: false
+  advisory_register: advisory/README.md          # NOT STARTED
+  archive_landscape_surveyed: false
+  archive_landscape_doc: sources/archive_landscape.md    # template only, NOT STARTED
+
+# --- Language register ---------------------------------------------------
+# CANDIDATE ENTRIES ONLY. Nothing here is confirmed.
+#
+# These are production decisions about what appears on screen, not claims
+# about the region. The Cultural Advisor confirms, removes, or adds
+# entries; the Showrunner sets the production language
+# (studio.yaml decision `production_language`, unresolved).
+#
+# `tonal` is deliberately absent from every entry. It is a boolean the
+# schema will accept, and recording it without research would be recording
+# a finding this studio has not made. It is populated per language when the
+# language's own entry in languages/ is written, and it matters: a tonal
+# language mispronounced by tone frequently produces a different word, and
+# pack 09 §4 treats that as a factual error.
+#
+# The union of diacritic coverage across the CONFIRMED entries is what
+# determines typeface selection, and therefore blocks all brand design.
+# See brand/README.md §3.
+languages:
+  - name: English
+    iso639_3: "TBD — Cultural Advisor"
+    script: "TBD — Cultural Advisor"
+    orthography_standard: "TBD — Cultural Advisor"
+    style_guide: "TBD — languages/ entry not yet written"
+
+  - name: Hausa
+    iso639_3: "TBD — Cultural Advisor"
+    script: "TBD — Cultural Advisor"
+    orthography_standard: "TBD — Cultural Advisor. There is usually more than one standard and the choice is political; record why."
+    style_guide: "TBD — languages/ entry not yet written"
+
+  - name: Igbo
+    iso639_3: "TBD — Cultural Advisor"
+    script: "TBD — Cultural Advisor"
+    orthography_standard: "TBD — Cultural Advisor. There is usually more than one standard and the choice is political; record why."
+    style_guide: "TBD — languages/ entry not yet written"
+
+  - name: Yoruba
+    iso639_3: "TBD — Cultural Advisor"
+    script: "TBD — Cultural Advisor"
+    orthography_standard: "TBD — Cultural Advisor. There is usually more than one standard and the choice is political; record why."
+    style_guide: "TBD — languages/ entry not yet written"
+
+  - name: Nigerian Pidgin
+    iso639_3: "TBD — Cultural Advisor"
+    script: "TBD — Cultural Advisor"
+    orthography_standard: "TBD — Cultural Advisor"
+    style_guide: "TBD — languages/ entry not yet written"
+
+# --- Visual identity -----------------------------------------------------
+# NOT STARTED. Blocks every prompt card in this line, because a prompt card
+# inherits a style block from the line and there is nothing to inherit.
+visual_identity:
+  style_doc: style/visual_identity.md
+  palette_doc: "TBD — Visual Director"
+  show_lut: "TBD — Visual Director. One show LUT per line, versioned, in library/luts/."
+  lens_set: []            # TBD — Visual Director. A defined set is the cheapest coherence.
+  style_anchor_set: []    # TBD — Visual Director. STA-NG-* files with checksums, not a mood board.
+
+# --- Seasons -------------------------------------------------------------
+# One planned season, no content. A throughline is a question with stakes,
+# not a topic — pack 03 §1.
+seasons:
+  - number: 1
+    title: "TBD — Showrunner"
+    status: planned
+    episode_count_target: "TBD — Showrunner"
+    throughline: "TBD — Showrunner. Cannot be written before the archive landscape survey; a throughline chosen before the evidence base is known is a claim about where the history was."
+
+corrections_log: ../../bible/corrections.md
+
+notes: >
+  Line 01. Registered so that the structure is exercised before it carries
+  anything; opening a second line must not require renegotiating this one.
+  Maturity: DESIGNED. Nothing here is IMPLEMENTED or TESTED. No research,
+  no sources, no claims, no entities, no advisory register, no visual
+  identity, no productions. The registers under research/, sources/,
+  characters/, locations/, and timeline/ are empty and each carries a
+  README stating what belongs in it.

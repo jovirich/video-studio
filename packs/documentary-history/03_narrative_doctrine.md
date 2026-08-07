@@ -55,7 +55,7 @@ piece of evidence. Contains no: series branding, presenter introduction, or
 - **Sentence length.** Vary hard. Narration read aloud at 145–165 wpm; a paragraph
   of uniform 20-word sentences is unlistenable regardless of content.
 - **Adjectives.** Earn them. "Vast", "mighty", "legendary", and "mysterious" are on
-  the prohibited list in [../standards/prohibited_language.md](../standards/prohibited_language.md)
+  the prohibited list in [../standards/prohibited_language.md](../../standards/prohibited_language.md)
   not because they are wrong but because they are load-bearing when they should be
   decorative — they smuggle in claims the evidence has not made.
 - **Superlatives require a claim ID.** "The largest", "the first", "the only" are
@@ -96,7 +96,7 @@ supports.
   contested details as settled. Where a detail is contested, shoot around it.
 
 **Prohibited:** anything designed to be mistaken for archival material. See
-[06_ai_disclosure_and_ethics.md](06_ai_disclosure_and_ethics.md) §3.
+[06_ai_disclosure_and_ethics.md](../../core/01_provenance_and_ai_disclosure.md) §3.
 
 ## 7. Handling violence and atrocity
 

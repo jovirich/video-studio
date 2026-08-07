@@ -16,7 +16,7 @@ research pack.
 Before searching. An unframed search returns whatever is easiest to find, which for
 African history means disproportionately colonial-era and Anglophone material.
 
-Produce a research brief ([../briefs/_TEMPLATE_research_brief.md](../briefs/_TEMPLATE_research_brief.md)) stating:
+Produce a research brief ([../briefs/_TEMPLATE_research_brief.md](../../../templates/records/_TEMPLATE_research_brief.md)) stating:
 
 - the episode's question, and the sub-questions it decomposes into,
 - what would count as an answer to each,
@@ -73,7 +73,7 @@ conditions, rights status, and a local copy in the asset store where permitted.
 
 ## Stage 5 — Critique
 
-The mandatory block. See [../../bible/02_evidence_and_sourcing.md](../../bible/02_evidence_and_sourcing.md) §4
+The mandatory block. See [../../bible/02_evidence_and_sourcing.md](../02_evidence_and_sourcing.md) §4
 and [bias_register.md](bias_register.md).
 
 A source is not "reliable" or "unreliable". It is reliable *about certain things*.
@@ -83,7 +83,7 @@ The critique block's job is to establish which things.
 
 One claim per statement the episode will make. Set the confidence register from the
 evidence, then check the corroboration requirement in
-[../../bible/02_evidence_and_sourcing.md](../../bible/02_evidence_and_sourcing.md) §3.
+[../../bible/02_evidence_and_sourcing.md](../02_evidence_and_sourcing.md) §3.
 
 **Check independence explicitly.** Record on each evidence entry which other sources
 it is demonstrably not derived from. Repetition is not corroboration, and the most

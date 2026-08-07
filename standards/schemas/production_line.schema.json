@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://african-history-studio.local/schemas/production_line.schema.json",
+  "$id": "https://video-studio.local/schemas/production_line.schema.json",
   "title": "Production line",
   "description": "The control record for a country or region line. Applies to productions/<line>/line.yaml. A line is not open for production until the three conditions in bible/00 §2 are satisfied, which this record makes checkable.",
   "type": "object",

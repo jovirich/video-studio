@@ -16,11 +16,11 @@ technique is legitimate precisely to the degree that it is disclosed and bounded
 
 | Stage | Permitted use | Boundary |
 |---|---|---|
-| Research | Locating material, summarising documents you also read, translating drafts, structuring notes, generating search strategies. | **Model output is never a source.** It is T5 under [02_evidence_and_sourcing.md](02_evidence_and_sourcing.md) §2. Every lead is verified against the actual document. |
+| Research | Locating material, summarising documents you also read, translating drafts, structuring notes, generating search strategies. | **Model output is never a source.** It is T5 under [02_evidence_and_sourcing.md](../packs/documentary-history/02_evidence_and_sourcing.md) §2. Every lead is verified against the actual document. |
 | Writing | Structural critique, alternative phrasings, tightening, readability checks. | The claims are the researcher's. A model may not introduce a fact, a date, a name, or a figure into a script. |
 | Image | Reconstruction and interpretive imagery, texture, matte extension, upscaling, cleanup. | Never presented as archival. Never used to alter genuine archival material's content. |
 | Video | Motion for reconstruction and interpretive shots. | As above. |
-| Voice | Narration (from a licensed, consenting voice), and reference reads. | Never a real or historical person. See [05_sound_and_score.md](05_sound_and_score.md) §2. |
+| Voice | Narration (from a licensed, consenting voice), and reference reads. | Never a real or historical person. See [05_sound_and_score.md](../packs/documentary-history/05_sound_and_score.md) §2. |
 | Music/SFX | Texture, drones, utility SFX, subject to the music policy. | Never a pastiche of a living tradition. Never sacred material. |
 | Post | Rotoscoping, tracking, cleanup, transcription, caption drafting, translation drafting. | Human review before delivery on anything that changes meaning. |
 | Pipeline | Automation, validation, reporting. | No autonomous publishing. A human signs every gate. |
@@ -36,7 +36,7 @@ Absolute. No exceptions, no override flag.
 2. **Synthesising a real person's likeness or voice** without documented consent or
    estate clearance — including historical figures, for whom no consent is possible.
 3. **Filling an evidentiary gap.** If the research does not know, the model does not
-   get to decide. See [02_evidence_and_sourcing.md](02_evidence_and_sourcing.md) §9.
+   get to decide. See [02_evidence_and_sourcing.md](../packs/documentary-history/02_evidence_and_sourcing.md) §9.
 4. **Generating sacred, initiatory, or restricted material**, or a depiction of it,
    without an advisory ruling.
 5. **Generating identifiable victims** of documented violence.
@@ -54,7 +54,7 @@ without a clearance reference.
 Disclosure operates at four levels and all four are required:
 
 1. **In-frame mark** on every reconstruction and interpretive shot
-   ([04_visual_language.md](04_visual_language.md) §7).
+   ([04_visual_language.md](../packs/documentary-history/04_visual_language.md) §7).
 2. **An explainer card** at the first such shot in each episode.
 3. **Credits statement** naming every generative tool used, by category. The
    template is in [../templates/episode/10_publish/credits_ai_statement.md](../templates/production/10_publish/credits_ai_statement.md).
