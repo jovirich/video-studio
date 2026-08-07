@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://african-history-studio.local/schemas/claim.schema.json",
+  "title": "Claim",
+  "description": "One factual statement, its confidence register, and its evidence. Applies to sources/registry/claims/CLM-*.yaml. Scripts reference claims; they do not contain facts. See bible/02 §1.",
+  "type": "object",
+  "properties": {
+    "id":     { "$ref": "_common.schema.json#/$defs/claimId" },
+    "type":   { "const": "claim" },
+    "line":   { "$ref": "_common.schema.json#/$defs/lineCode" },
+    "title":  { "type": "string", "description": "Short handle for the claim, for indexes." },
+    "status": { "$ref": "_common.schema.json#/$defs/recordStatus" },
+    "version":{ "$ref": "_common.schema.json#/$defs/semver" },
+    "updated":{ "$ref": "_common.schema.json#/$defs/isoDate" },
+    "owners": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/roleSlug" } },
+    "sensitivity":  { "$ref": "_common.schema.json#/$defs/sensitivity" },
+    "advisory_ref": { "$ref": "_common.schema.json#/$defs/advisoryId" },
+    "superseded_by": { "type": "string" },
+    "retraction_reason": { "type": "string" },
+
+    "statement": {
+      "type": "string",
+      "description": "The claim, written as a single declarative sentence at the confidence level the evidence supports. This is the text that must survive fact-check."
+    },
+
+    "confidence": { "$ref": "_common.schema.json#/$defs/confidenceRegister" },
+
+    "evidence": {
+      "type": "array",
+      "description": "Sources supporting this claim. Corroboration requirements per bible/02 §3 are checked by studio_ops, not by this schema.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source": { "$ref": "_common.schema.json#/$defs/sourceId" },
+          "locator": { "type": "string", "description": "Page, folio, timecode, catalogue number." },
+          "quotation": { "type": "string", "description": "The supporting text, in the original language where relevant." },
+          "translation": { "type": "string" },
+          "supports": { "type": "string", "enum": ["fully", "partially", "by-inference"] },
+          "independent_of": {
+            "type": "array",
+            "items": { "$ref": "_common.schema.json#/$defs/sourceId" },
+            "description": "Sources this one is demonstrably NOT derived from. Independence must be asserted deliberately — two sources sharing an upstream origin are one source."
+          }
+        },
+        "required": ["source", "supports"],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+
+    "counter_evidence": {
+      "type": "array",
+      "description": "Sources that contradict or complicate the claim. Required when confidence is 'contested'.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source": { "$ref": "_common.schema.json#/$defs/sourceId" },
+          "locator": { "type": "string" },
+          "position": { "type": "string", "description": "What this source holds instead." }
+        },
+        "required": ["source", "position"],
+        "additionalProperties": false
+      }
+    },
+
+    "contested_positions": {
+      "type": "array",
+      "description": "Required when confidence is 'contested'. Each position is stated fairly and attributed.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "position": { "type": "string" },
+          "held_by": { "type": "string", "description": "Named scholars, schools, or traditions. Never 'some historians'." },
+          "sources": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/sourceId" } }
+        },
+        "required": ["position", "held_by", "sources"],
+        "additionalProperties": false
+      },
+      "minItems": 2
+    },
+
+    "inference_chain": {
+      "type": "string",
+      "description": "Required when confidence is 'inferred'. The reasoning from the adjacent evidence to the claim, written so a reviewer can attack it."
+    },
+
+    "quantity": {
+      "type": "object",
+      "description": "For claims involving a number. See bible/02 §6.",
+      "properties": {
+        "value": { "type": ["number", "string"] },
+        "unit": { "type": "string" },
+        "range_low": { "type": "number" },
+        "range_high": { "type": "number" },
+        "basis": { "type": "string", "enum": ["attested", "estimated", "modelled"] },
+        "model": { "type": "string", "description": "Whose model, published where." },
+        "conversion": { "type": "string", "description": "If converted from historical units, the conversion and its source." }
+      },
+      "required": ["basis"],
+      "additionalProperties": false
+    },
+
+    "dating": { "$ref": "_common.schema.json#/$defs/dateRange" },
+
+    "entities": {
+      "type": "array",
+      "description": "Records this claim is about.",
+      "items": { "type": "string" }
+    },
+
+    "open_questions": {
+      "type": "array",
+      "items": { "$ref": "_common.schema.json#/$defs/questionId" }
+    },
+
+    "used_in": {
+      "type": "array",
+      "description": "Populated by the toolkit. Where this claim appears on screen.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "episode": { "$ref": "_common.schema.json#/$defs/episodeCode" },
+          "context": { "type": "string", "enum": ["narration", "on_screen_text", "graphic", "map", "caption", "description"] },
+          "locator": { "type": "string" }
+        },
+        "required": ["episode", "context"],
+        "additionalProperties": false
+      }
+    },
+
+    "fact_check": {
+      "type": "object",
+      "properties": {
+        "status": { "$ref": "_common.schema.json#/$defs/gateStatus" },
+        "signature": { "$ref": "_common.schema.json#/$defs/signature" },
+        "report": { "type": "string", "description": "FCK record ID." },
+        "notes": { "type": "string" }
+      },
+      "required": ["status"],
+      "additionalProperties": false
+    },
+
+    "notes": { "type": "string" }
+  },
+  "required": ["id", "type", "line", "title", "status", "version", "updated", "owners", "statement", "confidence", "evidence"],
+  "allOf": [
+    {
+      "if": { "properties": { "confidence": { "const": "contested" } }, "required": ["confidence"] },
+      "then": { "required": ["contested_positions"] }
+    },
+    {
+      "if": { "properties": { "confidence": { "const": "inferred" } }, "required": ["confidence"] },
+      "then": { "required": ["inference_chain"] }
+    }
+  ],
+  "additionalProperties": false
+}

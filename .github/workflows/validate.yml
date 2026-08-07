@@ -1,0 +1,89 @@
+name: Validate
+
+on:
+  push:
+    branches: [main, "release/**", "studio/**"]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  repository-gates:
+    name: Repository gates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install toolkit
+        run: pip install -e ".[dev]"
+
+      # Each gate runs independently so a PR sees every failure at once,
+      # not just the first. See CONTRIBUTING.md § Pull request gates.
+      - name: Gate 1 — record schemas
+        if: always()
+        run: python -m studio_ops validate --schemas
+
+      - name: Gate 2 — naming conventions
+        if: always()
+        run: python -m studio_ops validate --naming
+
+      - name: Gate 3 — internal links and orphan records
+        if: always()
+        run: python -m studio_ops validate --links
+
+      - name: Gate 4 — source coverage for every claim
+        if: always()
+        run: python -m studio_ops validate --sources
+
+      - name: Gate 5 — canon rules
+        if: always()
+        run: python -m studio_ops validate --canon
+
+      - name: Gate 6 — repo root hygiene
+        if: always()
+        run: python -m studio_ops validate --root-hygiene
+
+  python-quality:
+    name: Python quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -e ".[dev]"
+      - name: Lint
+        if: always()
+        run: ruff check automation
+      - name: Format check
+        if: always()
+        run: ruff format --check automation
+      - name: Type check
+        if: always()
+        run: mypy automation/studio_ops
+      - name: Tests
+        if: always()
+        run: pytest --cov=studio_ops --cov-report=term-missing
+
+  secret-scan:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Reject committed .env and credential files
+        run: |
+          if git ls-files | grep -E '(^|/)\.env$|service_account.*\.json$|\.pem$|\.key$'; then
+            echo "::error::Credential-shaped file is tracked in git. Remove it and rotate the secret."
+            exit 1
+          fi
+          echo "No credential-shaped files tracked."

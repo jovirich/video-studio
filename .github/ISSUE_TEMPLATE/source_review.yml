@@ -1,0 +1,34 @@
+name: Source review
+description: Request review or challenge of an existing source record.
+title: "[source] "
+labels: ["sources", "review"]
+body:
+  - type: input
+    id: source_id
+    attributes: { label: Source record ID, placeholder: "SRC-NG-0042" }
+    validations: { required: true }
+  - type: dropdown
+    id: reason
+    attributes:
+      label: Reason for review
+      options:
+        - "Tier appears wrong"
+        - "Provenance incomplete or unverifiable"
+        - "Access condition has changed"
+        - "Contradicted by another source"
+        - "Framing/bias concern (see research/methodology/bias_register.md)"
+        - "Rights or permission status unclear"
+        - "Superseded by better material"
+    validations: { required: true }
+  - type: textarea
+    id: detail
+    attributes:
+      label: Detail
+      description: What specifically is wrong, and what evidence supports that?
+    validations: { required: true }
+  - type: textarea
+    id: downstream
+    attributes:
+      label: Downstream impact
+      description: Which claims, scripts, or locked cuts depend on this source?
+      placeholder: "Run: python -m studio_ops report dependents --source SRC-NG-0042"

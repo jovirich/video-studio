@@ -1,0 +1,43 @@
+PROPRIETARY — ALL RIGHTS RESERVED
+
+Copyright (c) African History Studio. All rights reserved.
+
+This repository and its contents are the confidential and proprietary property of
+African History Studio. No part of this repository may be reproduced, distributed,
+or transmitted in any form or by any means without prior written permission.
+
+NOTES ON MIXED RIGHTS
+---------------------
+This repository is a container for material under several different rights regimes.
+The licence above covers the infrastructure only — the code, schemas, templates,
+documentation, and prompt scaffolding authored here. It does NOT and CANNOT grant
+rights over:
+
+  1. Archival material, photographs, footage, and recordings obtained from third
+     parties. Each such item is governed by its own licence, recorded in
+     sources/permissions/clearance_log.md.
+
+  2. Oral testimony and interview recordings. These are governed by the consent
+     form signed by the contributor (templates/legal/interview_consent.md) and,
+     where applicable, by community protocols recorded in the relevant production
+     line's advisory register.
+
+  3. Traditional cultural expressions, designs, songs, and knowledge. These may be
+     subject to community custodianship that no commercial licence overrides.
+     See bible/07_cultural_sensitivity.md.
+
+  4. Outputs of third-party generative models. Ownership, warranty, and permitted
+     commercial use vary by vendor and by plan tier and change over time. The
+     current position for each tool is recorded in
+     sources/permissions/model_terms_register.md and must be re-checked before
+     each delivery.
+
+  5. Fonts, LUTs, music beds, and sound effects in library/. Each carries its own
+     licence file.
+
+If you are unsure which regime applies to a given item, treat it as unlicensed and
+escalate to Rights & Clearances before use.
+
+REPLACE THIS FILE if the studio adopts a different licensing posture. Open-sourcing
+the infrastructure while keeping the productions proprietary is a reasonable option
+and is discussed in docs/decisions/0009-licensing-posture.md.

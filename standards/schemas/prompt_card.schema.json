@@ -1,0 +1,190 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://african-history-studio.local/schemas/prompt_card.schema.json",
+  "title": "Prompt card",
+  "description": "A versioned, reviewable specification for one generated asset. Applies to **/*.prompt.yaml. A prompt card is a record, not a text string — this is what makes generation auditable and repeatable. See prompts/README.md.",
+  "type": "object",
+  "properties": {
+    "id":      { "$ref": "_common.schema.json#/$defs/promptCardId" },
+    "type":    { "const": "prompt_card" },
+    "line":    { "$ref": "_common.schema.json#/$defs/lineCode" },
+    "title":   { "type": "string" },
+    "status":  { "$ref": "_common.schema.json#/$defs/recordStatus" },
+    "version": { "$ref": "_common.schema.json#/$defs/semver" },
+    "updated": { "$ref": "_common.schema.json#/$defs/isoDate" },
+    "owners":  { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/roleSlug" } },
+    "sensitivity":  { "$ref": "_common.schema.json#/$defs/sensitivity" },
+    "advisory_ref": { "$ref": "_common.schema.json#/$defs/advisoryId" },
+    "superseded_by": { "type": "string" },
+    "retraction_reason": { "type": "string" },
+
+    "modality": {
+      "type": "string",
+      "enum": ["image", "video", "audio_voice", "audio_music", "audio_sfx", "text", "scene3d", "restoration", "performance", "post"]
+    },
+
+    "tool": {
+      "type": "object",
+      "properties": {
+        "vendor":  { "type": "string", "description": "Folder name under prompts/<modality>/, e.g. midjourney, runway, elevenlabs." },
+        "model":   { "type": "string" },
+        "version": { "type": "string" },
+        "terms_checked": { "$ref": "_common.schema.json#/$defs/isoDate", "description": "When this tool's terms were last verified in sources/permissions/model_terms_register.md." }
+      },
+      "required": ["vendor", "model"],
+      "additionalProperties": false
+    },
+
+    "target": {
+      "type": "object",
+      "description": "What this card is for.",
+      "properties": {
+        "episode":  { "$ref": "_common.schema.json#/$defs/episodeCode" },
+        "sequence": { "$ref": "_common.schema.json#/$defs/sequenceId" },
+        "shot":     { "$ref": "_common.schema.json#/$defs/shotId" },
+        "provenance_class": { "$ref": "_common.schema.json#/$defs/provenanceClass" },
+        "intent": { "type": "string", "description": "What this shot must accomplish in the cut. One sentence." }
+      },
+      "required": ["provenance_class", "intent"],
+      "additionalProperties": false
+    },
+
+    "inheritance": {
+      "type": "object",
+      "description": "Style inheritance chain. See bible/04 §1.",
+      "properties": {
+        "style_block": { "type": "string", "description": "Path or ID of the inherited style block." },
+        "style_anchors": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/styleAnchorId" } },
+        "overrides": {
+          "type": "array",
+          "description": "Any deviation from the inherited style, each with a stated reason. An override without a reason fails review.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "field": { "type": "string" },
+              "value": { "type": "string" },
+              "reason": { "type": "string" }
+            },
+            "required": ["field", "value", "reason"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "prompt": {
+      "type": "object",
+      "description": "The structured prompt. Rendered to a vendor-specific string by studio_ops promptlib render — never hand-assembled, so the same card can target more than one tool.",
+      "properties": {
+        "subject": { "type": "string", "description": "What is depicted, specifically. Named people, place, and period — never a generic region." },
+        "action": { "type": "string" },
+        "setting": { "type": "string" },
+        "period_markers": { "type": "array", "items": { "type": "string" }, "description": "Concrete material details that fix the period: materials, textiles, tools, architecture. This is the main defence against generic pan-historical output." },
+        "composition": { "type": "string" },
+        "camera": { "type": "string", "description": "Lens, height, angle, movement — from the line's defined lens set." },
+        "light": { "type": "string", "description": "Source, direction, quality, time of day." },
+        "palette": { "type": "string" },
+        "texture": { "type": "string" },
+        "mood": { "type": "string" },
+        "negative": { "type": "array", "items": { "type": "string" } },
+        "raw_override": { "type": "string", "description": "Verbatim prompt string, used only when a tool's syntax cannot be expressed structurally. Requires a reason in notes." }
+      },
+      "required": ["subject", "setting"],
+      "additionalProperties": false
+    },
+
+    "parameters": {
+      "type": "object",
+      "description": "Vendor-specific parameters. Deliberately unconstrained — the vendor cheat sheet in prompts/<modality>/<vendor>/ documents valid keys.",
+      "additionalProperties": true
+    },
+
+    "inputs": {
+      "type": "array",
+      "description": "Reference images, source clips, audio references fed to the tool.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "kind": { "type": "string", "enum": ["style_reference", "structure_reference", "character_reference", "source_frame", "audio_reference", "depth_map", "mask", "other"] },
+          "ref": { "type": "string", "description": "Asset ID, style anchor ID, or asset store path." },
+          "weight": { "type": "number" },
+          "rights_note": { "type": "string", "description": "Required if the input is third-party material. Feeding uncleared material to a model is a rights event." }
+        },
+        "required": ["kind", "ref"],
+        "additionalProperties": false
+      }
+    },
+
+    "evidence_basis": {
+      "type": "array",
+      "description": "Required when target.provenance_class is 'reconstruction'. The claims and sources grounding what is depicted. See bible/04 §6.",
+      "items": { "type": "string" }
+    },
+
+    "constraints": {
+      "type": "object",
+      "properties": {
+        "depicts_named_person": { "type": "boolean" },
+        "person_ref": { "$ref": "_common.schema.json#/$defs/characterId" },
+        "clearance_ref": { "$ref": "_common.schema.json#/$defs/clearanceId" },
+        "depicts_sacred_material": { "type": "boolean" },
+        "depicts_violence": { "type": "boolean" },
+        "depicts_human_remains": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+
+    "runs": {
+      "type": "array",
+      "description": "Generation history for this card. Append-only.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "run_id": { "type": "string" },
+          "seed": { "type": ["integer", "string"] },
+          "generated_at": { "type": "string" },
+          "generated_by": { "type": "string" },
+          "asset": { "$ref": "_common.schema.json#/$defs/assetId" },
+          "outcome": { "type": "string", "enum": ["selected", "rejected", "reference-only", "superseded"] },
+          "cost_usd": { "type": "number" },
+          "notes": { "type": "string", "description": "Why it worked or did not. This is the field that makes the prompt library improve over time." }
+        },
+        "required": ["seed", "outcome"],
+        "additionalProperties": false
+      }
+    },
+
+    "review": {
+      "type": "object",
+      "properties": {
+        "sensitivity": { "$ref": "_common.schema.json#/$defs/gateStatus" },
+        "anachronism_check": { "$ref": "_common.schema.json#/$defs/gateStatus" },
+        "signature": { "$ref": "_common.schema.json#/$defs/signature" }
+      },
+      "additionalProperties": false
+    },
+
+    "notes": { "type": "string" }
+  },
+  "required": ["id", "type", "line", "title", "status", "version", "updated", "owners", "modality", "tool", "target", "prompt"],
+  "allOf": [
+    {
+      "if": {
+        "properties": { "target": { "properties": { "provenance_class": { "const": "reconstruction" } }, "required": ["provenance_class"] } },
+        "required": ["target"]
+      },
+      "then": { "required": ["evidence_basis"] }
+    },
+    {
+      "if": {
+        "properties": { "constraints": { "properties": { "depicts_named_person": { "const": true } }, "required": ["depicts_named_person"] } },
+        "required": ["constraints"]
+      },
+      "then": {
+        "properties": { "constraints": { "required": ["person_ref", "clearance_ref"] } }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

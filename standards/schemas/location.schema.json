@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://african-history-studio.local/schemas/location.schema.json",
+  "title": "Location",
+  "description": "A place appearing in the series. Applies to <line>/locations/profiles/LOC-*.md front matter. Holds no historical facts — only references to claims.",
+  "type": "object",
+  "properties": {
+    "id":      { "$ref": "_common.schema.json#/$defs/locationId" },
+    "type":    { "const": "location" },
+    "line":    { "$ref": "_common.schema.json#/$defs/lineCode" },
+    "title":   { "type": "string" },
+    "status":  { "$ref": "_common.schema.json#/$defs/recordStatus" },
+    "version": { "$ref": "_common.schema.json#/$defs/semver" },
+    "updated": { "$ref": "_common.schema.json#/$defs/isoDate" },
+    "owners":  { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/roleSlug" } },
+    "sensitivity":  { "$ref": "_common.schema.json#/$defs/sensitivity" },
+    "advisory_ref": { "$ref": "_common.schema.json#/$defs/advisoryId" },
+    "superseded_by": { "type": "string" },
+    "retraction_reason": { "type": "string" },
+
+    "place_kind": {
+      "type": "string",
+      "enum": ["settlement", "city", "polity_territory", "region", "landscape_feature",
+               "watercourse", "route", "structure", "site", "archaeological_site",
+               "sacred_site", "burial_site", "market", "port", "modern_administrative"]
+    },
+
+    "naming": {
+      "type": "object",
+      "properties": {
+        "on_screen": { "type": "string" },
+        "on_screen_reason": { "type": "string" },
+        "period_name": { "type": "string", "description": "Primary on screen for historical sequences." },
+        "modern_name": { "type": "string", "description": "Given once for orientation. Never silently substituted. bible/09 §3." },
+        "ipa": { "type": "string" },
+        "pronunciation_ref": { "type": "string" },
+        "alternative_forms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "form": { "type": "string" },
+              "kind": { "type": "string", "enum": ["endonym", "exonym", "colonial", "historical", "transliteration", "variant"] },
+              "note": { "type": "string" }
+            },
+            "required": ["form", "kind"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["on_screen"],
+      "additionalProperties": false
+    },
+
+    "geography": {
+      "type": "object",
+      "description": "Coordinates are for map production, not for asserting a historical extent. Extent is a claim.",
+      "properties": {
+        "modern_country": { "type": "string" },
+        "latitude": { "type": "number" },
+        "longitude": { "type": "number" },
+        "coordinate_precision": { "type": "string", "enum": ["exact", "approximate", "regional", "unlocated", "withheld"] },
+        "precision_note": { "type": "string" },
+        "elevation_m": { "type": "number" },
+        "terrain": { "type": "string" },
+        "hydrology_note": { "type": "string", "description": "Coastlines and watercourses change. Note where a modern base map approximates a historical one." }
+      },
+      "additionalProperties": false
+    },
+
+    "site_status": {
+      "type": "object",
+      "properties": {
+        "extant": { "type": "boolean" },
+        "excavated": { "type": "boolean" },
+        "protected_status": { "type": "string" },
+        "access": { "type": "string", "enum": ["public", "permit-required", "restricted", "community-controlled", "unknown"] },
+        "location_withheld": { "type": "boolean", "description": "True for sites where publishing coordinates would invite looting or trespass. When true, coordinate_precision must be 'withheld'." }
+      },
+      "additionalProperties": false
+    },
+
+    "claims": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/claimId" } },
+    "open_questions": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/questionId" } },
+
+    "depiction": {
+      "type": "object",
+      "properties": {
+        "may_be_depicted": { "type": "boolean" },
+        "depiction_constraints": { "type": "string" },
+        "material_evidence": {
+          "type": "array",
+          "description": "Excavation reports, standing structures, contemporary descriptions, photographs — what a reconstruction must be built from. bible/04 §6.",
+          "items": { "$ref": "_common.schema.json#/$defs/sourceId" }
+        },
+        "unattested_elements": {
+          "type": "array",
+          "description": "Features NOT evidenced — roof forms, upper storeys, interiors. Compose around these rather than inventing them.",
+          "items": { "type": "string" }
+        },
+        "period_ambience": { "type": "string", "description": "Soundscape basis. Ambience is reconstruction. bible/05 §5." }
+      },
+      "required": ["may_be_depicted"],
+      "additionalProperties": false
+    },
+
+    "style_anchors": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/styleAnchorId" } },
+    "appears_in": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/episodeCode" } },
+    "notes": { "type": "string" }
+  },
+  "required": ["id", "type", "line", "title", "status", "version", "updated", "owners", "place_kind", "naming", "depiction"],
+  "allOf": [
+    {
+      "if": {
+        "properties": { "site_status": { "properties": { "location_withheld": { "const": true } }, "required": ["location_withheld"] } },
+        "required": ["site_status"]
+      },
+      "then": {
+        "properties": { "geography": { "properties": { "coordinate_precision": { "const": "withheld" } } } }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

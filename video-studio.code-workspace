@@ -1,0 +1,33 @@
+{
+  "folders": [
+    { "name": "AHS — Studio Root", "path": "." },
+    { "name": "Bible", "path": "bible" },
+    { "name": "Prompt Library", "path": "prompts" },
+    { "name": "Nigeria (Line 01)", "path": "productions/ng-nigeria" },
+    { "name": "Automation", "path": "automation" },
+    { "name": "Docs", "path": "docs" }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/__pycache__": true,
+      "**/.pytest_cache": true,
+      "**/.ruff_cache": true,
+      "**/.mypy_cache": true,
+      "**/*.egg-info": true
+    },
+    "search.exclude": {
+      "**/.venv": true,
+      "**/05_assets/**": true,
+      "library/**": true
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-python.python",
+      "charliermarsh.ruff",
+      "yzhang.markdown-all-in-one",
+      "redhat.vscode-yaml",
+      "streetsidesoftware.code-spell-checker"
+    ]
+  }
+}

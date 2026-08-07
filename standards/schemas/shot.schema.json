@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://african-history-studio.local/schemas/shot.schema.json",
+  "title": "Shot",
+  "description": "One shot on the shot list. Applies to episodes/<code>/03_storyboard/shots/SHT-*.yaml.",
+  "type": "object",
+  "properties": {
+    "id":      { "$ref": "_common.schema.json#/$defs/shotId" },
+    "type":    { "const": "shot" },
+    "line":    { "$ref": "_common.schema.json#/$defs/lineCode" },
+    "title":   { "type": "string" },
+    "status":  { "$ref": "_common.schema.json#/$defs/recordStatus" },
+    "version": { "$ref": "_common.schema.json#/$defs/semver" },
+    "updated": { "$ref": "_common.schema.json#/$defs/isoDate" },
+    "owners":  { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/roleSlug" } },
+    "sensitivity":  { "$ref": "_common.schema.json#/$defs/sensitivity" },
+    "advisory_ref": { "$ref": "_common.schema.json#/$defs/advisoryId" },
+    "superseded_by": { "type": "string" },
+    "retraction_reason": { "type": "string" },
+
+    "episode":  { "$ref": "_common.schema.json#/$defs/episodeCode" },
+    "sequence": { "$ref": "_common.schema.json#/$defs/sequenceId" },
+    "order":    { "type": "integer" },
+
+    "description": { "type": "string", "description": "What the viewer sees. Written so an editor who has not read the script understands it." },
+
+    "provenance_class": { "$ref": "_common.schema.json#/$defs/provenanceClass" },
+
+    "narration_ref": { "type": "string", "description": "Anchor in 02_script/narration.md this shot sits under." },
+    "claims": {
+      "type": "array",
+      "description": "Claims this shot asserts visually. A map or graphic almost always asserts something; so does a reconstruction.",
+      "items": { "$ref": "_common.schema.json#/$defs/claimId" }
+    },
+
+    "entities": {
+      "type": "object",
+      "properties": {
+        "characters": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/characterId" } },
+        "locations":  { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/locationId" } },
+        "objects":    { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/objectId" } }
+      },
+      "additionalProperties": false
+    },
+
+    "camera": {
+      "type": "object",
+      "properties": {
+        "size": { "type": "string", "enum": ["ecu", "cu", "mcu", "ms", "mws", "ws", "ews", "insert", "aerial", "macro"] },
+        "lens": { "type": "string", "description": "From the line's defined lens set. See bible/04 §2." },
+        "height": { "type": "string", "enum": ["ground", "low", "eye", "high", "overhead"] },
+        "angle": { "type": "string" },
+        "movement": { "type": "string", "enum": ["static", "pan", "tilt", "push", "pull", "track", "crane", "handheld", "drift"] },
+        "movement_motivation": { "type": "string", "description": "Required for any non-static movement. bible/04 §2 — unmotivated drift is the signature tell of generated video." }
+      },
+      "additionalProperties": false
+    },
+
+    "duration_seconds": { "type": "number" },
+
+    "framing": {
+      "type": "object",
+      "properties": {
+        "aspect": { "type": "string" },
+        "vertical_safe_ok": { "type": "boolean", "description": "Critical content inside the 9:16 crop. See bible/10 §3." },
+        "square_safe_ok": { "type": "boolean" },
+        "on_screen_text": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+
+    "generation": {
+      "type": "object",
+      "properties": {
+        "prompt_cards": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/promptCardId" } },
+        "chain": { "type": "string", "description": "Recipe from prompts/chains/, if a multi-tool pipeline is used." },
+        "selected_asset": { "$ref": "_common.schema.json#/$defs/assetId" }
+      },
+      "additionalProperties": false
+    },
+
+    "audio": {
+      "type": "object",
+      "properties": {
+        "ambience": { "type": "string", "description": "Ambience asserts what a place sounded like. It is reconstruction. See bible/05 §5." },
+        "sfx": { "type": "array", "items": { "type": "string" } },
+        "music_cue": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+
+    "label_required": { "type": "boolean", "description": "Derived from provenance_class; stored so the edit can be checked without recomputation." },
+
+    "review": {
+      "type": "object",
+      "properties": {
+        "anachronism_check": { "$ref": "_common.schema.json#/$defs/gateStatus" },
+        "anachronism_notes": { "type": "string" },
+        "sensitivity": { "$ref": "_common.schema.json#/$defs/gateStatus" },
+        "picture_lock": { "$ref": "_common.schema.json#/$defs/gateStatus" },
+        "signature": { "$ref": "_common.schema.json#/$defs/signature" }
+      },
+      "additionalProperties": false
+    },
+
+    "notes": { "type": "string" }
+  },
+  "required": ["id", "type", "line", "title", "status", "version", "updated", "owners", "episode", "sequence", "order", "description", "provenance_class"],
+  "allOf": [
+    {
+      "if": {
+        "properties": { "provenance_class": { "enum": ["reconstruction", "interpretive"] } },
+        "required": ["provenance_class"]
+      },
+      "then": {
+        "properties": { "label_required": { "const": true } },
+        "required": ["label_required"]
+      }
+    },
+    {
+      "if": {
+        "properties": { "provenance_class": { "enum": ["graphic", "text_on_screen"] } },
+        "required": ["provenance_class"]
+      },
+      "then": {
+        "required": ["claims"],
+        "description": "Maps, charts, timelines, and on-screen quotations make assertions and carry claim IDs. See standards/data_graphics.md."
+      }
+    }
+  ],
+  "additionalProperties": false
+}

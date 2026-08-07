@@ -1,0 +1,96 @@
+# ---- Python ----
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+build/
+dist/
+
+# ---- Secrets & environment ----
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+credentials.json
+service_account*.json
+
+# ---- Generated media (git holds manifests, not media) ----
+# Assets live in the object store; see docs/runbook/asset_storage.md
+**/05_assets/**/*.png
+**/05_assets/**/*.jpg
+**/05_assets/**/*.jpeg
+**/05_assets/**/*.webp
+**/05_assets/**/*.tif
+**/05_assets/**/*.tiff
+**/05_assets/**/*.exr
+**/05_assets/**/*.mp4
+**/05_assets/**/*.mov
+**/05_assets/**/*.mxf
+**/05_assets/**/*.prores
+**/05_assets/**/*.webm
+**/05_assets/**/*.wav
+**/05_assets/**/*.aif
+**/05_assets/**/*.aiff
+**/05_assets/**/*.mp3
+**/05_assets/**/*.flac
+**/05_assets/**/*.psd
+**/05_assets/**/*.ai
+**/09_delivery/masters/
+**/06_edit/renders/
+**/06_edit/cache/
+**/07_audio_post/stems/
+
+# ...but always keep the folder and its manifest
+!**/.gitkeep
+!**/manifest.yaml
+!**/manifest.json
+!**/README.md
+
+# ---- Shared library binaries ----
+library/luts/*.cube
+library/fonts/*.otf
+library/fonts/*.ttf
+library/fonts/*.woff2
+library/music_beds/*
+library/sfx/*
+library/map_bases/*.tif
+library/style_refs/*
+!library/**/README.md
+!library/**/.gitkeep
+!library/**/*.yaml
+
+# ---- NLE / DAW project scratch ----
+*.prproj.lock
+*.drp.bak
+CacheClip/
+*.pkf
+*.sfk
+Adobe Premiere Pro Auto-Save/
+DaVinci Resolve Backup/
+Render Cache/
+
+# ---- OS / IDE ----
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+*.swp
+*~
+
+# ---- VS Code: keep shared config, ignore personal state ----
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# ---- Local scratch ----
+scratch/
+tmp/
+*.local.md

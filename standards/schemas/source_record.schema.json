@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://african-history-studio.local/schemas/source_record.schema.json",
+  "title": "Source record",
+  "description": "One item of evidence. Applies to sources/registry/records/SRC-*.yaml. See bible/02.",
+  "type": "object",
+  "allOf": [{ "$ref": "_common.schema.json#/$defs/baseRecord" }],
+  "properties": {
+    "id":     { "$ref": "_common.schema.json#/$defs/sourceId" },
+    "type":   { "const": "source" },
+    "line":   { "$ref": "_common.schema.json#/$defs/lineCode" },
+    "title":  { "type": "string" },
+    "status": { "$ref": "_common.schema.json#/$defs/recordStatus" },
+    "version":{ "$ref": "_common.schema.json#/$defs/semver" },
+    "updated":{ "$ref": "_common.schema.json#/$defs/isoDate" },
+    "owners": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/roleSlug" } },
+    "sensitivity":  { "$ref": "_common.schema.json#/$defs/sensitivity" },
+    "advisory_ref": { "$ref": "_common.schema.json#/$defs/advisoryId" },
+    "superseded_by": { "type": "string" },
+    "retraction_reason": { "type": "string" },
+
+    "tier": { "$ref": "_common.schema.json#/$defs/sourceTier" },
+
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "manuscript", "inscription", "archival_document", "government_record",
+        "correspondence", "chronicle", "excavation_report", "material_object",
+        "photograph", "film", "audio_recording", "map", "dataset",
+        "monograph", "journal_article", "edited_volume", "thesis",
+        "catalogue_entry", "encyclopedia_entry", "journalism",
+        "oral_testimony", "oral_tradition", "interview", "other"
+      ]
+    },
+
+    "bibliographic": {
+      "type": "object",
+      "description": "CSL-compatible fields. Used to build the episode bibliography.",
+      "properties": {
+        "author": { "type": "array", "items": { "type": "string" } },
+        "editor": { "type": "array", "items": { "type": "string" } },
+        "translator": { "type": "array", "items": { "type": "string" } },
+        "container_title": { "type": "string" },
+        "publisher": { "type": "string" },
+        "publisher_place": { "type": "string" },
+        "issued": { "type": "string" },
+        "volume": { "type": "string" },
+        "issue": { "type": "string" },
+        "page": { "type": "string" },
+        "edition": { "type": "string" },
+        "doi": { "type": "string" },
+        "isbn": { "type": "string" },
+        "url": { "type": "string" },
+        "accessed": { "$ref": "_common.schema.json#/$defs/isoDate" },
+        "original_language": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+
+    "custody": {
+      "type": "object",
+      "description": "Where the thing physically is, and who controls access.",
+      "properties": {
+        "repository": { "type": "string" },
+        "collection": { "type": "string" },
+        "reference_number": { "type": "string" },
+        "location_country": { "type": "string" },
+        "custodian_contact": { "type": "string" },
+        "access": {
+          "type": "string",
+          "enum": ["open", "by-appointment", "restricted", "embargoed", "community-controlled", "unknown"]
+        },
+        "access_conditions": { "type": "string" },
+        "digitised": { "type": "boolean" },
+        "local_copy": { "type": "string", "description": "Asset store path of the scan or recording." }
+      },
+      "required": ["access"],
+      "additionalProperties": false
+    },
+
+    "critique": {
+      "type": "object",
+      "description": "Mandatory interrogation of the source. See bible/02 §4. This block is why a citation is not just a location.",
+      "properties": {
+        "creator_context": { "type": "string", "description": "Who made this, when, for whom." },
+        "position_to_know": { "type": "string", "description": "What were they actually in a position to observe or record?" },
+        "interests": { "type": "string", "description": "What interest shaped what was recorded and how." },
+        "transmission": { "type": "string", "description": "Copying, translation, restoration, selective preservation, archival rearrangement." },
+        "silences": { "type": "string", "description": "What this source would not have recorded, and what its absence therefore does and does not prove." },
+        "known_disputes": { "type": "string", "description": "Scholarly challenges to this source's reliability." }
+      },
+      "required": ["creator_context", "position_to_know", "interests"],
+      "additionalProperties": false
+    },
+
+    "oral_protocol": {
+      "type": "object",
+      "description": "Required when source_type is oral_testimony or oral_tradition. See research/methodology/oral_history_protocol.md.",
+      "properties": {
+        "holder": { "type": "string", "description": "May be an anonymised reference if safety requires." },
+        "holder_standing": { "type": "string", "description": "Their relationship to the knowledge — lineage, office, training." },
+        "transmission_context": { "type": "string" },
+        "language": { "type": "string" },
+        "recorded_by": { "type": "string" },
+        "recorded_on": { "$ref": "_common.schema.json#/$defs/isoDate" },
+        "consent_ref": { "$ref": "_common.schema.json#/$defs/clearanceId" },
+        "restrictions": { "type": "string" },
+        "translation_by": { "type": "string" }
+      },
+      "required": ["holder", "holder_standing", "consent_ref"],
+      "additionalProperties": false
+    },
+
+    "rights": {
+      "type": "object",
+      "properties": {
+        "status": { "type": "string", "enum": ["cleared", "pending", "not-required", "refused", "unknown"] },
+        "clearance_ref": { "$ref": "_common.schema.json#/$defs/clearanceId" },
+        "credit_line": { "type": "string", "description": "Exact wording the rights holder requires." },
+        "restrictions": { "type": "string" }
+      },
+      "required": ["status"],
+      "additionalProperties": false
+    },
+
+    "supports_claims": {
+      "type": "array",
+      "items": { "$ref": "_common.schema.json#/$defs/claimId" }
+    },
+    "notes": { "type": "string" }
+  },
+  "required": ["id", "type", "line", "title", "status", "version", "updated", "owners", "tier", "source_type", "custody", "critique"],
+  "allOf": [
+    {
+      "if": {
+        "properties": { "source_type": { "enum": ["oral_testimony", "oral_tradition", "interview"] } },
+        "required": ["source_type"]
+      },
+      "then": { "required": ["oral_protocol"] }
+    },
+    {
+      "if": { "properties": { "tier": { "const": "T5" } }, "required": ["tier"] },
+      "then": {
+        "properties": {
+          "supports_claims": {
+            "maxItems": 0,
+            "description": "T5 sources are never citable. A T5 record may exist as a lead only. See bible/02 §2."
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

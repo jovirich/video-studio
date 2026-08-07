@@ -1,0 +1,43 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "studio_ops: validate --all",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "studio_ops",
+      "args": ["validate", "--all"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "studio_ops: new-episode (prompt)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "studio_ops",
+      "args": ["new-episode", "--line", "ng-nigeria", "--season", "1", "--number", "1", "--slug", "debug-episode"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "studio_ops: status",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "studio_ops",
+      "args": ["status", "--line", "ng-nigeria"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "pytest: current file",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "pytest",
+      "args": ["${file}", "-vv"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    }
+  ]
+}

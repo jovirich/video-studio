@@ -1,0 +1,14 @@
+# Runtime dependencies for studio_ops.
+# Authoritative source is pyproject.toml; this file exists for environments that
+# cannot install an editable package (locked-down workstations, render nodes).
+#
+#   pip install -r requirements.txt
+#   pip install -e ".[dev]"        # preferred
+
+typer>=0.12
+rich>=13.7
+pyyaml>=6.0
+jsonschema>=4.22
+python-frontmatter>=1.1
+python-dotenv>=1.0
+jinja2>=3.1

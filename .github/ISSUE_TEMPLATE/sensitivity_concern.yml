@@ -1,0 +1,40 @@
+name: Sensitivity concern
+description: Raise a cultural, ethical, or representational concern. Any contributor may file this; it is never overruled silently.
+title: "[sensitivity] "
+labels: ["sensitivity", "priority"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This issue type halts the affected asset or sequence until the Cultural Advisor
+        rules on it. Filing one is never a fault. Ignoring one is.
+  - type: input
+    id: target
+    attributes:
+      label: What is affected
+      placeholder: "S01E01 shot 042 / character record CHR-NG-0007 / prompt card PC-0113"
+    validations: { required: true }
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - "Sacred, restricted, or initiatory material"
+        - "Human remains, burial, or funerary practice"
+        - "Depiction of violence or atrocity"
+        - "Living community's contested claim"
+        - "Likeness or voice of a real person"
+        - "Language, naming, or orthography"
+        - "Stereotype, flattening, or colonial framing"
+        - "Regalia, masquerade, or ceremonial dress"
+        - "Other"
+    validations: { required: true }
+  - type: textarea
+    id: concern
+    attributes: { label: The concern }
+    validations: { required: true }
+  - type: textarea
+    id: alternative
+    attributes:
+      label: Proposed alternative
+      description: Optional. What would address it without losing the storytelling intent?

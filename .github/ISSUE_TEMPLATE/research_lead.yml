@@ -1,0 +1,45 @@
+name: Research lead
+description: A line of enquiry that may become part of an episode. Not yet a claim.
+title: "[research] "
+labels: ["research", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for something worth investigating. Do **not** state it as fact here.
+        A lead becomes a claim only after it has a source record at the required tier.
+  - type: input
+    id: line
+    attributes: { label: Production line, placeholder: "ng-nigeria" }
+    validations: { required: true }
+  - type: input
+    id: episode
+    attributes: { label: Target episode (if known), placeholder: "S01E01 or 'unassigned'" }
+  - type: textarea
+    id: question
+    attributes:
+      label: The question
+      description: Phrase it as a question, not an assertion.
+      placeholder: "What is the documentary basis for ...?"
+    validations: { required: true }
+  - type: textarea
+    id: where
+    attributes:
+      label: Where might the answer live?
+      description: Archives, collections, scholars, oral-history holders, catalogues.
+  - type: dropdown
+    id: tier
+    attributes:
+      label: Minimum source tier this will need
+      description: See sources/README.md § Tiering
+      options: ["T1 — primary / archival", "T2 — peer-reviewed secondary", "T3 — reputable general", "T4 — oral testimony (requires corroboration)"]
+    validations: { required: true }
+  - type: checkboxes
+    id: flags
+    attributes:
+      label: Flags
+      options:
+        - label: Likely contested between scholarly traditions
+        - label: Touches sacred, restricted, or funerary material
+        - label: Involves living communities' present-day claims
+        - label: Involves colonial-era records whose framing needs interrogation

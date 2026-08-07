@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://african-history-studio.local/schemas/character.schema.json",
+  "title": "Character",
+  "description": "A person or collective actor appearing in the series. Applies to <line>/characters/profiles/CHR-*.md front matter. Holds NO historical facts — every substantive statement is a claim reference. This is what keeps cross-episode consistency mechanical.",
+  "type": "object",
+  "properties": {
+    "id":      { "$ref": "_common.schema.json#/$defs/characterId" },
+    "type":    { "const": "character" },
+    "line":    { "$ref": "_common.schema.json#/$defs/lineCode" },
+    "title":   { "type": "string", "description": "The on-screen name form. See naming below." },
+    "status":  { "$ref": "_common.schema.json#/$defs/recordStatus" },
+    "version": { "$ref": "_common.schema.json#/$defs/semver" },
+    "updated": { "$ref": "_common.schema.json#/$defs/isoDate" },
+    "owners":  { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/roleSlug" } },
+    "sensitivity":  { "$ref": "_common.schema.json#/$defs/sensitivity" },
+    "advisory_ref": { "$ref": "_common.schema.json#/$defs/advisoryId" },
+    "superseded_by": { "type": "string" },
+    "retraction_reason": { "type": "string" },
+
+    "actor_kind": {
+      "type": "string",
+      "enum": ["individual", "lineage", "office", "collective", "institution", "contemporary_contributor"],
+      "description": "'office' covers a title held by successive individuals — treating it as one person is a common and consequential error."
+    },
+
+    "naming": {
+      "type": "object",
+      "description": "See bible/09 §3. The choice of on-screen name form is an editorial decision with a recorded reason.",
+      "properties": {
+        "on_screen": { "type": "string" },
+        "on_screen_reason": { "type": "string" },
+        "language_of_form": { "type": "string" },
+        "orthography": { "type": "string" },
+        "ipa": { "type": "string", "description": "Required before any VO session mentions this entity. bible/09 §4." },
+        "pronunciation_ref": { "type": "string", "description": "Asset store path of the reference recording from a speaker of the language." },
+        "alternative_forms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "form": { "type": "string" },
+              "kind": { "type": "string", "enum": ["endonym", "exonym", "colonial", "historical", "regnal", "honorific", "transliteration", "variant"] },
+              "used_by": { "type": "string" },
+              "note": { "type": "string" }
+            },
+            "required": ["form", "kind"],
+            "additionalProperties": false
+          }
+        },
+        "titles": { "type": "array", "items": { "type": "string" }, "description": "Rendered accurately, not translated into approximate European equivalents." }
+      },
+      "required": ["on_screen"],
+      "additionalProperties": false
+    },
+
+    "dating": { "$ref": "_common.schema.json#/$defs/dateRange" },
+
+    "affiliations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "org": { "$ref": "_common.schema.json#/$defs/orgId" },
+          "relation": { "type": "string" },
+          "claims": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/claimId" } }
+        },
+        "required": ["org", "relation"],
+        "additionalProperties": false
+      }
+    },
+
+    "locations": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/locationId" } },
+
+    "claims": {
+      "type": "array",
+      "description": "Everything the series asserts about this actor. The prose body of the record explains and contextualises; it never asserts anything absent from here.",
+      "items": { "$ref": "_common.schema.json#/$defs/claimId" }
+    },
+
+    "open_questions": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/questionId" } },
+
+    "depiction": {
+      "type": "object",
+      "description": "Rules for showing this actor on screen. See bible/03 §6 and bible/07.",
+      "properties": {
+        "may_be_depicted": { "type": "boolean" },
+        "depiction_constraints": { "type": "string" },
+        "appearance_evidence": {
+          "type": "array",
+          "description": "What the depiction is grounded in — portraits, descriptions, regalia in collections. Empty means no evidence-based depiction is possible.",
+          "items": { "$ref": "_common.schema.json#/$defs/sourceId" }
+        },
+        "voice_permitted": { "type": "boolean", "description": "Synthesising a historical figure's voice is prohibited outright. bible/05 §2." },
+        "living": { "type": "boolean" },
+        "consent_ref": { "$ref": "_common.schema.json#/$defs/clearanceId" },
+        "descendant_community_contact": { "type": "string" }
+      },
+      "required": ["may_be_depicted"],
+      "additionalProperties": false
+    },
+
+    "style_anchors": {
+      "type": "array",
+      "description": "Fixed reference images used to hold this actor's appearance consistent across shots and episodes.",
+      "items": { "$ref": "_common.schema.json#/$defs/styleAnchorId" }
+    },
+
+    "appears_in": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/episodeCode" } },
+    "notes": { "type": "string" }
+  },
+  "required": ["id", "type", "line", "title", "status", "version", "updated", "owners", "actor_kind", "naming", "depiction"],
+  "allOf": [
+    {
+      "if": {
+        "properties": { "depiction": { "properties": { "living": { "const": true } }, "required": ["living"] } },
+        "required": ["depiction"]
+      },
+      "then": { "properties": { "depiction": { "required": ["consent_ref"] } } }
+    },
+    {
+      "if": {
+        "properties": { "depiction": { "properties": { "voice_permitted": { "const": true } }, "required": ["voice_permitted"] } },
+        "required": ["depiction"]
+      },
+      "then": { "properties": { "depiction": { "required": ["consent_ref"] } } }
+    }
+  ],
+  "additionalProperties": false
+}

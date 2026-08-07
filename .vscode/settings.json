@@ -1,0 +1,57 @@
+{
+  "// Studio conventions": "Shared editor settings. Personal preferences belong in your user settings, not here.",
+
+  "files.encoding": "utf8",
+  "files.eol": "\n",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.associations": {
+    "*.md": "markdown",
+    "episode.yaml": "yaml",
+    "manifest.yaml": "yaml",
+    "*.prompt.yaml": "yaml"
+  },
+
+  "editor.rulers": [88, 100],
+  "editor.wordWrap": "on",
+  "editor.tabSize": 2,
+
+  "[python]": {
+    "editor.tabSize": 4,
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": { "source.organizeImports": "explicit" }
+  },
+  "[markdown]": {
+    "editor.quickSuggestions": { "comments": "off", "strings": "off", "other": "off" },
+    "editor.trimAutoWhitespace": false
+  },
+
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+  "python.testing.pytestEnabled": true,
+  "python.testing.pytestArgs": ["automation/tests"],
+  "python.analysis.extraPaths": ["automation"],
+
+  "yaml.schemas": {
+    "./standards/schemas/episode.schema.json": ["**/episode.yaml"],
+    "./standards/schemas/prompt_card.schema.json": ["**/*.prompt.yaml"],
+    "./standards/schemas/asset_manifest.schema.json": ["**/manifest.yaml"],
+    "./standards/schemas/source_record.schema.json": ["sources/registry/records/*.yaml"]
+  },
+
+  "cSpell.words": [
+    "Aro", "Benin", "Biafra", "Borno", "cowrie", "Edo", "Efik", "Fulani", "Hausa",
+    "Ibibio", "Igbo", "Ijaw", "Kanem", "Kanuri", "Nok", "Nri", "Nsibidi", "Nupe",
+    "Oyo", "Sokoto", "Tiv", "Yoruba", "Zaria",
+    "ahs", "elevenlabs", "frontmatter", "jsonschema", "midjourney", "prores",
+    "runway", "studioops", "typer"
+  ],
+  "cSpell.enabledFileTypes": { "markdown": true, "python": true },
+
+  "todo-tree.general.tags": ["TBD", "TODO", "FIXME", "NEEDS-SOURCE", "NEEDS-CLEARANCE", "SENSITIVE"],
+  "search.exclude": {
+    "**/.venv": true,
+    "**/05_assets": true,
+    "**/09_delivery/masters": true
+  }
+}

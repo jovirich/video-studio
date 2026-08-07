@@ -1,0 +1,64 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Validate: all gates",
+      "type": "shell",
+      "command": "python -m studio_ops validate --all",
+      "group": { "kind": "test", "isDefault": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "Validate: fast (schemas + naming)",
+      "type": "shell",
+      "command": "python -m studio_ops validate --schemas --naming",
+      "problemMatcher": []
+    },
+    {
+      "label": "New episode",
+      "type": "shell",
+      "command": "python -m studio_ops new-episode --line ${input:line} --season ${input:season} --number ${input:number} --slug ${input:slug}",
+      "problemMatcher": []
+    },
+    {
+      "label": "New production line",
+      "type": "shell",
+      "command": "python -m studio_ops new-line --code ${input:lineCode} --name ${input:lineName}",
+      "problemMatcher": []
+    },
+    {
+      "label": "Status: slate + gates",
+      "type": "shell",
+      "command": "python -m studio_ops status --line ${input:line}",
+      "problemMatcher": []
+    },
+    {
+      "label": "Report: bibliography",
+      "type": "shell",
+      "command": "python -m studio_ops report bibliography --episode ${input:episode}",
+      "problemMatcher": []
+    },
+    {
+      "label": "Report: shot list",
+      "type": "shell",
+      "command": "python -m studio_ops report shotlist --episode ${input:episode}",
+      "problemMatcher": []
+    },
+    {
+      "label": "Python: lint + typecheck + test",
+      "type": "shell",
+      "command": "ruff check automation && mypy automation/studio_ops && pytest",
+      "group": "build",
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    { "id": "line", "type": "promptString", "description": "Production line code", "default": "ng-nigeria" },
+    { "id": "lineCode", "type": "promptString", "description": "New line code (e.g. gh-ghana)" },
+    { "id": "lineName", "type": "promptString", "description": "New line display name (e.g. Ghana)" },
+    { "id": "season", "type": "promptString", "description": "Season number", "default": "1" },
+    { "id": "number", "type": "promptString", "description": "Episode number", "default": "1" },
+    { "id": "slug", "type": "promptString", "description": "Working-title slug (kebab-case)" },
+    { "id": "episode", "type": "promptString", "description": "Episode code (e.g. S01E01)", "default": "S01E01" }
+  ]
+}

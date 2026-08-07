@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://african-history-studio.local/schemas/production_line.schema.json",
+  "title": "Production line",
+  "description": "The control record for a country or region line. Applies to productions/<line>/line.yaml. A line is not open for production until the three conditions in bible/00 §2 are satisfied, which this record makes checkable.",
+  "type": "object",
+  "properties": {
+    "id":      { "type": "string", "pattern": "^LINE-[A-Z]{2}$" },
+    "type":    { "const": "production_line" },
+    "line":    { "$ref": "_common.schema.json#/$defs/lineCode" },
+    "title":   { "type": "string" },
+    "status":  { "$ref": "_common.schema.json#/$defs/recordStatus" },
+    "version": { "$ref": "_common.schema.json#/$defs/semver" },
+    "updated": { "$ref": "_common.schema.json#/$defs/isoDate" },
+    "owners":  { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/roleSlug" } },
+    "sensitivity":  { "$ref": "_common.schema.json#/$defs/sensitivity" },
+    "advisory_ref": { "$ref": "_common.schema.json#/$defs/advisoryId" },
+    "superseded_by": { "type": "string" },
+    "retraction_reason": { "type": "string" },
+
+    "code": { "$ref": "_common.schema.json#/$defs/lineCode" },
+    "id_scope": { "type": "string", "pattern": "^[A-Z]{2}$", "description": "The two-letter scope used in this line's record IDs, e.g. NG." },
+    "order": { "type": "integer", "description": "Line number. Nigeria is 1." },
+
+    "line_status": {
+      "type": "string",
+      "enum": ["candidate", "opening", "open", "paused", "closed"],
+      "description": "'candidate' means considered but not opened. Only 'open' permits greenlighting episodes."
+    },
+
+    "opening_conditions": {
+      "type": "object",
+      "description": "The three conditions in bible/00 §2. All three must be true before line_status can be 'open'.",
+      "properties": {
+        "research_lead_named": { "type": "boolean" },
+        "research_lead": { "type": "string" },
+        "advisory_contact_agreed": { "type": "boolean" },
+        "advisory_register": { "type": "string", "description": "Path to the line's advisory register." },
+        "archive_landscape_surveyed": { "type": "boolean" },
+        "archive_landscape_doc": { "type": "string" }
+      },
+      "required": ["research_lead_named", "advisory_contact_agreed", "archive_landscape_surveyed"],
+      "additionalProperties": false
+    },
+
+    "languages": {
+      "type": "array",
+      "description": "Languages appearing on screen in this line. Each requires an entry in <line>/languages/. Font selection depends on the union of their diacritic coverage.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "iso639_3": { "type": "string" },
+          "script": { "type": "string" },
+          "orthography_standard": { "type": "string" },
+          "tonal": { "type": "boolean" },
+          "style_guide": { "type": "string" }
+        },
+        "required": ["name"],
+        "additionalProperties": false
+      }
+    },
+
+    "visual_identity": {
+      "type": "object",
+      "properties": {
+        "style_doc": { "type": "string" },
+        "show_lut": { "type": "string" },
+        "lens_set": { "type": "array", "items": { "type": "string" } },
+        "palette_doc": { "type": "string" },
+        "style_anchor_set": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/styleAnchorId" } }
+      },
+      "additionalProperties": false
+    },
+
+    "seasons": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "number": { "type": "integer" },
+          "title": { "type": "string" },
+          "status": { "type": "string", "enum": ["planned", "in-production", "delivered", "shelved"] },
+          "episode_count_target": { "type": ["integer", "string"] },
+          "throughline": { "type": "string", "description": "The question the season as a whole asks." }
+        },
+        "required": ["number", "status"],
+        "additionalProperties": false
+      }
+    },
+
+    "corrections_log": { "type": "string" },
+    "notes": { "type": "string" }
+  },
+  "required": ["id", "type", "line", "title", "status", "version", "updated", "owners", "code", "id_scope", "line_status", "opening_conditions"],
+  "allOf": [
+    {
+      "if": { "properties": { "line_status": { "const": "open" } }, "required": ["line_status"] },
+      "then": {
+        "properties": {
+          "opening_conditions": {
+            "properties": {
+              "research_lead_named": { "const": true },
+              "advisory_contact_agreed": { "const": true },
+              "archive_landscape_surveyed": { "const": true }
+            }
+          }
+        },
+        "description": "A line cannot be 'open' with an unmet opening condition. bible/00 §2."
+      }
+    }
+  ],
+  "additionalProperties": false
+}

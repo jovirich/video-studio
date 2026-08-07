@@ -1,0 +1,18 @@
+{
+  "recommendations": [
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "charliermarsh.ruff",
+    "redhat.vscode-yaml",
+    "yzhang.markdown-all-in-one",
+    "davidanson.vscode-markdownlint",
+    "bierner.markdown-mermaid",
+    "streetsidesoftware.code-spell-checker",
+    "gruntfuggly.todo-tree",
+    "mechatroner.rainbow-csv",
+    "tomoki1207.pdf",
+    "eamodio.gitlens",
+    "github.vscode-github-actions"
+  ],
+  "unwantedRecommendations": []
+}

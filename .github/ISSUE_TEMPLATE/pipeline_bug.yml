@@ -1,0 +1,27 @@
+name: Pipeline bug
+description: Something in studio_ops, CI, schemas, or the asset pipeline is broken.
+title: "[pipeline] "
+labels: ["pipeline", "bug"]
+body:
+  - type: input
+    id: command
+    attributes: { label: Command or workflow, placeholder: "python -m studio_ops validate --sources" }
+    validations: { required: true }
+  - type: textarea
+    id: expected
+    attributes: { label: Expected }
+    validations: { required: true }
+  - type: textarea
+    id: actual
+    attributes: { label: Actual (paste full output) , render: shell }
+    validations: { required: true }
+  - type: input
+    id: env
+    attributes: { label: OS + Python version, placeholder: "Windows 11 / Python 3.12.10" }
+  - type: checkboxes
+    id: blocking
+    attributes:
+      label: Impact
+      options:
+        - label: Blocks a gate on an active episode
+        - label: Produces incorrect validation results (false pass — treat as urgent)

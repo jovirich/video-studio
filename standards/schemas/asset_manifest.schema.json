@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://african-history-studio.local/schemas/asset_manifest.schema.json",
+  "title": "Asset manifest",
+  "description": "The episode's provenance ledger. Every asset that reaches the edit appears here — generated or not. An asset absent from the manifest cannot be conformed. Applies to episodes/<code>/manifest.yaml. See bible/06 §4.",
+  "type": "object",
+  "properties": {
+    "type":    { "const": "asset_manifest" },
+    "line":    { "$ref": "_common.schema.json#/$defs/lineCode" },
+    "episode": { "$ref": "_common.schema.json#/$defs/episodeCode" },
+    "version": { "$ref": "_common.schema.json#/$defs/semver" },
+    "updated": { "$ref": "_common.schema.json#/$defs/isoDate" },
+    "frozen":  { "type": "boolean", "description": "Set true at delivery. A frozen manifest is hashed into the delivered media metadata." },
+
+    "assets": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/asset" }
+    }
+  },
+  "required": ["type", "line", "episode", "version", "updated", "assets"],
+
+  "$defs": {
+    "asset": {
+      "type": "object",
+      "properties": {
+        "asset_id": { "$ref": "_common.schema.json#/$defs/assetId" },
+        "filename": { "type": "string", "description": "Per standards/naming_conventions.md § Assets." },
+        "store_path": { "type": "string" },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "bytes": { "type": "integer" },
+        "media_type": { "type": "string", "enum": ["image", "video", "audio", "document", "project"] },
+        "provenance_class": { "$ref": "_common.schema.json#/$defs/provenanceClass" },
+
+        "used_in_shots": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/shotId" } },
+
+        "origin": {
+          "type": "string",
+          "enum": ["generated", "licensed", "captured", "public_domain", "commissioned", "studio_library"],
+          "description": "How the studio came by it. Determines which sub-blocks are required."
+        },
+
+        "generation": {
+          "type": "object",
+          "description": "Required when origin is 'generated'.",
+          "properties": {
+            "tool": {
+              "type": "object",
+              "properties": {
+                "vendor": { "type": "string" },
+                "model": { "type": "string" },
+                "version": { "type": "string" }
+              },
+              "required": ["vendor", "model"],
+              "additionalProperties": false
+            },
+            "prompt_card": { "$ref": "_common.schema.json#/$defs/promptCardId" },
+            "seed": { "type": ["integer", "string"] },
+            "parameters": { "type": "object", "additionalProperties": true },
+            "inputs": { "type": "array", "items": { "type": "string" } },
+            "generated_at": { "type": "string" },
+            "generated_by": { "type": "string" },
+            "cost_usd": { "type": "number" }
+          },
+          "required": ["tool", "prompt_card", "seed", "generated_at", "generated_by"],
+          "additionalProperties": false
+        },
+
+        "acquisition": {
+          "type": "object",
+          "description": "Required when origin is 'licensed', 'captured', 'public_domain', or 'commissioned'.",
+          "properties": {
+            "source_record": { "$ref": "_common.schema.json#/$defs/sourceId" },
+            "clearance_ref": { "$ref": "_common.schema.json#/$defs/clearanceId" },
+            "credit_line": { "type": "string" },
+            "acquired_at": { "$ref": "_common.schema.json#/$defs/isoDate" },
+            "restrictions": { "type": "string" }
+          },
+          "additionalProperties": false
+        },
+
+        "evidence_basis": {
+          "type": "array",
+          "description": "Required when provenance_class is 'reconstruction'. Claims and sources grounding the depiction.",
+          "items": { "type": "string" }
+        },
+
+        "post_process": {
+          "type": "array",
+          "description": "Ordered. Each step that altered the asset after acquisition or generation.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "step": { "type": "string", "enum": ["upscale", "restore", "denoise", "retime", "interpolate", "grade", "crop", "composite", "rotoscope", "stabilise", "other"] },
+              "tool": { "type": "string" },
+              "note": { "type": "string" },
+              "conform_method": { "type": "string", "enum": ["native", "retime", "frame-blend", "optical-flow"], "description": "For retime steps. See standards/delivery_specs.md § Picture." }
+            },
+            "required": ["step", "tool"],
+            "additionalProperties": false
+          }
+        },
+
+        "label": {
+          "type": "object",
+          "description": "Disclosure state. See bible/04 §7.",
+          "properties": {
+            "required": { "type": "boolean" },
+            "applied": { "type": "boolean" },
+            "mark": { "type": "string" }
+          },
+          "required": ["required"],
+          "additionalProperties": false
+        },
+
+        "rights_status": {
+          "type": "string",
+          "enum": ["cleared", "pending", "not-required", "refused"],
+          "description": "An episode cannot be delivered with any asset in 'pending'. See bible/08 §10."
+        },
+
+        "review": {
+          "type": "object",
+          "properties": {
+            "sensitivity": { "$ref": "_common.schema.json#/$defs/gateStatus" },
+            "anachronism_check": { "$ref": "_common.schema.json#/$defs/gateStatus" },
+            "technical_qc": { "$ref": "_common.schema.json#/$defs/gateStatus" },
+            "signature": { "$ref": "_common.schema.json#/$defs/signature" }
+          },
+          "additionalProperties": false
+        },
+
+        "notes": { "type": "string" }
+      },
+      "required": ["asset_id", "filename", "media_type", "provenance_class", "origin", "rights_status", "label"],
+      "allOf": [
+        {
+          "if": { "properties": { "origin": { "const": "generated" } }, "required": ["origin"] },
+          "then": { "required": ["generation"] }
+        },
+        {
+          "if": { "properties": { "origin": { "enum": ["licensed", "public_domain", "commissioned", "captured"] } }, "required": ["origin"] },
+          "then": { "required": ["acquisition"] }
+        },
+        {
+          "if": { "properties": { "provenance_class": { "const": "reconstruction" } }, "required": ["provenance_class"] },
+          "then": { "required": ["evidence_basis"] }
+        },
+        {
+          "if": {
+            "properties": {
+              "origin": { "const": "generated" },
+              "provenance_class": { "const": "archival" }
+            },
+            "required": ["origin", "provenance_class"]
+          },
+          "then": {
+            "not": {},
+            "description": "PROHIBITED: a generated asset can never carry the 'archival' provenance class. bible/06 §2.1."
+          }
+        }
+      ],
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://african-history-studio.local/schemas/timeline_event.schema.json",
+  "title": "Timeline event",
+  "description": "An event on a production line's timeline. Applies to <line>/timeline/events/EVT-*.yaml. Every event is backed by claims; a timeline is a graphic and therefore an assertion. See standards/data_graphics.md § Timelines.",
+  "type": "object",
+  "properties": {
+    "id":      { "$ref": "_common.schema.json#/$defs/eventId" },
+    "type":    { "const": "timeline_event" },
+    "line":    { "$ref": "_common.schema.json#/$defs/lineCode" },
+    "title":   { "type": "string" },
+    "status":  { "$ref": "_common.schema.json#/$defs/recordStatus" },
+    "version": { "$ref": "_common.schema.json#/$defs/semver" },
+    "updated": { "$ref": "_common.schema.json#/$defs/isoDate" },
+    "owners":  { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/roleSlug" } },
+    "sensitivity":  { "$ref": "_common.schema.json#/$defs/sensitivity" },
+    "advisory_ref": { "$ref": "_common.schema.json#/$defs/advisoryId" },
+    "superseded_by": { "type": "string" },
+    "retraction_reason": { "type": "string" },
+
+    "summary": { "type": "string", "description": "One sentence, at the confidence level the evidence supports." },
+
+    "dating": { "$ref": "_common.schema.json#/$defs/dateRange" },
+
+    "dating_resolution": {
+      "type": "string",
+      "enum": ["year", "decade", "generation", "century", "reign", "relative", "unknown"],
+      "description": "Drives how the event is rendered on a timeline graphic. A tick on a specific year asserts a precision most sources do not support."
+    },
+
+    "attestation": {
+      "type": "string",
+      "enum": ["attested", "inferred", "traditional", "disputed"],
+      "description": "Visually distinguished on timeline graphics and keyed."
+    },
+
+    "participants": {
+      "type": "object",
+      "properties": {
+        "characters": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/characterId" } },
+        "organisations": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/orgId" } }
+      },
+      "additionalProperties": false
+    },
+
+    "locations": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/locationId" } },
+
+    "relations": {
+      "type": "array",
+      "description": "Explicit relationships between events. Adjacency on a timeline reads as causation; if a link is not asserted here, the graphic must not imply it.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "event": { "$ref": "_common.schema.json#/$defs/eventId" },
+          "relation": { "type": "string", "enum": ["precedes", "follows", "causes", "contributes-to", "responds-to", "concurrent-with", "contradicts-account-of"] },
+          "confidence": { "$ref": "_common.schema.json#/$defs/confidenceRegister" },
+          "claims": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/claimId" } }
+        },
+        "required": ["event", "relation", "confidence"],
+        "additionalProperties": false
+      }
+    },
+
+    "claims": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/claimId" }, "minItems": 1 },
+    "open_questions": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/questionId" } },
+    "appears_in": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/episodeCode" } },
+    "notes": { "type": "string" }
+  },
+  "required": ["id", "type", "line", "title", "status", "version", "updated", "owners", "summary", "dating", "dating_resolution", "attestation", "claims"],
+  "additionalProperties": false
+}
