@@ -4,7 +4,7 @@ type: continuity_character
 line: ng-nigeria
 title: Character A — the worker (invented)
 status: draft
-version: 0.2.0
+version: 0.3.0
 updated: "2026-08-07"
 owners: [visual-director]
 
@@ -59,13 +59,20 @@ appearance:
 # The single most valuable field for SCORING. Binary rather than gestalt: present
 # and correct, or not.
 distinctive_features:
-  - feature: small vertical scar through the outer third of the right eyebrow
-    location_on_body: right eyebrow, outer third
+  - feature: small vertical scar through the centre of the chin
+    location_on_body: chin, on the midline
     always_visible: true
     evidence: []
     cultural_note: >
       Invented. Carries no meaning, marks no status, and is not a practice of any
       real culture. It exists solely to make identity drift checkable.
+
+      MIDLINE BY DESIGN. The first version of this record specified a scar on the
+      RIGHT eyebrow. Across eight anchor candidates the surface placed it on the
+      specified side once. A feature whose side the generator cannot hold is useless
+      as a binary identity check — every scored frame becomes an argument about
+      whether a flipped mark counts as drift. A midline feature cannot be mirrored,
+      so the check is reliable by construction rather than by luck.
 
 wardrobe:
   - set_id: primary
@@ -124,8 +131,11 @@ forbidden_variations:
       distinguishable by age, facial geometry, hair, build, height, silhouette, and
       distinctive feature.
     severity: style-breach
-  - forbidden: loss or displacement of the right-eyebrow scar
-    why: it is the binary identity check; absent, scoring reverts to gestalt judgement
+  - forbidden: loss of the chin scar, or its appearance off the midline
+    why: >
+      It is the binary identity check. Absent, scoring reverts to gestalt judgement —
+      which is exactly what the shot plan was written to avoid. Off-centre is also a
+      fail: the whole point of a midline mark is that there is no side to get wrong.
     severity: style-breach
   - forbidden: jewellery, beadwork, worked metal adornment
     why: adornment that signifies would make A a depiction of a real culture's practice
@@ -189,13 +199,22 @@ then a comparison rather than an assertion.
 four diagnostic shots. Mixing mechanisms would confound shot 18: a failure could be
 the mechanism or the mixture, with no way to tell which.
 
-## The scar is the instrument
+## The scar is the instrument, and it is midline for a reason
 
-The right-eyebrow scar is not decoration. It converts `same_person` from a gestalt
-judgement into a binary check — present and correct, or not — and it is the single
-thing that makes the two-shot scoring defensible rather than arguable.
+The chin scar is not decoration. It converts `same_person` from a gestalt judgement
+into a binary check — present and correct, or not — and it is the single thing that
+makes two-shot scoring defensible rather than arguable.
 
-If a render loses it, that render fails regardless of how convincing the face looks.
+**It moved from the eyebrow to the chin because of evidence.** The first eight anchor
+candidates put the eyebrow scar on the specified side once. A generator that cannot
+reliably control which side a mark lands on makes a lateral feature worthless as a
+check: a flipped scar is indistinguishable from drift, and every scored frame becomes
+an argument.
+
+A midline mark has no side to get wrong. The check now holds by construction.
+
+If a render loses it, or places it off-centre, that render fails regardless of how
+convincing the face looks.
 
 ## What we do not know
 

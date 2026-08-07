@@ -47,13 +47,13 @@ continuity_constraints:
 
   '
 - 'A — height relative: approximately 8–10 cm taller than B'
-- A — small vertical scar through the outer third of the right eyebrow (must be visible
-  in every shot)
+- A — small vertical scar through the centre of the chin (must be visible in every
+  shot)
 prompt: 'A single invented adult figure, presenting male, apparent age 38-42. Deep
   brown skin. Short tightly coiled black hair with a low even profile and a clearly
   visible natural hairline. Short, neatly maintained full beard and moustache. Long-oval
   face, moderately broad nose, pronounced cheekbones, deep-set dark brown eyes, strong
-  jaw. A small vertical scar through the outer third of the RIGHT eyebrow, clearly
+  jaw. A small vertical scar through the CENTRE OF THE CHIN, on the midline, clearly
   resolved. Lean, strong working build with defined shoulders. Neutral expression.
   Plain neutral mid-grey background, featureless, no environment, no props. Composition:
   Head and upper shoulders. Near-frontal view, camera at eye level. Face centred and
@@ -66,15 +66,15 @@ prompt: 'A single invented adult figure, presenting male, apparent age 38-42. De
   tone. Texture: Natural skin texture retained — pores, fine lines, the scar''s edge.
   Not smoothed, not beautified. Mood: neutral, documentary, unstyled. Avoid: any change
   of garment between shots, convergence toward B in face, build, or silhouette, loss
-  or displacement of the right-eyebrow scar, footwear of modern construction, eyeglasses,
-  wristwatch, any manufactured object, dramatic lighting, rim light, coloured gel,
-  heavy grade, smoothed or airbrushed skin, motion blur, shallow focus on the eyes
-  only, hat, headwear, glasses, jewellery, hand or object across the face, patterned
+  of the chin scar, or its appearance off the midline, footwear of modern construction,
+  eyeglasses, wristwatch, any manufactured object, dramatic lighting, rim light, coloured
+  gel, heavy grade, smoothed or airbrushed skin, motion blur, shallow focus on the
+  eyes only, hat, headwear, glasses, jewellery, hand or object across the face, patterned
   or embroidered cloth, environment, props, background detail.'
 negative:
 - any change of garment between shots
 - convergence toward B in face, build, or silhouette
-- loss or displacement of the right-eyebrow scar
+- loss of the chin scar, or its appearance off the midline
 - footwear of modern construction, eyeglasses, wristwatch, any manufactured object
 - dramatic lighting
 - rim light
@@ -132,13 +132,16 @@ acceptance_checklist:
 - 'ACCEPTANCE CHECKLIST for the rendered anchor, before it may be approved: neutral
   expression; head and upper shoulders; near-frontal; camera at eye level; even neutral
   lighting with no dramatic shadow; plain neutral background; hairline completely
-  visible; beard clearly resolved; RIGHT eyebrow scar clearly resolved and on the
-  correct side; no motion blur; nothing obscuring the face; natural skin texture;
-  no grading that materially changes skin tone; measured cheek value approximately
+  visible; beard clearly resolved; chin scar clearly resolved and ON THE MIDLINE,
+  not offset to either side; no motion blur; nothing obscuring the face; natural skin
+  texture; no grading that materially changes skin tone; measured cheek value approximately
   #70452F.'
 - A render that is beautiful and fails any of these is rejected. The anchor's job
   is to be legible, not attractive - every ambiguity here becomes an unscoreable frame
-  later. The mirrored scar is the most likely single failure and the easiest to miss.
+  later.
+- 'The mark is MIDLINE deliberately: eight earlier candidates put a lateral scar on
+  the specified side once, so a mirrored feature is the known failure of this surface.
+  A centred mark removes the failure rather than testing for it.'
 provenance_required:
 - which surface actually produced it — the product name, not 'interactive'
 - the model, and its exact version identifier if the surface shows one

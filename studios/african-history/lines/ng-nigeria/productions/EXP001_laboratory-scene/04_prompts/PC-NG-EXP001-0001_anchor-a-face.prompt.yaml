@@ -63,8 +63,8 @@ prompt:
     skin. Short tightly coiled black hair with a low even profile and a clearly
     visible natural hairline. Short, neatly maintained full beard and moustache.
     Long-oval face, moderately broad nose, pronounced cheekbones, deep-set dark brown
-    eyes, strong jaw. A small vertical scar through the outer third of the RIGHT
-    eyebrow, clearly resolved. Lean, strong working build with defined shoulders.
+    eyes, strong jaw. A small vertical scar through the CENTRE OF THE CHIN, on the
+    midline, clearly resolved. Lean, strong working build with defined shoulders.
     Neutral expression.
   setting: >
     Plain neutral mid-grey background, featureless, no environment, no props.
@@ -122,11 +122,15 @@ notes: >
   ACCEPTANCE CHECKLIST for the rendered anchor, before it may be approved:
   neutral expression; head and upper shoulders; near-frontal; camera at eye level;
   even neutral lighting with no dramatic shadow; plain neutral background; hairline
-  completely visible; beard clearly resolved; RIGHT eyebrow scar clearly resolved and
-  on the correct side; no motion blur; nothing obscuring the face; natural skin
+  completely visible; beard clearly resolved; chin scar clearly resolved and ON THE MIDLINE, not
+  offset to either side; no motion blur; nothing obscuring the face; natural skin
   texture; no grading that materially changes skin tone; measured cheek value
   approximately #70452F.
 
   A render that is beautiful and fails any of these is rejected. The anchor's job is
   to be legible, not attractive - every ambiguity here becomes an unscoreable frame
-  later. The mirrored scar is the most likely single failure and the easiest to miss.
+  later.
+
+  The mark is MIDLINE deliberately: eight earlier candidates put a lateral scar on
+  the specified side once, so a mirrored feature is the known failure of this
+  surface. A centred mark removes the failure rather than testing for it.

@@ -44,8 +44,8 @@ continuity_constraints:
 
   '
 - 'B — height relative: approximately 8–10 cm shorter than A'
-- B — small circular dark birthmark high on the left cheek (must be visible in every
-  shot)
+- B — small round dark birthmark centred on the bridge of the nose, between the brows
+  (must be visible in every shot)
 prompt: 'A single invented adult figure, presenting female, apparent age 25-29. Rich
   medium-deep brown skin. Tightly coiled black hair gathered into a compact high natural
   bun, hairline visible. No facial hair. Rounder face than a long-oval, softer jaw,
@@ -62,17 +62,17 @@ prompt: 'A single invented adult figure, presenting female, apparent age 25-29. 
   cinematic grading. Nothing that materially changes skin tone. Texture: Natural skin
   texture retained. Not smoothed, not beautified. Mood: neutral, documentary, unstyled.
   Avoid: any change of garment between shots, resembling A in face, age, build, height,
-  or silhouette, loss or displacement of the left-cheek birthmark, acquiring A''s
-  eyebrow scar, footwear of modern construction, eyeglasses, any manufactured object,
-  dramatic lighting, rim light, coloured gel, heavy grade, smoothed or airbrushed
+  or silhouette, loss of the nose-bridge birthmark, or its appearance off the midline,
+  acquiring A''s chin scar, footwear of modern construction, eyeglasses, any manufactured
+  object, dramatic lighting, rim light, coloured gel, heavy grade, smoothed or airbrushed
   skin, motion blur, hat, headwear, glasses, jewellery, hand or object across the
   face, patterned or embroidered cloth, environment, props, background detail, beard,
-  moustache, facial hair, eyebrow scar.'
+  moustache, facial hair, chin scar, cheek birthmark.'
 negative:
 - any change of garment between shots
 - resembling A in face, age, build, height, or silhouette
-- loss or displacement of the left-cheek birthmark
-- acquiring A's eyebrow scar
+- loss of the nose-bridge birthmark, or its appearance off the midline
+- acquiring A's chin scar
 - footwear of modern construction, eyeglasses, any manufactured object
 - dramatic lighting
 - rim light
@@ -85,7 +85,8 @@ negative:
 - patterned or embroidered cloth
 - environment, props, background detail
 - beard, moustache, facial hair
-- eyebrow scar
+- chin scar
+- cheek birthmark
 - grid
 - contact sheet
 - collage
@@ -127,16 +128,17 @@ provenance_class: interpretive
 acceptance_checklist:
 - 'ACCEPTANCE CHECKLIST, identical to A''s plus the separation checks: neutral expression;
   head and upper shoulders; near-frontal; eye level; even neutral light; plain neutral
-  background; hairline visible; LEFT-cheek birthmark clearly resolved and on the correct
-  side; no facial hair; NO eyebrow scar; no motion blur; natural skin texture; no
-  grading that changes skin tone; measured cheek value approximately #87583D.'
+  background; hairline visible; nose-bridge birthmark clearly resolved and ON THE
+  MIDLINE between the brows; no facial hair; NO chin scar; no motion blur; natural
+  skin texture; no grading that changes skin tone; measured cheek value approximately
+  #87583D.'
 - 'Then check the pair together, which is the step most likely to be skipped: framing,
   lens, background and light must match A''s anchor closely enough that the two frames
   could sit side by side without either being obviously differently shot. And B must
   be unmistakably a different person from A at a glance - age, face, hair, build.'
-- The absent eyebrow scar is listed as a negative deliberately. If it appears on B
-  at anchor stage, the vendor is already bleeding features between two similar prompts,
-  and that is worth knowing before any production shot is generated.
+- A's chin scar is listed as a negative deliberately. If it appears on B at anchor
+  stage, the vendor is already bleeding features between two similar prompts, and
+  that is worth knowing before any production shot is generated.
 provenance_required:
 - which surface actually produced it — the product name, not 'interactive'
 - the model, and its exact version identifier if the surface shows one

@@ -91,7 +91,8 @@ prompt:
     - patterned or embroidered cloth
     - environment, props, background detail
     - beard, moustache, facial hair
-    - eyebrow scar
+    - chin scar
+    - cheek birthmark
 
 parameters: {}
 
@@ -112,8 +113,8 @@ review:
 notes: >
   ACCEPTANCE CHECKLIST, identical to A's plus the separation checks:
   neutral expression; head and upper shoulders; near-frontal; eye level; even neutral
-  light; plain neutral background; hairline visible; LEFT-cheek birthmark clearly
-  resolved and on the correct side; no facial hair; NO eyebrow scar; no motion blur;
+  light; plain neutral background; hairline visible; nose-bridge birthmark clearly resolved and
+  ON THE MIDLINE between the brows; no facial hair; NO chin scar; no motion blur;
   natural skin texture; no grading that changes skin tone; measured cheek value
   approximately #87583D.
 
@@ -122,6 +123,6 @@ notes: >
   could sit side by side without either being obviously differently shot. And B must
   be unmistakably a different person from A at a glance - age, face, hair, build.
 
-  The absent eyebrow scar is listed as a negative deliberately. If it appears on B at
+  A's chin scar is listed as a negative deliberately. If it appears on B at
   anchor stage, the vendor is already bleeding features between two similar prompts,
   and that is worth knowing before any production shot is generated.

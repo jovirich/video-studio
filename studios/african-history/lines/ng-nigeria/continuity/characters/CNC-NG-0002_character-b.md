@@ -4,7 +4,7 @@ type: continuity_character
 line: ng-nigeria
 title: Character B — the second figure (invented)
 status: draft
-version: 0.2.0
+version: 0.3.0
 updated: "2026-08-07"
 owners: [visual-director]
 
@@ -47,14 +47,19 @@ appearance:
     Consistent with build. Not the subject of any shot, unlike A's.
 
 distinctive_features:
-  - feature: small circular dark birthmark high on the left cheek
-    location_on_body: left cheek, upper
+  - feature: small round dark birthmark centred on the bridge of the nose, between the brows
+    location_on_body: bridge of the nose, on the midline between the brows
     always_visible: true
     evidence: []
     cultural_note: >
       Invented. Carries no meaning and marks no status. It exists solely to make
-      identity drift checkable, and to be unambiguously different from A's scar —
-      different feature, different side, different kind.
+      identity drift checkable, and to be unambiguously different from A's mark —
+      different feature, different place, different kind.
+
+      MIDLINE BY DESIGN, for the same reason as A's. A cheek birthmark is lateral, and
+      the surface proved it cannot reliably hold a side. Both features are now midline
+      and in DIFFERENT places, so neither can be mirrored and the two remain
+      distinguishable at a glance.
 
 wardrobe:
   - set_id: primary
@@ -97,10 +102,10 @@ forbidden_variations:
       B's entire purpose is to be distinguishable. Convergence toward A is THE result
       this character exists to detect, so any similarity destroys the measurement.
     severity: style-breach
-  - forbidden: loss or displacement of the left-cheek birthmark
-    why: it is B's binary identity check, as the scar is A's
+  - forbidden: loss of the nose-bridge birthmark, or its appearance off the midline
+    why: it is B's binary identity check, as the chin scar is A's
     severity: style-breach
-  - forbidden: acquiring A's eyebrow scar
+  - forbidden: acquiring A's chin scar
     why: >
       The clearest possible signature of feature bleed between two reference-conditioned
       subjects. If it appears on B, the mechanism is mixing them.
@@ -165,15 +170,16 @@ Every axis is deliberately clear of A:
 | Face | long-oval, strong jaw, pronounced cheekbones | rounder, softer jaw, broader cheek |
 | Hair | short tightly coiled, full beard | tightly coiled, compact high bun, no facial hair |
 | Build | lean, angular | medium/slender, compact |
-| Feature | scar, right eyebrow | birthmark, left cheek |
+| Feature | scar, centre of chin | birthmark, bridge of nose |
 | Swatch | `#70452F` | `#87583D` |
 
-Different feature, different side, different kind. That is not fussiness — it is what
-makes a convergence failure in shot 18 unambiguous rather than arguable.
+Different feature, different place, different kind — and both on the midline, so
+neither can be mirrored. That is not fussiness: it is what makes a convergence failure
+in shot 18 unambiguous rather than arguable.
 
 ## The bleed test
 
-`forbidden_variations` includes **B acquiring A's eyebrow scar**. If that appears, the
+`forbidden_variations` includes **B acquiring A's chin scar**. If that appears, the
 mechanism is not holding two subjects separately — it is mixing them — and that is a
 cleaner, earlier signal than waiting to judge whether two faces "look similar".
 

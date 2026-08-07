@@ -16,8 +16,8 @@ before the diagnostic shots.
 
 | | Where |
 |---|---|
-| A — age, presentation, skin swatch `#70452F`, hair, beard, build, height, face, eyebrow scar, wardrobe, wrist cord | [`CNC-NG-0001`](../../continuity/characters/CNC-NG-0001_character-a.md) |
-| B — age, presentation, skin swatch `#87583D`, hair, build, height, face, cheek birthmark, wardrobe | [`CNC-NG-0002`](../../continuity/characters/CNC-NG-0002_character-b.md) |
+| A — age, presentation, skin swatch `#70452F`, hair, beard, build, height, face, **chin scar (midline)**, wardrobe, wrist cord | [`CNC-NG-0001`](../../continuity/characters/CNC-NG-0001_character-a.md) |
+| B — age, presentation, skin swatch `#87583D`, hair, build, height, face, **nose-bridge birthmark (midline)**, wardrobe | [`CNC-NG-0002`](../../continuity/characters/CNC-NG-0002_character-b.md) |
 | Workshop — geometry, materials, prop zones, anchors, light direction, camera-safe geography, forbidden objects, lighting variants | [`CNL-NG-0001`](../../continuity/locations/CNL-NG-0001_workshop.md) |
 | Mechanism — reference-image conditioning, same for both, **no trained adapter** | both character records |
 | Shot plan, stress axes, acceptance thresholds, drift severity 1–5 | [`shot_plan.md`](03_storyboard/shot_plan.md) |
