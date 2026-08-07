@@ -1,0 +1,82 @@
+type: canon_pack
+code: narrative
+title: Narrative and adaptation
+version: "0.1.0"
+core_version: "0.2.0"
+status: draft
+owners: [pack-owner]
+updated: 2026-08-07
+
+summary: >
+  Story-driven work where depiction is the point: original fiction, adaptation,
+  scripture-based and mythological narrative, dramatised anthology. The characteristic
+  risks are continuity collapse across hundreds of memoryless generations, and the
+  adaptation boundary — audiences who hold a source text read every choice as a claim
+  about it. Disclosure is production-level rather than per shot, because the audience
+  is not at risk of mistaking the work for evidence.
+
+suited_to:
+  - Original fiction, short and series
+  - Adaptation of scripture, epic, folklore, and myth
+  - Dramatised anthology
+  - Animated storytelling
+
+not_suited_to:
+  - Factual documentary — use documentary-history
+  - Fictionalised depiction of real living people — escalate, not a checklist matter
+  - Interactive or branching narrative
+  - Anything framed as found footage or recovered record, which core prohibits
+
+documents:
+  - { file: 05_story_bible.md,           title: Story bible framework,   owner: story-producer }
+  - { file: 06_adaptation.md,            title: Adaptation and source texts, owner: [story-producer, cultural-advisor] }
+  - { file: 07_visual_continuity.md,     title: Visual continuity,       owner: visual-director }
+  - { file: 08_performance_and_voice.md, title: Performance and voice,   owner: audio-lead }
+  - { file: 09_setting_fidelity.md,      title: Setting fidelity,        owner: story-producer }
+
+gates_file: gates.yaml
+
+required_record_types:
+  - story_character      # canon, arc, appearance anchors
+  - story_location
+  - world_rule           # what is true in this world, and what is not
+  - continuity_note
+
+record_extensions:
+  prompt_card:
+    require_anchors_for: [recurring_character, recurring_location]
+  shot:
+    require: [continuity_refs]
+  production:
+    require: [interpretive_stance, source_texts]
+
+line_opening_conditions:
+  - story_producer_named
+  - source_tradition_advisor_agreed     # only when adapting a living tradition
+
+studio_must_decide:
+  - key: interpretive_stance
+    doc: 06_adaptation.md
+    section: "1"
+    note: >
+      Which tradition, which variant text, whose reading, and what the production is
+      explicitly NOT claiming. Declared before the first script, published with the
+      work. Discovering this in the comments is the failure mode.
+  - key: continuity_toolchain
+    doc: 07_visual_continuity.md
+    section: "2"
+    note: >
+      Which mechanism holds character identity across shots — character reference,
+      trained adapter, or cast performer with likeness rights — and its known drift
+      limits. This choice constrains everything downstream.
+  - key: performance_source
+    doc: 08_performance_and_voice.md
+    section: "1"
+    note: Cast performers, licensed synthetic voices, or both. Consent scope must cover it.
+  - key: setting_evidence_threshold
+    doc: 09_setting_fidelity.md
+    section: "2"
+    note: >
+      Where the story is set in a real time and place, how much of documentary's
+      evidence chain applies to the setting. Recommended: the setting is evidenced,
+      the plot is not.

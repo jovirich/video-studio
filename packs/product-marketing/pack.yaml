@@ -1,0 +1,69 @@
+type: canon_pack
+code: product-marketing
+title: Product and marketing video
+version: "0.1.0"
+core_version: "0.2.0"
+status: draft
+owners: [pack-owner]
+updated: 2026-08-07
+
+summary: >
+  Video about a product, service, or company the studio controls. The risk is not
+  inventing history but claiming something untrue about the product — so claims are
+  gated hard and everything else is left light. Generated depictions of the product's
+  own interface are prohibited outright, on the same principle that prohibits
+  fabricated archival material in documentary.
+
+suited_to:
+  - Launch and announcement films
+  - Feature explainers and product tours
+  - Onboarding, how-to, and support video
+  - Case studies and customer stories (with real, consenting customers)
+  - Campaign and social cutdowns derived from an approved master
+
+not_suited_to:
+  - Comparative advertising against named competitors — jurisdictional rules apply
+  - Regulated categories: financial products, health claims, children's advertising
+  - Factual content about the world, which needs documentary-history's evidence chain
+  - Sponsored or influencer content, which has its own disclosure obligations
+
+documents:
+  - { file: 05_claim_substantiation.md, title: Claim substantiation,        owner: rights-and-clearances }
+  - { file: 06_product_depiction.md,    title: Product depiction,           owner: visual-director }
+  - { file: 07_brand_and_message.md,    title: Brand and message discipline, owner: showrunner }
+  - { file: 08_narrative_patterns.md,   title: Narrative patterns,          owner: story-producer }
+
+gates_file: gates.yaml
+
+required_record_types:
+  - product_claim        # what is asserted, and the evidence for it
+  - approval             # who signed which version
+
+record_extensions:
+  shot:
+    # A rendered UI is this pack's equivalent of a fabricated archival photograph.
+    prohibit_generated_for: [product_interface]
+  production:
+    require: [core_message, audience, call_to_action, success_measure]
+
+line_opening_conditions:
+  - product_owner_named
+  - brand_assets_current
+
+studio_must_decide:
+  - key: brand_system
+    doc: 07_brand_and_message.md
+    section: "1"
+    note: Typography, colour, logo usage, and motion signature.
+  - key: claim_approval_authority
+    doc: 05_claim_substantiation.md
+    section: "3"
+    note: >
+      Who signs off a product claim, and whether legal review is required for the
+      category. Decide before the first brief, not at the first disagreement.
+  - key: roadmap_language_policy
+    doc: 05_claim_substantiation.md
+    section: "5"
+    note: >
+      Whether unreleased features may be shown at all, and with what on-screen
+      qualifier. "Coming soon" is a commitment someone has to keep.

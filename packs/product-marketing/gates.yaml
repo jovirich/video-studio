@@ -1,0 +1,77 @@
+# Gate set for the product-marketing canon pack. Framework: core/04.
+#
+# Five gates, not nine. Marketing video moves faster than documentary and the
+# risk profile is different: the exposure is in product claims, not in history.
+# Ceremony beyond what protects against that exposure slows a team without
+# protecting anything.
+
+pack: product-marketing
+pack_version: "0.1.0"
+core_version: "0.2.0"
+
+gates:
+  - key: brief_approval
+    title: Brief approval
+    owner: showrunner
+    stage: 00_brief
+    blocks: [02_script]
+    checklist: checklists/brief_approval.md
+    required: true
+    certifies: >
+      Audience, single core message, call to action, and success measure are agreed.
+      The piece has one job, stated in one sentence.
+
+  - key: claim_substantiation
+    title: Claim substantiation
+    owner: rights-and-clearances
+    stage: 08_review
+    blocks: [09_delivery]
+    checklist: checklists/claim_substantiation.md
+    required: true
+    certifies: >
+      Every assertion about the product — capability, performance, price,
+      availability, comparison, and any figure or metric — is substantiated by a
+      recorded evidence reference, and describes what SHIPS TODAY rather than what is
+      planned. Roadmap language is flagged and approved separately.
+    note: >
+      This is the gate that matters in this pack. It is the analogue of
+      documentary's fact-check, narrowed to the only claims that carry real exposure.
+
+  - key: stakeholder_approval
+    title: Stakeholder approval
+    owner: showrunner
+    stage: 08_review
+    blocks: [09_delivery]
+    checklist: checklists/stakeholder_approval.md
+    required: true
+    certifies: >
+      Product owner, brand owner, and legal (where the category requires it) have
+      each seen and signed this cut. Approval is on a specific version, never on
+      "the general direction".
+
+  - key: picture_audio_lock
+    title: Picture and audio lock
+    owner: visual-director
+    stage: [06_edit, 07_audio_post]
+    blocks: [09_delivery]
+    checklist: checklists/picture_audio_lock.md
+    required: true
+    certifies: >
+      The cut is final. Every product-interface shot is captured, not generated.
+      Brand assets are current versions. Loudness and safe areas are in spec.
+      Vertical and square crops hold.
+
+  - key: technical_qc
+    title: Technical QC
+    owner: pipeline-engineer
+    stage: 09_delivery
+    blocks: [10_publish]
+    checklist: checklists/technical_qc.md
+    required: true
+    universal: true
+    certifies: >
+      Delivery specs met, captions validate, provenance manifest complete and frozen,
+      rights cleared including music and fonts, package assembled.
+
+separation_of_duties: strict
+minimum_distinct_signatories: 3

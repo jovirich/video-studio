@@ -55,13 +55,16 @@ A **canon pack** is the genre-specific editorial rulebook a studio adopts. It su
 what core deliberately omits: evidence standards, narrative doctrine, visual and
 sonic language, sensitivity procedure, localisation policy, and the gate set.
 
-| Pack | For | Status |
-|---|---|---|
-| [documentary-history](../packs/documentary-history) | Historical documentary. Heavy evidence chain, nine gates, advisory authority. | active |
-| `_TEMPLATE_pack` | Skeleton for authoring a new pack | template |
+| Pack | For | Gates | Status |
+|---|---|---|---|
+| [documentary-history](../packs/documentary-history) | Historical documentary. Heavy evidence chain, advisory hold authority. | 9 | active |
+| [product-marketing](../packs/product-marketing) | Product, service, and company video. Claims gated hard, everything else light. | 5 | draft |
+| [narrative](../packs/narrative) | Fiction, adaptation, scripture and myth. Continuity is the whole job. | 7 | draft |
+| [fashion-film](../packs/fashion-film) | Fashion, beauty, lifestyle. The physical garment is ground truth. | 6 | draft |
+| `_TEMPLATE_pack` | Skeleton for authoring a new pack | — | template |
 
-Packs that would be authored the same way, when needed: narrative fiction, brand and
-corporate film, explainer and educational, music and performance, promotional.
+Further packs would be authored the same way when needed: explainer and educational,
+music and performance, event and documentary-verité, training and internal comms.
 
 **A new genre does not require a new repository or a refactor.** It requires a pack.
 This is the load-bearing claim of the architecture and is tested in

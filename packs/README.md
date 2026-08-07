@@ -30,8 +30,16 @@ correct without either contaminating the other.
 
 | Pack | For | Gates | Status |
 |---|---|---|---|
-| [documentary-history/](documentary-history) | Historical documentary with heavy generative assistance | 9 | active |
+| [documentary-history/](documentary-history) | Historical documentary — heavy evidence chain, advisory hold | 9 | active |
+| [product-marketing/](product-marketing) | Product, service, and company video — claims gated, rest light | 5 | draft |
+| [narrative/](narrative) | Fiction, adaptation, scripture and myth — continuity is the job | 7 | draft |
+| [fashion-film/](fashion-film) | Fashion, beauty, lifestyle — garment is ground truth | 6 | draft |
 | [_TEMPLATE_pack/](_TEMPLATE_pack) | Skeleton for authoring a new pack | — | template |
+
+Note how differently the gate counts land. That is the pack layer working: nine gates
+would strangle a product explainer, and five would not protect a history documentary.
+Each pack's gate set answers *what would we regret not checking in this genre?* — and
+the answers genuinely differ.
 
 ## What a pack may and may not do
 

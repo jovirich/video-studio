@@ -1,0 +1,79 @@
+type: canon_pack
+code: fashion-film
+title: Fashion, beauty, and lifestyle film
+version: "0.1.0"
+core_version: "0.2.0"
+status: draft
+owners: [pack-owner]
+updated: 2026-08-07
+
+summary: >
+  Fashion, beauty, and lifestyle film. The characteristic failures are
+  representational rather than factual: synthetic bodies used to sell physical
+  garments, narrow model priors producing a single body type by default, cultural
+  design sources used without attribution, and generated imagery showing garment
+  properties the real garment does not have. The physical garment is ground truth.
+
+suited_to:
+  - Lookbooks and collection films
+  - Campaign films and editorial motion
+  - Runway coverage and behind-the-scenes
+  - Designer and atelier profiles
+  - Product-in-context and styling video
+
+not_suited_to:
+  - Performance claims about materials — use product-marketing's substantiation gate
+  - Historical costume documentary — use documentary-history
+  - Sponsored and influencer content, which carries its own disclosure regime
+
+documents:
+  - { file: 05_garment_fidelity.md,          title: Garment fidelity,          owner: visual-director }
+  - { file: 06_body_and_representation.md,   title: Body and representation,   owner: cultural-advisor }
+  - { file: 07_design_attribution.md,        title: Design attribution,        owner: cultural-advisor }
+  - { file: 08_editorial_visual_language.md, title: Editorial visual language, owner: visual-director }
+
+gates_file: gates.yaml
+
+required_record_types:
+  - garment              # the physical item, with its reference capture
+  - model_contract       # scope, including AI processing
+  - design_source        # cultural or collaborative origin, and its agreement
+
+record_extensions:
+  shot:
+    require: [garment_refs]
+  prompt_card:
+    require_reference_capture_for: [garment]
+    flag: [synthetic_human]
+  production:
+    require: [collection, season, deliverable_variants]
+
+line_opening_conditions:
+  - designer_or_brand_owner_named
+  - reference_capture_workflow_established
+
+studio_must_decide:
+  - key: synthetic_human_policy
+    doc: 06_body_and_representation.md
+    section: "3"
+    note: >
+      Whether generated humans may be used in commercial fashion content at all, and
+      with what on-screen disclosure. Made once at studio level and applied
+      uniformly — deciding this shot by shot in the edit is how it goes wrong.
+  - key: representation_range
+    doc: 06_body_and_representation.md
+    section: "2"
+    note: >
+      The body, age, and skin-tone range the studio commits to showing. Models
+      default to a narrow prior; without a stated range the default becomes the
+      studio's editorial position by accident.
+  - key: retouching_policy
+    doc: 06_body_and_representation.md
+    section: "5"
+    note: What alteration of a real person's body is permitted, and what is disclosed.
+  - key: attribution_standard
+    doc: 07_design_attribution.md
+    section: "1"
+    note: >
+      How cultural design sources and collaborating artisans are credited and
+      compensated.

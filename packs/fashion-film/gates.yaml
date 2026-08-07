@@ -1,0 +1,91 @@
+# Gate set for the fashion-film canon pack. Framework: core/04.
+#
+# Six gates. Two are specific to this genre: garment verification (the physical
+# garment is ground truth) and representation review (bodies, range, attribution).
+
+pack: fashion-film
+pack_version: "0.1.0"
+core_version: "0.2.0"
+
+gates:
+  - key: brief_approval
+    title: Brief approval
+    owner: showrunner
+    stage: 00_brief
+    blocks: [02_script]
+    checklist: checklists/brief_approval.md
+    required: true
+    certifies: >
+      Collection, season, audience, and the single idea the film carries are agreed.
+      Deliverable set and aspect variants are specified up front.
+
+  - key: garment_verification
+    title: Garment verification
+    owner: visual-director
+    stage: 08_review
+    blocks: [09_delivery]
+    checklist: checklists/garment_verification.md
+    required: true
+    certifies: >
+      Every garment appearing in a deliverable exists physically and has a reference
+      capture on file. Generated imagery has been compared against that reference for
+      colour, texture, drape, closure, and finish. Nothing shown is a property the
+      garment does not have.
+
+  - key: representation_review
+    title: Representation review
+    owner: cultural-advisor
+    stage: [04_prompts, 08_review]
+    blocks: [05_assets, 09_delivery]
+    checklist: checklists/representation_review.md
+    required: true
+    hold_authority: true
+    certifies: >
+      Casting range is deliberate rather than a model default. No impossible body
+      proportions. Skin-tone rendering is correct across the full range shown. Any
+      cultural textile, motif, or garment form drawn on is attributed and, where
+      required, agreed with its custodians. Synthetic-human disclosure is applied per
+      studio policy.
+
+  - key: stakeholder_approval
+    title: Stakeholder approval
+    owner: showrunner
+    stage: 08_review
+    blocks: [09_delivery]
+    checklist: checklists/stakeholder_approval.md
+    required: true
+    certifies: >
+      Designer and brand owner have seen and signed this specific version. Model
+      contracts cover every use in this cut, including AI processing where applied.
+
+  - key: picture_audio_lock
+    title: Picture and audio lock
+    owner: visual-director
+    stage: [06_edit, 07_audio_post]
+    blocks: [09_delivery]
+    checklist: checklists/picture_audio_lock.md
+    required: true
+    certifies: >
+      The cut is final. Colour is accurate to the physical garments under the show
+      LUT. Styling continuity holds across the cut. Music is cleared. Vertical and
+      square crops hold without cropping the garment out of frame.
+
+  - key: technical_qc
+    title: Technical QC
+    owner: pipeline-engineer
+    stage: 09_delivery
+    blocks: [10_publish]
+    checklist: checklists/technical_qc.md
+    required: true
+    universal: true
+    certifies: >
+      Delivery specs met, captions validate, provenance manifest complete and frozen,
+      rights cleared including music and fonts, synthetic-human disclosure present
+      where required, package assembled per deliverable variant.
+
+separation_of_duties: strict
+minimum_distinct_signatories: 3
+
+# Where synthetic humans appear in commercial fashion content, disclosure is
+# on screen, not only in metadata. Set once at studio level; applied uniformly.
+disclosure_mode: on-screen-when-synthetic-human

@@ -1,0 +1,106 @@
+# Gate set for the narrative canon pack. Framework: core/04.
+#
+# Seven gates. The two that do not exist in other packs — story bible lock and
+# continuity lock — carry this genre's characteristic risk: generative tools have
+# no memory, so coherence has to be held externally or it will not be held at all.
+
+pack: narrative
+pack_version: "0.1.0"
+core_version: "0.2.0"
+
+gates:
+  - key: greenlight
+    title: Greenlight
+    owner: showrunner
+    stage: 00_brief
+    blocks: [02_script]
+    checklist: checklists/greenlight.md
+    required: true
+    certifies: >
+      The story has a reason to exist in this form. Where it adapts a source text or
+      a living tradition, the interpretive stance is declared in writing — which
+      tradition, which variant, whose reading, and what the production is NOT
+      claiming.
+
+  - key: story_bible_lock
+    title: Story bible lock
+    owner: story-producer
+    stage: 01_research
+    blocks: [02_script]
+    checklist: checklists/story_bible_lock.md
+    required: true
+    certifies: >
+      World rules, character canon, timeline, and geography are fixed and internally
+      consistent. Every recurring character and location has a record. Contradictions
+      between source variants are resolved deliberately, and the resolution is
+      recorded rather than left to whichever version a writer remembered.
+
+  - key: script_lock
+    title: Script lock
+    owner: story-producer
+    stage: 02_script
+    blocks: [03_storyboard, 04_prompts, 05_assets]
+    checklist: checklists/script_lock.md
+    required: true
+    certifies: >
+      The script is final and consistent with the story bible. Any departure from the
+      source text is intentional and recorded.
+
+  - key: sensitivity
+    title: Sensitivity
+    owner: cultural-advisor
+    stage: [00_brief, 02_script, 08_review]
+    blocks: [05_assets, 09_delivery]
+    checklist: checklists/sensitivity_review.md
+    required: true
+    hold_authority: true
+    certifies: >
+      The treatment of the source tradition, and of the communities who hold it,
+      clears review. No sacred or restricted material is depicted without a ruling.
+      Depiction of real peoples and places is not defamatory or degrading.
+
+  - key: continuity_lock
+    title: Continuity lock
+    owner: visual-director
+    stage: 04_prompts
+    blocks: [05_assets]
+    checklist: checklists/continuity_lock.md
+    required: true
+    certifies: >
+      Every recurring character has a character anchor set; every recurring location
+      has a location anchor set; the style block is fixed. Generation may not begin
+      before this, because retrofitting continuity across a generated sequence costs
+      more than regenerating it.
+
+  - key: picture_audio_lock
+    title: Picture and audio lock
+    owner: visual-director
+    stage: [06_edit, 07_audio_post]
+    blocks: [09_delivery]
+    checklist: checklists/picture_audio_lock.md
+    required: true
+    certifies: >
+      The cut is final. A continuity pass has been run across every recurring element
+      — face, costume, prop, geography, time of day, weather. No temporal artefacts
+      survive. Mix is in spec.
+
+  - key: technical_qc
+    title: Technical QC
+    owner: pipeline-engineer
+    stage: 09_delivery
+    blocks: [10_publish]
+    checklist: checklists/technical_qc.md
+    required: true
+    universal: true
+    certifies: >
+      Delivery specs met, captions validate, provenance manifest complete and frozen,
+      rights cleared, production-level AI disclosure present in credits and
+      description, package assembled.
+
+separation_of_duties: strict
+minimum_distinct_signatories: 3
+
+# Narrative discloses at production level rather than per shot — the audience is not
+# at risk of mistaking the work for evidence. Core's rule that generated material may
+# never be PRESENTED AS found material still applies, including inside a fiction.
+disclosure_mode: production-level
