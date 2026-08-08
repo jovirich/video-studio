@@ -122,9 +122,9 @@ model_settings: {}
 preferred_vendor: openai
 preferred_model: gpt-image-2-2026-04-21
 video: null
-output_filename: EXP001_ANCHOR_PC-NG-EXP001-0002_c01.png
-incoming_dir: c:\dev\Video Production\studios\african-history\lines\ng-nigeria\productions\EXP001_laboratory-scene\05_assets\stills\incoming
-manifest_path: c:\dev\Video Production\studios\african-history\lines\ng-nigeria\productions\EXP001_laboratory-scene\manifest.yaml
+output_filename: EXP001_ANCHOR_PC-NG-EXP001-0002_v0.2.0_c01.png
+incoming_dir: C:\dev\Video Production\studios\african-history\lines\ng-nigeria\productions\EXP001_laboratory-scene\05_assets\stills\incoming
+manifest_path: C:\dev\Video Production\studios\african-history\lines\ng-nigeria\productions\EXP001_laboratory-scene\manifest.yaml
 provenance_class: interpretive
 acceptance_checklist:
 - 'ACCEPTANCE CHECKLIST, identical to A''s plus the separation checks: neutral expression;
@@ -149,10 +149,10 @@ provenance_required:
 - whether the file was edited, cropped, or re-encoded after generation
 candidates: 4
 candidate_filenames:
-- EXP001_ANCHOR_PC-NG-EXP001-0002_c01.png
-- EXP001_ANCHOR_PC-NG-EXP001-0002_c02.png
-- EXP001_ANCHOR_PC-NG-EXP001-0002_c03.png
-- EXP001_ANCHOR_PC-NG-EXP001-0002_c04.png
+- EXP001_ANCHOR_PC-NG-EXP001-0002_v0.2.0_c01.png
+- EXP001_ANCHOR_PC-NG-EXP001-0002_v0.2.0_c02.png
+- EXP001_ANCHOR_PC-NG-EXP001-0002_v0.2.0_c03.png
+- EXP001_ANCHOR_PC-NG-EXP001-0002_v0.2.0_c04.png
 is_anchor: true
 authorised: true
 authorisation_note: ''

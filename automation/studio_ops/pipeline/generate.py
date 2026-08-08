@@ -287,7 +287,19 @@ def prepare_job(
     if shot_id:
         filename = _asset_filename(production_id, scene_id, shot_id, provenance_class, ext)
     else:
-        filename = f"{production_id}_ANCHOR_{rendered.card_id}_c01.{ext}"
+        # The card VERSION is part of an anchor's filename, not just its ID.
+        #
+        # Character A's and B's cards were both rewritten (a lateral distinctive
+        # feature became a midline one) while sitting at version 0.1.0. Files
+        # generated before that rewrite were indistinguishable from files generated
+        # after it, because every one of them named only the card. A superseded
+        # candidate came within one step of being ingested as the canonical anchor.
+        #
+        # An anchor propagates to every shot that inherits it, so this is the one
+        # place where "which version of the spec produced this?" has to be answerable
+        # from the filename alone.
+        card_version = str(card.get("version") or "0.0.0")
+        filename = f"{production_id}_ANCHOR_{rendered.card_id}_v{card_version}_c01.{ext}"
     candidate_names = (
         tuple(filename.replace("_c01.", f"_c{i:02d}.") for i in range(1, max(candidates, 1) + 1))
         if candidates > 1
