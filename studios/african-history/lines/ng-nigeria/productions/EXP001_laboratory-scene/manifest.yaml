@@ -4,4 +4,29 @@ episode: EXP001
 version: 0.1.0
 updated: '2026-08-07'
 frozen: false
-assets: []
+assets:
+- asset_id: AST-NG-EXP001-0001
+  filename: EXP001_ANCHOR_PC-NG-EXP001-0001_v0.2.0_c01.png
+  sha256: 1ff0c6f5ce7cd3fc3977d3ba129c7949be770dd6723b9cd6ada8568568162f05
+  media_type: image
+  provenance_class: interpretive
+  used_in_shots: []
+  origin: generated
+  generation:
+    tool:
+      vendor: openai
+      model: chatgpt-ui-image
+      version: unknown-snapshot-chatgpt-ui
+    prompt_card: PC-NG-EXP001-0001
+    seed: not-exposed-by-surface
+    parameters: {}
+    inputs: []
+    generated_at: '2026-08-08T09:36:09.490333+00:00'
+    generated_by: ejovi
+    cost_usd: 0.0
+  label:
+    required: true
+    applied: false
+  rights_status: not-required
+  store_path: ng-nigeria/productions/EXP001/generated/EXP001_ANCHOR_PC-NG-EXP001-0001_v0.2.0_c01.png
+  bytes: 2519967

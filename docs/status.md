@@ -127,7 +127,7 @@ Every `IMPLEMENTED` row below should be read as *"we believe this works"*, not
 | `validate --links` | **IMPLEMENTED** | Runs against the real tree; **found 130 real broken links on first run** |
 | `validate --schemas` | **IMPLEMENTED** | Runs; routes YAML and front matter to `standards/schemas/` |
 | `validate --reality` | **IMPLEMENTED** | Enforces this document's own discipline: prose naming an unimplemented command must say so. **Found 63 violations on its first run.** |
-| Test suite | **IMPLEMENTED** | 220 tests across validators, scaffold, promptlib, manifest, adapters, execution modes, and both round trips. Fixture trees carry deliberate violations. |
+| Test suite | **IMPLEMENTED** | 232 tests across validators, scaffold, promptlib, manifest, adapters, execution modes, and both round trips. Fixture trees carry deliberate violations. The count below is maintained by hand and may lag; the **gate verdicts** in this table are not — a test asserts each one against the gate registry in code. |
 | `new-record` — ID allocator | **IMPLEMENTED** | 47 tests. Refuses on any duplicate in the namespace being allocated. Smoke-run against all 14 real templates. |
 | `check-ids` — repo-wide duplicate audit | **IMPLEMENTED** | Returns clean on the current repository |
 | `promptlib render` | **IMPLEMENTED** | 63 tests. Generic + Midjourney renderers; the same card renders differently per vendor, asserted. |
@@ -146,13 +146,15 @@ Every `IMPLEMENTED` row below should be read as *"we believe this works"*, not
 | Vendor (`api`) adapter | **NOT BUILT — deliberately** | Not until a vendor is chosen, its terms verified, and a ceiling set. |
 | `local` generation adapter | **IMPLEMENTED** | 26 tests. Deterministic, offline, free, real PNG. Same seed + prompt → identical bytes. |
 | **The round trip** | **IMPLEMENTED and TESTED** | See below — the first thing in this repository to reach TESTED |
-| `validate --sources` | **NOT BUILT** | Reports its own absence and exits 2 |
-| `validate --canon` | **NOT BUILT** | Blocked on `prohibited_patterns.json` |
-| `validate --prompts` / `--packs` / `--delivery` | **NOT BUILT** | |
-| `new-studio` / `new-line` / `new-production` / `new-pack` / `new-record` | **NOT BUILT** | Exit 2 with the blocking reason |
+| `validate --prompts` | **IMPLEMENTED** | Catches a card that contradicts itself — the prompt asking for what the negatives forbid. Built because it cost a real generation. Covers self-contradiction only. |
+| `validate --templates` | **IMPLEMENTED** | Every record template must agree with its schema on keys. **Found five of thirteen broken on its first run** (G11). |
+| `validate --sources` | **NOT BUILT** | Reports its own absence. No claim or source records exist yet. |
+| `validate --canon` | **NOT BUILT** | Blocked on `standards/schemas/prohibited_patterns.json`, declared in `missing_paths` and asserted absent by a test (G12). |
+| `validate --packs` | **NOT BUILT** | Nothing external blocks it: `pack.schema.json` exists and five packs validate against it. Only the gate itself is missing. |
+| `validate --delivery` | **NOT BUILT** | Needs ffprobe integration and a delivered package. |
+| `new-studio` / `new-line` / `new-production` / `new-pack` | **NOT BUILT** | Exit 2 with the blocking reason. `new-record` is built — see above. |
+| `promptlib run` | **NOT BUILT** | `promptlib render` and `override_rate` are built — see above. |
 | `report` family | **NOT BUILT** | |
-| `promptlib render` / `run` | **NOT BUILT** | |
-| Manifest / provenance ledger | **DESIGNED** | Schema exists. No code writes to it. |
 | Conform step (refuses untracked files) | **NOT BUILT** | This is the mechanism behind the traceability guarantee. It does not exist yet. |
 | Generation adapters | **DESIGNED** | Deliberate stubs. `Adapter.generate` enforces dry-run and budget before any subclass runs, so no adapter can bypass the ceiling by forgetting to check. |
 | Asset store | **NOT BUILT** | No round trip has been proved. |
@@ -258,8 +260,18 @@ the first generated shot. Each is a candidate for the post-EXP-001 pass.
 
 | G10 | **`*.prompt.yaml` collides with an editor-recognised format.** VS Code applies a built-in association for that extension (chat-prompt files, which require a `messages` key), so every prompt card showed a phantom `Missing property "messages"` error despite validating cleanly against the repo's own schema. | naming convention, `.vscode/settings.json` | Worked around with a `# yaml-language-server: $schema=` modeline on each card and on the template — no schema or convention change. The alternative, renaming the extension, is a `standards/naming_conventions.md` change and not worth it under the freeze. |
 
+| G11 | ~~Five of thirteen record templates produced records that failed their own schema~~ | `templates/records/`, `standards/schemas/` | **Fixed, and made mechanical.** `_TEMPLATE_style_anchor.md` omitted three required fields, carried six the schema forbids, and documented an `anchor_kind` vocabulary of nine values of which four were not in the enum. `advisory_ruling`, `correction`, `fact_check` and `open_question` were the same story — in every case the schema was the newer design and the template kept an older vocabulary (`ruled_by` for `raised_by`, `correction_type` for `severity`, `gate_status` for `unresolved`). Nothing compared them, because the comparison only happens when someone creates a record of that type, and nobody ever had. Found by trying to create the first style anchor; it blocked Character A's face anchor outright. New `validate --templates` gate. |
+| G12 | ~~A NOT-BUILT gate claimed to be blocked on a file that already existed~~ | `validate/not_built.py` | **Fixed, and made mechanical.** The `packs` gate said it was waiting on `pack.schema.json` "has not been written". The schema was 13KB and five packs validated against it. Anyone believing it would have written a second one — precisely the duplicated-work failure the ledger exists to prevent. Blockers now declare `missing_paths` structurally, and a test asserts those files are absent, so the day one is created the claim fails loudly instead of misleading quietly. |
+
 G1 is the one worth doing first after EXP-001. **G6 is the one that will bite everyone
 else**, because it makes a documented convention fail validation with no explanation.
+
+**G11 and G12 are the same defect in two places**, and both were found the same way —
+by using the repository rather than reading it. A schema and its template, or a gate
+and its stated blocker, are two descriptions of one thing, and nothing was comparing
+them. Both now have a test that does. That is the pattern worth generalising: where
+two artefacts must agree, the agreement has to be checked by something other than a
+person remembering to look.
 
 ## Studio status — African History Studio
 

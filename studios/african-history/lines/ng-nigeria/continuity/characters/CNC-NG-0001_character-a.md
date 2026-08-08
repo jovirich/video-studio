@@ -101,10 +101,15 @@ jewellery_and_adornment:
     reference_images: []
 
 references:
-  # facial_reference is OMITTED, not TBD: it is pattern-constrained to an STA-* id,
-  # and for an optional typed field "not yet decided" is absence (finding G6).
-  # The anchor SPECIFICATION now exists as prompt card PC-NG-EXP001-0001; the id
-  # goes here once the rendered anchor has director approval.
+  # APPROVED 2026-08-08. Generated from prompt card PC-NG-EXP001-0001 at card
+  # version 0.2.0, ingested as AST-NG-EXP001-0001, sha256 1ff0c6f5…62f05.
+  #
+  # Approved on inspection, not by comparison: it is the only candidate produced
+  # from v0.2.0. The four files that named the same card were quadrants of one
+  # composite carrying the superseded lateral scar, and are quarantined.
+  facial_reference: STA-NG-0001
+  # Still empty. A full-body, three-quarter and profile set is needed before the
+  # seventeen production shots, but the face anchor is what unblocks the next step.
   anchor_set: []
   # MANDATORY per run: vendor, model, exact model/version identifier, reference
   # image id/hash, seed, prompt-card id, parameters, returned asset id, asset

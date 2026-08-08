@@ -53,6 +53,7 @@ def validate(
     sources: Annotated[bool, typer.Option("--sources")] = False,
     canon: Annotated[bool, typer.Option("--canon")] = False,
     prompts: Annotated[bool, typer.Option("--prompts")] = False,
+    templates_gate: Annotated[bool, typer.Option("--templates")] = False,
     packs: Annotated[bool, typer.Option("--packs")] = False,
     fmt: Annotated[str, typer.Option("--format", help="table | json")] = "table",
 ) -> None:
@@ -76,6 +77,7 @@ def validate(
             (sources, "sources"),
             (canon, "canon"),
             (prompts, "prompts"),
+            (templates_gate, "templates"),
             (packs, "packs"),
         ):
             if flag:

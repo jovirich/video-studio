@@ -1,46 +1,59 @@
 ---
 # ---------------------------------------------------------------------------
-# CORRECTION — a published error, and what was done about it.
-# Copy to <line>/... alongside the line's corrections log, as
-# COR-XX-0000_<slug>.md with a toolkit-allocated ID.
+# CORRECTION — a published error, what was done about it, and when.
+# Copy to <line>/corrections/COR-XX-0000_<slug>.md with a toolkit-allocated ID.
 # Do not fill this template in place.
 #
-# This is the record. The studio's public log
-# (../studio/bible/corrections.md) is the index over these records.
-#
-# No schema exists for this record type yet; front matter follows the minimum in
-# ../../standards/metadata_spec.md plus the ID system.
+# Front matter follows standards/schemas/correction.schema.json. That schema is
+# authoritative; if the two disagree, `studio_ops validate --templates` fails.
 # ---------------------------------------------------------------------------
 id: COR-XX-0000
 type: correction
 line: xx-line-code
-title: TBD — what was wrong, in a few words
+title: TBD — what was wrong, in one line
 status: draft
 version: "0.1.0"
-updated: "2026-08-07"
-owners: [research-lead, showrunner]
+updated: "2026-01-01"
+owners: [editorial-lead]
 
-# correction | clarification | retraction
+# episode: S00E00
+# published_version: TBD — the cut that carried the error
+
+# Anyone may report an error. May be 'viewer' or anonymised.
+reported_by: TBD
+reported_on: "2026-01-01"
+# triaged_on: within 5 working days of the report.
+
+# material | minor
 #
-#   correction    a statement was wrong
-#   clarification the statement was defensible but read as more than the
-#                 evidence supports; the wording is fixed, the substance stood
-#   retraction    a claim is withdrawn entirely
-#
-# Collapsing the three into "corrections" makes a studio look either sloppier or
-# more careless than it is, and neither reading helps a viewer calibrate trust.
-correction_type: TBD
+# MATERIAL changes a viewer's understanding and forces a re-cut or an on-screen
+# correction card. MINOR is description and log only. The distinction is the
+# whole record — grading a material error as minor is how a correction policy
+# quietly becomes decorative.
+severity: minor
 
-affects_production: S00E00
-affects_records: []             # TBD — CLM-XX-0000, SRC-XX-0000, CHR-XX-0000
+what_was_wrong: >
+  TBD — the error as published, stated plainly and without minimising it.
 
-reported_by: TBD — external reporter, or `internal audit`
-reported_on: TBD — ISO date
-acknowledged_on: TBD — ISO date
-published_on: TBD — ISO date
+what_is_correct: >
+  TBD — and on what evidence.
 
-# Whether the reporter wishes to be credited. Never named without asking.
-reporter_credit: TBD — named / anonymous / not asked yet
+affected_claims: []
+
+# re-cut | correction-card | description-note | claim-retracted | no-action
+action: no-action
+
+# Required whenever action is no-action. An unexplained no-action is
+# indistinguishable from an error that was quietly ignored.
+no_action_reason: >
+  TBD
+
+# corrected_on: "2026-01-01"
+
+# signature:
+#   role: editorial-lead
+#   person: TBD
+#   date: "2026-01-01"
 ---
 
 # Correction — TBD

@@ -1,41 +1,69 @@
 ---
 # ---------------------------------------------------------------------------
-# ADVISORY RULING — a written decision by the Cultural Advisor.
-# Copy to <line>/advisory/rulings/ADV-XX-0000_<slug>.md with a
-# toolkit-allocated ID. Do not fill this template in place.
+# ADVISORY RULING — the record of a cultural or ethical hold and its outcome.
+# Copy to <line>/rights/advisories/ADV-XX-0000_<slug>.md with a toolkit-allocated
+# ID. Do not fill this template in place.
 #
-# Referenced by `advisory_ref` from every record it governs. A record at
-# `sensitivity: held` cannot validate without one — the schema requires it.
-#
-# No schema exists for this record type yet; front matter follows the minimum in
-# ../../standards/metadata_spec.md plus the ID system.
+# Front matter follows standards/schemas/advisory_ruling.schema.json. That schema
+# is authoritative; if the two disagree, `studio_ops validate --templates` fails.
 # ---------------------------------------------------------------------------
 id: ADV-XX-0000
 type: advisory_ruling
 line: xx-line-code
-title: TBD — the question ruled on
+title: TBD — the question, in one line
 status: draft
 version: "0.1.0"
-updated: "2026-08-07"
-owners: [cultural-advisor]
+updated: "2026-01-01"
+owners: [cultural-lead]
+sensitivity: review-required
 
-# permitted | permitted-with-conditions | not-permitted | deferred
-# `deferred` keeps the hold in force. It is an honest state and not a failure to
-# decide: some questions need a conversation with people who are not available
-# this week.
-ruling: TBD
+# ANY contributor may raise a hold, without standing or seniority, and is never
+# penalised for it. A hold that turns out to be unnecessary cost an afternoon; a
+# hold that was never raised can cost a community's trust permanently.
+raised_by: TBD — named person or role
+raised_on: "2026-01-01"
 
-# The records, shots, prompt cards, or sequences this ruling governs.
-applies_to: []
+# What is actually under hold: an asset, shot, sequence, prompt card, or record.
+target: TBD — the ID or path under hold
 
-raised_by: TBD — role; any contributor may raise a hold
-raised_on: "2026-08-07"
-ruled_on: TBD — ISO date
-ruled_by: TBD — the Cultural Advisor, named
+# sacred-or-restricted | human-remains-or-burial | violence-or-atrocity |
+# living-community-claim | likeness-or-voice | language-or-naming |
+# stereotype-or-framing | regalia-or-masquerade | other
+category: other
 
-# True while work on the applies_to items is frozen. A hold takes effect
-# immediately on being raised, before any discussion.
-hold_active: true
+concern: >
+  TBD — what specifically might be wrong, harmful, or presumptuous. Written so
+  someone who was not in the room can see the problem.
+
+# Standing is the basis on which this person is competent to rule on THIS
+# question. "An elder from the village" is not standing.
+#
+# Consultation is labour. An unpaid advisor is a favour being taken advantage of,
+# and will eventually and rightly stop answering.
+consulted: []
+#  - advisor: TBD
+#    standing: TBD
+#    paid: true
+
+# permitted | permitted-with-conditions | refused | deferred
+ruling: deferred
+
+# Required in substance whenever the ruling is permitted-with-conditions.
+# conditions: >
+#   TBD — exactly what must be true for the permission to hold.
+
+reasoning: >
+  TBD — why. Written so a future production facing the same question can apply
+  this without re-litigating it.
+
+# The hold stays closed until someone states otherwise. Absence is not release.
+hold_released: false
+
+# A human sign-off. Absence of a signature is never inferred from anything else.
+# signature:
+#   role: cultural-lead
+#   person: TBD
+#   date: "2026-01-01"
 ---
 
 # Advisory ruling — TBD

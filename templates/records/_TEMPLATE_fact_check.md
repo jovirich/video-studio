@@ -1,47 +1,53 @@
 ---
 # ---------------------------------------------------------------------------
-# FACT-CHECK RECORD — the registry-side record of one fact-check.
-# Copy to <line>/research/fact_checks/FCK-XX-S00E00-0000_<slug>.md with a
+# FACT CHECK — the gate record for one production's factual accuracy pass.
+# Copy to <line>/productions/<PROD>/07_review/FCK-XX-S00E00-0000_<slug>.md with a
 # toolkit-allocated ID. Do not fill this template in place.
 #
-# This is the LINE-level record. The production-side report, which carries the
-# findings in full, is
-# ../production/08_review/_TEMPLATE_fact_check_report.md — the two are the same
-# check seen from the registry and from the production.
-#
-# No schema exists for this record type yet; front matter follows the minimum in
-# ../../standards/metadata_spec.md plus the ID system.
+# Front matter follows standards/schemas/fact_check.schema.json. That schema is
+# authoritative; if the two disagree, `studio_ops validate --templates` fails.
 # ---------------------------------------------------------------------------
 id: FCK-XX-S00E00-0000
 type: fact_check
 line: xx-line-code
-episode: S00E00
-title: TBD — what was checked
+title: TBD — fact check, <production>
 status: draft
 version: "0.1.0"
-updated: "2026-08-07"
-owners: [research-lead]
+updated: "2026-01-01"
+owners: [fact-checker]
 
-# The exact artefacts checked. A report against "the script" is unauditable; a
-# report against a named file at a named commit can be re-run, and if the script
-# moves afterwards the report visibly no longer applies.
-checked:
-  script: TBD — filename and commit
-  cut: TBD — cut version
-  manifest: TBD — manifest version
-  description: TBD — filename and commit
+episode: S00E00
 
-checked_by: TBD — named person, in the Research Lead role
-started: "2026-08-07"
-completed: TBD — ISO date
-
-# not-required | pending | in-review | signed | blocked
-gate_status: pending
+# What was checked: narration, on-screen text, graphics, maps, description. ALL
+# of them — or the gate is partial and must say so here, in words, rather than
+# being signed as though it were complete.
+scope: >
+  TBD
 
 claims_checked: 0
-findings_blocking: 0
-findings_amend: 0
-findings_note: 0
+
+# One entry per finding.
+#   locator    — where in the cut (timecode, page, shot ID)
+#   claim      — CLM-XX-0000, where the finding is against a specific claim
+#   issue      — unsourced | tier-insufficient | register-overclaimed |
+#                misleading-placement | independence-not-established |
+#                name-form-wrong | figure-imprecise | prohibited-language
+#   detail     — what is actually wrong
+#   resolution — corrected | register-lowered | cut | accepted-with-note | open
+findings: []
+#  - locator: TBD
+#    issue: unsourced
+#    detail: TBD
+#    resolution: open
+
+# MUST BE 0 before the gate can be signed. This is the number that makes the
+# signature mean something.
+unresolved: 0
+
+# signature:
+#   role: fact-checker
+#   person: TBD
+#   date: "2026-01-01"
 ---
 
 # Fact-check — TBD

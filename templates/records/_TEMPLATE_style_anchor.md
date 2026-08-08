@@ -5,10 +5,10 @@
 # ID. Do not fill this template in place.
 #
 # Referenced from prompt cards via `inheritance.style_anchors`, and from
-# character and location records via `style_anchors`.
+# continuity records via `facial_reference` and `anchor_set`.
 #
-# No schema exists for this record type yet; front matter follows the minimum in
-# ../../standards/metadata_spec.md plus the ID system.
+# Front matter follows standards/schemas/style_anchor.schema.json. That schema is
+# authoritative; if the two disagree, `studio_ops validate --templates` fails.
 # ---------------------------------------------------------------------------
 id: STA-XX-0000
 type: style_anchor
@@ -16,41 +16,49 @@ line: xx-line-code
 title: TBD — what this anchor holds constant
 status: draft
 version: "0.1.0"
-updated: "2026-08-07"
+updated: "2026-01-01"
 owners: [visual-director]
 sensitivity: review-required
 
-# entity | location | material | palette | grade | lighting | texture |
-# composition | graphic_system
+# look | character | location | material | light | palette | texture | graphic
 #
-# What kind of consistency this anchor enforces. An entity anchor holds a face
-# or a form; a grade anchor holds a look across shots generated weeks apart.
-anchor_kind: TBD
+# What kind of consistency this anchor enforces. A `character` anchor holds a face
+# or a form; a `look` anchor holds a grade across shots generated weeks apart.
+anchor_kind: look
 
-# The record this anchor is the appearance of, where it has one.
-anchors_entity: TBD — CHR-XX-0000 / LOC-XX-0000 / OBJ-XX-0000, or `n/a`
-
-# The reference image or clip itself. Media lives in the asset store, never in
+# THE BYTES, AND THE HASH OF THE BYTES.
+#
+# The hash is the anchor; the path is only where the bytes currently sit. An
+# anchor whose file can change without notice is not an anchor, so the hash is
+# verified before every generation run. Media lives in the asset store, never in
 # git.
-asset: TBD — AST-XX-S00E00-0000, or the asset store path
-asset_origin: TBD — generated / photographed / licensed / studio library
+file: TBD — asset store path, under library/style_refs/
+sha256: TBD — 64 hex characters, computed from the delivered bytes
 
-# The card that produced it, where the anchor is itself generated. An anchor
-# with no card cannot be regenerated, which makes it a single point of failure
-# for everything downstream of it.
-source_prompt_card: TBD — PC-XX-S00E00-0000, or `n/a`
+# If this anchor is itself a generated asset, its asset ID — so the anchor's own
+# provenance is traceable. An anchor with no traceable origin cannot be
+# regenerated, which makes it a single point of failure for everything
+# downstream of it.
+# derived_from: AST-XX-S00E00-0000
 
-# What this anchor is grounded in, where it depicts something historical. An
-# anchor propagates: a wrong detail in an anchor becomes a wrong detail in every
-# shot that inherits it, and it becomes consistent, which makes it read as
-# researched.
-evidence_basis: []              # TBD — CLM-XX-0000, SRC-XX-0000
+# Entity IDs, sequence IDs, or 'line' for a line-wide anchor.
+applies_to: []
 
-# locked | provisional | superseded
-# A provisional anchor may still change. A locked one may not, because shots
-# already inherit it.
-anchor_status: provisional
+# WHAT THIS ANCHOR FIXES, IN WORDS, so a human can tell whether a render honoured
+# it. Name both lists: what is held constant AND what is free to vary. An anchor
+# that constrains too much produces thirty near-identical shots; one that
+# constrains too little does not anchor anything.
+description: >
+  TBD
+
+# supersedes: STA-XX-0000
 # superseded_by: STA-XX-0000
+
+# notes: >
+#   Anything that depicts a real person, place, or object: which held features
+#   are evidenced, and which are NOT. An anchor propagates — a detail invented
+#   once at anchor stage appears in every inheriting shot, consistently, and
+#   consistency is what makes an invention read as research.
 ---
 
 # Style anchor — TBD
@@ -73,7 +81,8 @@ remembering what last month looked like. That works for roughly six weeks.
 
 ## What this anchor holds
 
-TBD — precisely what must stay constant, and what is free to vary.
+Recorded in the `description` field above, not here. Restating it in two places is
+how the two drift apart.
 
 An anchor that constrains too much produces thirty near-identical shots. One that
 constrains too little does not anchor anything. Naming both lists is the work.

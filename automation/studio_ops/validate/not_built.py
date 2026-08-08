@@ -21,6 +21,17 @@ class Planned:
     gate: str
     will_check: str
     blocked_on: str
+    # Files whose ABSENCE is the blocker, named separately from the prose.
+    #
+    # Prose cannot be checked, and prose is what went stale: the `packs` gate claimed
+    # to be waiting on a schema that had been written some commits earlier, and anyone
+    # reading it would have written a second one. A test asserts these paths do not
+    # exist, so the day one is created the claim fails loudly instead of misleading
+    # quietly.
+    #
+    # Empty where the blocker is not a file — a missing integration, or records that
+    # nobody has authored yet.
+    missing_paths: tuple[str, ...] = ()
 
 
 PLANNED: dict[str, Planned] = {
@@ -45,6 +56,7 @@ PLANNED: dict[str, Planned] = {
             "standards/schemas/prohibited_patterns.json has not been generated from "
             "standards/prohibited_language.md."
         ),
+        missing_paths=("standards/schemas/prohibited_patterns.json",),
     ),
     "delivery": Planned(
         gate="delivery",
@@ -61,7 +73,14 @@ PLANNED: dict[str, Planned] = {
             "exists; every document listed in pack.yaml exists; no pack rule loosens "
             "a core rule."
         ),
-        blocked_on="pack.schema.json has not been written.",
+        # WAS: "pack.schema.json has not been written." That stopped being true
+        # some commits ago — the schema is written and five packs validate against
+        # it. Nothing is blocking this gate except the gate; saying otherwise
+        # invites someone to write a schema that already exists.
+        blocked_on=(
+            "Nothing external. pack.schema.json exists and packs validate against it; "
+            "what is missing is this gate's own implementation."
+        ),
     ),
 }
 

@@ -1,40 +1,56 @@
 ---
 # ---------------------------------------------------------------------------
-# OPEN QUESTION — something that is not known, tracked rather than carried.
-# Copy to <line>/research/open_questions/QST-XX-0000_<slug>.md with a
-# toolkit-allocated ID. Do not fill this template in place.
+# OPEN QUESTION — something the research could not establish.
+# Copy to <line>/research/questions/QST-XX-0000_<slug>.md with a toolkit-allocated
+# ID. Do not fill this template in place.
 #
-# No schema exists for this record type yet; the front matter below follows the
-# minimum in ../../standards/metadata_spec.md plus the fields the ID system and
-# the gates actually need. If a question schema is written later, reconcile it
-# with this template in the same commit.
+# Front matter follows standards/schemas/open_question.schema.json. That schema is
+# authoritative; if the two disagree, `studio_ops validate --templates` fails.
 # ---------------------------------------------------------------------------
 id: QST-XX-0000
 type: open_question
 line: xx-line-code
-title: TBD — the question, short enough for an index
+title: TBD — the question, in one line
 status: draft
 version: "0.1.0"
-updated: "2026-08-07"
+updated: "2026-01-01"
 owners: [research-lead]
-sensitivity: review-required
 
-# open | resolved | unresolvable | superseded
+# Phrased as a QUESTION, never as an assertion. A question written as a statement
+# has already answered itself, and tends to get cited as though it had.
+question: >
+  TBD — ?
+
+why_it_matters: >
+  TBD — what downstream claim, sequence, or decision depends on the answer. A
+  question nothing depends on is a note, not a record.
+
+# Minimum evidence tier an answer would need: T1 primary/archival,
+# T2 peer-reviewed secondary, T3 reputable general, T4 oral testimony,
+# T5 never citable.
+required_tier: T2
+
+# WHERE THE ANSWER WAS LOOKED FOR AND NOT FOUND.
 #
-# `unresolvable` is a real and valuable outcome: it means the question was
-# pursued and the record cannot answer it. That is a finding about the archive
-# and it is publishable.
-question_status: open
+# This field is the record's main value, not an afterthought. It is what stops
+# the next researcher spending three days repeating a search that already failed.
+searched: []
+#  - where: TBD
+#    date: "2026-01-01"
+#    by: TBD
+#    result: TBD — what was found instead, or nothing
 
-# Which claims, records, or productions depend on the answer. This is what makes
-# the question a scheduling fact rather than a curiosity.
+# Claims, productions, or gates that cannot close until this resolves.
 blocks: []
 
-# Where the answer would go once found.
-resolves_into: TBD — CLM-XX-0000, or the record that would be created
-
-raised_by: TBD — role
-raised_on: "2026-08-07"
+# state: open | answered | unanswerable | out-of-scope
+#
+# 'unanswerable' is a real answer and often belongs on screen: that the record
+# does not survive is itself a finding about the period, not a gap in the work.
+resolution:
+  state: open
+  # answer_claim: CLM-XX-0000
+  # note: TBD — for 'unanswerable', say why.
 ---
 
 # TBD — the question
